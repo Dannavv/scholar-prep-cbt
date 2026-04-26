@@ -1,0 +1,167 @@
+/* Header & Panels */
+header {
+  margin-bottom: 1.3rem;
+  padding: 1.4rem;
+  border: 1px solid color-mix(in srgb, var(--border) 90%, white);
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+  backdrop-filter: blur(11px);
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.8rem;
+  margin-bottom: 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: color-mix(in srgb, var(--accent) 90%, #064e3b);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Stats & Informational Cards */
+.stat,
+.topic-summary,
+.strategy-card,
+.card {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1rem 1.1rem;
+  background: color-mix(in srgb, var(--card-bg) 97%, transparent);
+  box-shadow: var(--shadow);
+}
+
+.stat strong,
+.topic-summary h3,
+.strategy-card h3 {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: color-mix(in srgb, var(--primary) 90%, black);
+}
+
+.stat span,
+.topic-summary p,
+.strategy-card p {
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Grid System */
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  border-radius: 20px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  box-shadow: 0 24px 50px -34px color-mix(in srgb, var(--accent) 32%, #0f172a);
+}
+
+/* Pills & Badges */
+.topic-meta,
+.topic-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.8rem 0 0.9rem;
+}
+
+.topic-pill,
+.tiny-pill,
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.topic-pill {
+  padding: 0.32rem 0.72rem;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: color-mix(in srgb, var(--accent) 95%, #0f766e);
+  font-size: 0.74rem;
+}
+
+.tiny-pill {
+  padding: 0.28rem 0.56rem;
+  background: color-mix(in srgb, var(--primary) 9%, white);
+  color: color-mix(in srgb, var(--primary) 90%, #1d4ed8);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: color-mix(in srgb, var(--accent) 90%, #0f766e);
+  letter-spacing: 0.08em;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.7rem 1.35rem;
+  border-radius: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: color-mix(in srgb, var(--accent) 4%, white);
+  color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--accent) 10%, white);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+/* Mobile Text Magnification: Maximum Visibility */
+@media (max-width: 980px) {
+  .card h2, .card h3 { font-size: 2.2rem !important; margin-bottom: 1rem !important; }
+  .card p { font-size: 1.4rem !important; line-height: 1.5 !important; }
+  .stat strong { font-size: 2.5rem !important; }
+  .stat span { font-size: 1.2rem !important; }
+  .btn { font-size: 1.3rem !important; padding: 1.2rem 2rem !important; }
+  .topic-pill { font-size: 1.1rem !important; padding: 0.6rem 1.2rem !important; }
+  .insight-box { font-size: 1.3rem !important; padding: 1.2rem !important; }
+}

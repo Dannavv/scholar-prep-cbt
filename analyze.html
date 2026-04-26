@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy - HPCL Scholar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/views.css">
+</head>
+<body class="mouse-motion theme-vintage">
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo"><i class="fas fa-university"></i><span>HPCL Scholar</span></div>
+            <button class="btn" style="color: rgba(255,255,255,0.6); padding: 0.5rem;" onclick="requestFullscreen()"><i class="fas fa-expand"></i></button>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item" onclick="location.href='learn.html'"><i class="fas fa-book"></i><span>Guide</span></li>
+            <li class="nav-item active" onclick="location.href='analyze.html'"><i class="fas fa-lightbulb"></i><span>Vault</span></li>
+            <li class="nav-item" onclick="location.href='exam.html'"><i class="fas fa-pen-nib"></i><span>Exam</span></li>
+        </ul>
+    </nav>
+
+    <main class="main">
+        <section id="analyze" class="view active">
+            <header>
+                <span class="eyebrow">Strategic Breakdown</span>
+                <h1>Exam Insights & Heuristics</h1>
+                <p>HPCL Paper I rewards speed and recognition over deep derivation. Use these strategic anchors to optimize your 150-minute window.</p>
+                
+                <div class="hero-panel" style="margin-top: 1.5rem;">
+                    <div class="stat-row">
+                        <div class="stat">
+                            <strong>85 Questions</strong>
+                            <span>Aptitude (Paper I)</span>
+                        </div>
+                        <div class="stat">
+                            <strong>150 Minutes</strong>
+                            <span>Total Duration</span>
+                        </div>
+                        <div class="stat" style="border-left: 4px solid var(--success);">
+                            <strong>No Negative</strong>
+                            <span>Attempt all 170 Qs</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+                <!-- Quantitative Aptitude -->
+                <div class="card tilt-card">
+                    <div class="card-icon"><i class="fas fa-calculator"></i></div>
+                    <span class="tiny-pill">34 Questions</span>
+                    <h2 style="margin: 0.5rem 0;">Quantitative Aptitude</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Pattern: High weightage on <strong>Arithmetic</strong>. Calculations can be lengthy.</p>
+                    
+                    <div class="insight-box" style="margin-bottom: 1.5rem; border-left-color: var(--accent);">
+                        <strong>The Ratio Hack:</strong> Avoid 'X' variables for Ages, Mixtures, and Boats. Use Ratio-shifting or check options directly.
+                    </div>
+
+                    <h3 style="font-size: 1rem; margin-bottom: 0.8rem;">Core Priorities:</h3>
+                    <ul style="list-style: none; display: grid; gap: 0.6rem; color: var(--text-muted); font-size: 0.95rem;">
+                        <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> <strong>Arithmetic:</strong> SI/CI, Time & Work, Speed & Distance.</li>
+                        <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> <strong>Advanced:</strong> Expect 2 Mensuration & 1-2 Trig Qs.</li>
+                        <li><i class="fas fa-check-circle" style="color: var(--accent);"></i> <strong>Calculations:</strong> Squares (1-30) & Cubes (1-20) are mandatory.</li>
+                    </ul>
+                </div>
+
+                <!-- Reasoning -->
+                <div class="card tilt-card">
+                    <div class="card-icon"><i class="fas fa-brain"></i></div>
+                    <span class="tiny-pill">34 Questions</span>
+                    <h2 style="margin: 0.5rem 0;">Reasoning (IPT)</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Pattern: Focus on <strong>Depiction & Interpretation</strong> (Logic recognition).</p>
+                    
+                    <div class="insight-box" style="margin-bottom: 1.5rem; border-left-color: var(--warning);">
+                        <strong>Alphanumeric Hack:</strong> Skip the 4-line instruction block. Scan the condition (e.g. Symbol-Letter-Symbol) and search immediately.
+                    </div>
+
+                    <h3 style="font-size: 1rem; margin-bottom: 0.8rem;">Critical Types:</h3>
+                    <ul style="list-style: none; display: grid; gap: 0.6rem; color: var(--text-muted); font-size: 0.95rem;">
+                        <li><i class="fas fa-bolt" style="color: var(--warning);"></i> <strong>Alphanumeric Series:</strong> Counting & condition checks.</li>
+                        <li><i class="fas fa-bolt" style="color: var(--warning);"></i> <strong>3-Digit Numbers:</strong> Digit operations on multiple numbers.</li>
+                        <li><i class="fas fa-bolt" style="color: var(--warning);"></i> <strong>Alphabet Shifting:</strong> Vowel/Consonant transformation rules.</li>
+                    </ul>
+                </div>
+
+                <!-- English Language -->
+                <div class="card tilt-card">
+                    <div class="card-icon"><i class="fas fa-font"></i></div>
+                    <span class="tiny-pill">17 Questions</span>
+                    <h2 style="margin: 0.5rem 0;">English Language</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Pattern: Contextual Grammar & Reading Comprehension speed.</p>
+                    
+                    <div class="insight-box" style="margin-bottom: 1.5rem; border-left-color: var(--accent-2);">
+                        <strong>RC Keyword Anchor:</strong> Read the questions <strong>before</strong> the passage to identify specific search keywords.
+                    </div>
+
+                    <h3 style="font-size: 1rem; margin-bottom: 0.8rem;">Strategic Anchors:</h3>
+                    <ul style="list-style: none; display: grid; gap: 0.6rem; color: var(--text-muted); font-size: 0.95rem;">
+                        <li><i class="fas fa-feather" style="color: var(--accent-2);"></i> <strong>Jumbles:</strong> Identify the Noun (Subject) first. Avoid pronoun starts.</li>
+                        <li><i class="fas fa-feather" style="color: var(--accent-2);"></i> <strong>Transitions:</strong> "Therefore/However" are conclusion indicators.</li>
+                        <li><i class="fas fa-feather" style="color: var(--accent-2);"></i> <strong>Grammar:</strong> Focus on Subject-Verb Agreement & Conditionals.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="topic-summary" style="margin-top: 3.5rem; background: var(--sidebar-bg); color: white; padding: 2rem;">
+                <h3 style="color: var(--accent); margin-bottom: 0.5rem;">Final Momentum Guide</h3>
+                <p style="color: #94a3b8; font-size: 1.1rem; line-height: 1.6;">
+                    HPCL provides ~52 seconds per question. <strong>Speed is your primary weapon.</strong> If a calculation takes more than 45 seconds, mark it, skip it, and return later. With no negative marks, ensure every bubble is filled in the final 5 minutes.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+/* Solar Theme (Warm Orange/Coral) */
+body.theme-solar {
+  --primary: #7c2d12;
+  --accent: #f97316;
+  --accent-2: #ef4444;
+  --bg: #fff7ed;
+  --sidebar-bg: #5a2f17;
+  --text-main: #3b1f12;
+  --text-muted: #7c5a46;
+  --border: #f5d9c8;
+}
+
+/* Midnight Theme (Dark Cinematic) */
+body.theme-midnight {
+  --primary: #c7d2fe;
+  --accent: #38bdf8;
+  --accent-2: #a78bfa;
+  --bg: #020617;
+  --sidebar-bg: #020617;
+  --card-bg: #0b1220;
+  --text-main: #dbeafe;
+  --text-muted: #9fb0cf;
+  --border: #1e293b;
+  --shadow: 0 18px 36px -24px rgb(0 0 0 / 0.72);
+}
+
+/* Vintage Theme (Light Old-Paper) */
+body.theme-vintage {
+  --primary: #5a3d2f;
+  --accent: #9f7350;
+  --accent-2: #b48963;
+  --bg: #fdf9ef;
+  --sidebar-bg: #efe2c8;
+  --card-bg: #fffcf5;
+  --text-main: #2e2119;
+  --text-muted: #5f4f40;
+  --border: #e3d6bc;
+  --shadow: 0 10px 20px -16px rgba(108, 79, 52, 0.18);
+}
+
+/* Base body texture styles */
+body.theme-midnight {
+  background-image:
+    radial-gradient(circle at 8% 8%, rgba(56, 189, 248, 0.1), transparent 30%),
+    radial-gradient(circle at 90% 0%, rgba(167, 139, 250, 0.12), transparent 34%);
+}
+
+body.theme-vintage {
+  background-image:
+    radial-gradient(circle at 7% 7%, rgba(166, 122, 78, 0.045), transparent 30%),
+    radial-gradient(circle at 92% 88%, rgba(180, 137, 99, 0.04), transparent 36%),
+    repeating-linear-gradient(0deg, rgba(130, 95, 63, 0.012) 0, rgba(130, 95, 63, 0.012) 1px, transparent 1px, transparent 10px),
+    linear-gradient(180deg, #fffaf1, var(--bg));
+}
+
+/* Light parchment navigation for vintage */
+body.theme-vintage .sidebar {
+  background:
+    linear-gradient(180deg, #f4e8d2, #ecdcbf),
+    repeating-linear-gradient(45deg, rgba(120, 87, 57, 0.03) 0, rgba(120, 87, 57, 0.03) 2px, transparent 2px, transparent 7px);
+  border-right: 1px solid #d7c29d;
+  box-shadow: 10px 0 24px -20px rgba(100, 73, 48, 0.45);
+  color: var(--text-main);
+}
+
+/* Reading-first improvements for sustained focus */
+body.theme-vintage .main {
+  max-width: 1160px;
+}
+
+body.theme-vintage p,
+body.theme-vintage li,
+body.theme-vintage .stat span,
+body.theme-vintage .topic-summary p,
+body.theme-vintage .strategy-card p,
+body.theme-vintage .question-text {
+  line-height: 1.72;
+}
+
+body.theme-vintage .card,
+body.theme-vintage .topic-summary,
+body.theme-vintage .strategy-card,
+body.theme-vintage .stat,
+body.theme-vintage header {
+  box-shadow: 0 8px 16px -14px rgba(100, 74, 52, 0.16);
+}
+
+body.theme-vintage .logo {
+  color: var(--primary);
+}
+
+body.theme-vintage .nav-item {
+  color: #6f5a47;
+}
+
+body.theme-vintage .nav-item:hover {
+  color: #4d3728;
+  background: rgba(159, 115, 80, 0.12);
+}
+
+body.theme-vintage .nav-item.active {
+  color: #fff;
+  background: linear-gradient(135deg, #b18662, #8f6546);
+  box-shadow: 0 12px 20px -14px rgba(111, 77, 52, 0.55);
+}
+
+/* Old-page treatment for content blocks */
+body.theme-vintage header,
+body.theme-vintage .card,
+body.theme-vintage .stat,
+body.theme-vintage .topic-summary,
+body.theme-vintage .strategy-card,
+body.theme-vintage .cbt-container,
+body.theme-vintage .modal-content {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 245, 0.96), rgba(251, 244, 229, 0.98));
+  border-color: var(--border);
+  overflow: hidden;
+}
+
+/* Deckled-like edge texture */
+body.theme-vintage header::before,
+body.theme-vintage .card::before,
+body.theme-vintage .stat::before,
+body.theme-vintage .topic-summary::before,
+body.theme-vintage .strategy-card::before,
+body.theme-vintage .cbt-container::before,
+body.theme-vintage .modal-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 2% 8%, rgba(157, 115, 80, 0.04), transparent 13%),
+    radial-gradient(circle at 98% 20%, rgba(157, 115, 80, 0.035), transparent 15%),
+    radial-gradient(circle at 12% 98%, rgba(157, 115, 80, 0.03), transparent 12%),
+    radial-gradient(circle at 92% 92%, rgba(157, 115, 80, 0.035), transparent 14%);
+}
+
+/* Ink-stain corner ornaments */
+body.theme-vintage header::after,
+body.theme-vintage .card::after,
+body.theme-vintage .topic-summary::after {
+  content: "";
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  right: -88px;
+  top: -88px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(130, 95, 63, 0.08) 0, rgba(130, 95, 63, 0.03) 36%, transparent 66%);
+}
+
+/* Reduce animation and cursor spotlight noise in reading mode */
+body.theme-vintage.mouse-motion::before {
+  opacity: 0.04;
+}
+
+body.theme-vintage .tilt-card,
+body.theme-vintage .card:hover,
+body.theme-vintage .btn:hover {
+  transform: none !important;
+}
+
+body.theme-vintage .card:hover {
+  box-shadow: 0 10px 18px -14px rgba(100, 74, 52, 0.2);
+}
+
+body.theme-vintage .eyebrow,
+body.theme-vintage .topic-pill,
+body.theme-vintage .badge {
+  background: rgba(159, 115, 80, 0.14);
+  color: #6a4730;
+}
+
+body.theme-vintage .btn-primary {
+  background: linear-gradient(135deg, #d6a47f, #c28763);
+  border: 1px solid #b57956;
+  color: #3f2618;
+  box-shadow: 0 8px 16px -12px rgba(117, 57, 34, 0.35);
+}
+
+body.theme-vintage .btn-primary:hover {
+  background: linear-gradient(135deg, #deb08d, #cc946f);
+  box-shadow: 0 12px 20px -14px rgba(117, 57, 34, 0.42);
+}
+
+body.theme-vintage .btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 12px -10px rgba(117, 57, 34, 0.32);
+}
+
+body.theme-vintage .btn-outline {
+  border-color: #ccb694;
+  background: rgba(255, 249, 239, 0.85);
+}
+
+/* Keep vintage light on small screens too */
+@media (max-width: 980px) {
+  body.theme-vintage .sidebar {
+    background: linear-gradient(180deg, #f3e6cf, #ecddbf);
+  }
+}

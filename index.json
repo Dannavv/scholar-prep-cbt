@@ -1,0 +1,13 @@
+{
+  "project": "HPCL Scholar",
+  "version": "2.0.0",
+  "author": "Antigravity",
+  "modules": {
+    "data": "js/data.js",
+    "storage": "js/storage.js",
+    "app": "js/app.js",
+    "styles": "css/main.css"
+  },
+  "database": "set1.json",
+  "strategy": "exam_strategy.md"
+}
