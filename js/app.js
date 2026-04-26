@@ -5,20 +5,20 @@ let examTimer;
 let secondsRemaining = 0;
 
 function init() {
-  setupMouseMotion();
-  renderTopicGrid();
-  renderHistory();
-  updateDashboard();
+    setupMouseMotion();
+    renderTopicGrid();
+    renderHistory();
+    updateDashboard();
 }
 
 function setupMouseMotion() {
-  const finePointerQuery = window.matchMedia('(pointer: fine)');
-  if (!finePointerQuery.matches) return;
-  document.body.classList.add('mouse-motion');
-  window.addEventListener('pointermove', (e) => {
-    document.documentElement.style.setProperty('--mx', `${e.clientX}px`);
-    document.documentElement.style.setProperty('--my', `${e.clientY}px`);
-  }, { passive: true });
+    const finePointerQuery = window.matchMedia('(pointer: fine)');
+    if (!finePointerQuery.matches) return;
+    document.body.classList.add('mouse-motion');
+    window.addEventListener('pointermove', (e) => {
+        document.documentElement.style.setProperty('--mx', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--my', `${e.clientY}px`);
+    }, { passive: true });
 }
 
 function openModal(topicId) {
@@ -70,15 +70,15 @@ function openModal(topicId) {
 
 function closeModal() {
     const modal = document.getElementById('explanationModal');
-    if(modal) modal.classList.remove('active');
+    if (modal) modal.classList.remove('active');
     document.body.style.overflow = '';
 }
 
 function renderTopicGrid() {
     const grid = document.getElementById('topicGrid');
-    if(!grid) return;
+    if (!grid) return;
     const mastery = ScholarStorage.getMastery();
-    
+
     const topicGroups = Object.values(allQuestions.reduce((groups, q) => {
         if (!groups[q.topic]) groups[q.topic] = { topic: q.topic, section: q.section, difficulties: new Set() };
         groups[q.topic].difficulties.add(q.difficulty);
@@ -91,29 +91,40 @@ function renderTopicGrid() {
         const acc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
         const diffPills = [...group.difficulties].map(d => `<span class="tiny-pill">${d}</span>`).join('');
 
+        // Subject Specific Icons
+        let icon = 'fa-brain';
+        if (group.section.includes('Quant')) icon = 'fa-calculator';
+        if (group.section.includes('English')) icon = 'fa-book-open';
+
         return `
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <span class="topic-pill">${group.section}</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.8rem;">
+                        <div style="width: 40px; height: 40px; background: rgba(159,115,80,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                            <i class="fas ${icon}" style="font-size: 1.2rem;"></i>
+                        </div>
+                        <span class="topic-pill" style="margin: 0;">${group.section}</span>
+                    </div>
                     <div style="display: flex; gap: 0.3rem;">${diffPills}</div>
                 </div>
-                <h3 style="margin: 1.5rem 0 1rem; font-size: 1.6rem;">${group.topic}</h3>
+
+                <h3 style="margin: 0 0 1rem; font-size: 1.6rem; color: var(--primary);">${group.topic}</h3>
                 
-                <div style="margin-bottom: 2rem; border-left: 4px solid var(--accent); padding-left: 1rem;">
-                    <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.5;">${notes.summary.substring(0, 90)}...</p>
+                <div style="margin-bottom: 2rem; border-left: 3px solid color-mix(in srgb, var(--accent) 30%, transparent); padding-left: 1rem;">
+                    <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.5; font-style: italic;">${notes.summary.substring(0, 95)}...</p>
                 </div>
                 
-                <div style="margin-bottom: 2rem;">
-                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 800; margin-bottom: 0.8rem; color: var(--primary);">
-                        <span>Mastery Progress</span><span>${acc}%</span>
+                <div style="margin-bottom: 2.5rem; background: rgba(0,0,0,0.02); padding: 1.2rem; border-radius: 15px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">
+                        <span>Topic Mastery</span><span>${acc}%</span>
                     </div>
-                    <div style="height: 10px; background: #f1f5f9; border-radius: 5px; overflow: hidden; border: 1px solid rgba(0,0,0,0.03);">
-                        <div style="height: 100%; width: ${acc}%; background: ${acc >= 80 ? 'var(--success)' : 'var(--accent)'}; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(159,115,80,0.2);"></div>
+                    <div style="height: 10px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden;">
+                        <div style="height: 100%; width: ${acc}%; background: ${acc >= 80 ? 'var(--success)' : 'var(--accent)'}; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent);"></div>
                     </div>
                 </div>
 
-                <button class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;" onclick="openModal('${group.topic}')">
-                   <i class="fas fa-file-invoice"></i> Open Cheat Sheet
+                <button class="btn btn-primary" style="width: 100%; padding: 1.4rem; font-size: 1.2rem; border-radius: 18px;" onclick="openModal('${group.topic}')">
+                   <i class="fas fa-file-alt"></i> Open Cheat Sheet
                 </button>
             </div>
         `;
@@ -127,7 +138,7 @@ function updateDashboard() {
         renderHistory();
         return;
     }
-    
+
     // ... existing dashboard code ...
     dashboard.innerHTML = Object.entries(stats.sections).map(([name, data]) => {
         const acc = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
@@ -144,7 +155,7 @@ function updateDashboard() {
             </div>
         `;
     }).join('');
-    
+
     renderHistory();
 }
 
@@ -184,11 +195,32 @@ function renderHistory() {
 function prepareExam() {
     const length = parseInt(document.getElementById('examLength').value);
     const section = document.getElementById('examSection').value;
-    filteredQuestions = allQuestions.filter(q => (section === 'all' || q.section === section)).sort(() => 0.5 - Math.random()).slice(0, length);
-    currentIdx = 0; responses = {}; secondsRemaining = filteredQuestions.length * 52;
+    const masteredIds = ScholarStorage.getMasteredIds();
+
+    // Filter by section AND exclude already mastered question IDs
+    let pool = allQuestions.filter(q => {
+        const matchSection = (section === 'all' || q.section === section);
+        const notMastered = !masteredIds.has(q.id);
+        return matchSection && notMastered;
+    });
+
+    // Fallback: If pool is too small (e.g. user mastered almost everything), 
+    // allow repeats to fulfill the requested exam length.
+    if (pool.length < length) {
+        console.warn('Small fresh question pool, allowing some repeats.');
+        const remainder = allQuestions.filter(q => (section === 'all' || q.section === section));
+        pool = [...pool, ...remainder.filter(q => !pool.includes(q))].slice(0, length + 20);
+    }
+
+    filteredQuestions = pool.sort(() => 0.5 - Math.random()).slice(0, length);
+    currentIdx = 0;
+    responses = {};
+    secondsRemaining = filteredQuestions.length * 52;
+
     document.getElementById('examHome').style.display = 'none';
     document.getElementById('examActive').style.display = 'block';
-    renderQuestion(); startTimer();
+    renderQuestion();
+    startTimer();
 }
 
 function renderQuestion() {
@@ -210,14 +242,14 @@ function renderQuestion() {
 
 function navigateQuestion(dir) {
     if (dir === 1 && currentIdx === filteredQuestions.length - 1) {
-        if(confirm("Submit exam?")) submitExam();
+        if (confirm("Submit exam?")) submitExam();
         return;
     }
     currentIdx += dir; renderQuestion();
 }
 
 function startTimer() {
-    if(examTimer) clearInterval(examTimer);
+    if (examTimer) clearInterval(examTimer);
     examTimer = setInterval(() => {
         secondsRemaining--;
         const mins = Math.floor(secondsRemaining / 60); const secs = secondsRemaining % 60;
@@ -229,7 +261,7 @@ function startTimer() {
 function submitExam() {
     clearInterval(examTimer);
     let score = 0;
-    filteredQuestions.forEach((q, idx) => { if(responses[idx] === q.answer) score++; });
+    filteredQuestions.forEach((q, idx) => { if (responses[idx] === q.answer) score++; });
     ScholarStorage.saveResult({ date: new Date().toISOString(), score, total: filteredQuestions.length, section: document.getElementById('examSection').value, allQData: filteredQuestions.map((q, idx) => ({ id: q.id, topic: q.topic, isCorrect: responses[idx] === q.answer })) });
     location.reload();
 }
