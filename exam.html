@@ -16,7 +16,6 @@
     <nav class="sidebar">
         <div class="sidebar-header">
             <div class="logo"><i class="fas fa-university"></i><span>HPCL Scholar</span></div>
-            <button class="btn" style="color: rgba(255,255,255,0.6); padding: 0.5rem;" onclick="requestFullscreen()"><i class="fas fa-expand"></i></button>
         </div>
         <ul class="nav-links">
             <li class="nav-item" onclick="location.href='learn.html'"><i class="fas fa-book"></i><span>Guide</span></li>
@@ -59,10 +58,27 @@
                 </div>
             </div>
 
-            <div id="examActive" style="display: none;">
-                <div class="cbt-container">
-                    <div class="cbt-header"><div id="examTitle">HPCL Mock</div><div class="timer-box" id="timer">00:00</div></div>
-                    <div class="cbt-body">
+            <div id="examActive" class="view" style="display: none;">
+            <div class="exam-header">
+                <h2 id="examTitle">Mock Exam</h2>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button class="btn btn-outline" onclick="toggleScribblePad()" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                        <i class="fas fa-pen-nib"></i> Scribble Pad
+                    </button>
+                    <div id="timer" class="timer">--:--</div>
+                </div>
+            </div>
+            
+            <!-- Floating Scribble Pad -->
+            <div id="scribblePad" class="card" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 300px; height: 350px; z-index: 1000; flex-direction: column; padding: 10px; background: #fffde7; border: 2px solid #fbc02d;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                    <strong style="font-size: 0.8rem; color: #fbc02d;">SCRIBBLE PAD</strong>
+                    <button class="btn" onclick="toggleScribblePad()" style="padding: 2px 8px; font-size: 0.8rem;">×</button>
+                </div>
+                <textarea id="scribbleText" style="flex: 1; border: none; background: transparent; font-family: 'Courier New', Courier, monospace; font-size: 1rem; resize: none; outline: none;" placeholder="Scribble your notes here..."></textarea>
+            </div>
+
+            <div class="card" style="min-height: 300px;">
                         <div id="progress" style="margin-bottom: 0.5rem; font-size: 0.9rem;">Q 1 / 10</div>
                         <div id="questionContainer">
                             <h2 class="question-text" id="qText" style="font-size: 1.15rem;">Loading...</h2>

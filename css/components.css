@@ -25,15 +25,30 @@ header {
 }
 
 /* Stats & Informational Cards */
+.stat-row {
+  display: flex;
+  flex-direction: column; /* One by one layout */
+  gap: 1.2rem;
+  width: 100%;
+}
+
 .stat,
 .topic-summary,
 .strategy-card,
 .card {
   border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 1rem 1.1rem;
+  padding: 1.4rem 1.6rem;
   background: color-mix(in srgb, var(--card-bg) 97%, transparent);
   box-shadow: var(--shadow);
+  width: 100%;
+}
+
+.stat {
+  border-left: 6px solid var(--accent); /* Highlight subjects */
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
 .stat strong,

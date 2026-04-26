@@ -108,9 +108,9 @@ body.mouse-motion::before {
 }
 
 .nav-item.active {
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
-  border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: #5a3d2f; /* Dark Mahogany for laptop */
+  font-weight: 700;
 }
 
 .main {
@@ -143,12 +143,13 @@ body.mouse-motion::before {
 
   .sidebar-header {
     height: 52px !important;
-    padding: 0 1rem !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    padding: 0 1.5rem !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
     background: var(--sidebar-bg) !important;
     display: flex !important;
-    justify-content: space-between !important;
+    justify-content: center !important; /* Centered Logo */
     align-items: center !important;
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,0.4);
   }
 
   .logo {
@@ -174,30 +175,41 @@ body.mouse-motion::before {
 
   .nav-item {
     border-left: none;
-    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    border-right: 1px solid rgba(0, 0, 0, 0.03);
     height: 100%;
     padding: 0;
     margin: 0;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0.15rem;
-    font-size: 0.85rem !important; /* Zoomed in font size */
+    gap: 0.1rem;
+    font-size: 0.95rem !important;
     text-align: center;
-    border-bottom: 4px solid transparent;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
-  .nav-item:last-child {
-    border-right: none;
-  }
-
-  .nav-item i {
-    font-size: 1rem;
+  .nav-item:active {
+    transform: scale(0.96); /* Haptic feel */
+    background: rgba(0,0,0,0.05);
   }
 
   .nav-item.active {
-    background: rgba(255, 255, 255, 0.1);
-    border-bottom-color: var(--accent);
+    background: transparent !important; /* Removed white faded overlay */
+    color: var(--accent) !important;
+  }
+
+  .nav-item.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 -4px 10px var(--accent);
   }
 
   .main {
