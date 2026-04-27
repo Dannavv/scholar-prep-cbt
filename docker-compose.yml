@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  hpcl-scholar:
+    build: .
+    ports:
+      - "8080:80"
+    restart: always
+    container_name: hpcl-scholar-app

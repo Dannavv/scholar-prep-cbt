@@ -310,8 +310,9 @@
         }
         if (meta.confidence === 'high') return 'Concept Confusion';
         if (meta.answerChanges > 0) return 'Careless Change';
-        if (meta.timeSpentMs > 70000) return 'Speed Pressure';
-        return 'Random Guess';
+        if (meta.timeSpentMs < 10000) return 'Random Guess';
+        if (meta.timeSpentMs < 25000) return 'Speed Pressure';
+        return 'Concept Confusion'; // Fallback to Concept Confusion for other wrong answers
     }
 
     function buildSessionResult() {
@@ -380,7 +381,7 @@
         const skipped = result.total - attempted;
         const accuracy = attempted > 0 ? Math.round((result.score / attempted) * 100) : 0;
         const avgTimeMs = result.allQData.length > 0
-            ? Math.round(result.allQData.reduce((sum, item) => sum + item.timeSpentMs, 0) / result.allQData.length)
+            ? Math.round(result.allQData.reduce((sum, item) => sum + item.timeSpentMs, 0) / (result.allQData.length || 1))
             : 0;
         const firstTryCorrect = result.allQData.filter((item) => item.firstAnswer && item.firstAnswer === item.correctAnswer).length;
         const firstTryTotal = result.allQData.filter((item) => item.firstAnswer).length;

@@ -59,7 +59,6 @@ function setupSidebarToggle() {
 }
 
 function stripHtml(html) {
-    const doc = new Array(0);
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || '';

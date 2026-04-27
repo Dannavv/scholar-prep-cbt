@@ -306,14 +306,14 @@ body.mouse-motion::before {
   }
 
   header h1 {
-    font-size: 3.5rem !important;
+    font-size: 1.1rem !important;
     /* Massive headings */
   }
 
   header p {
-    font-size: 1.6rem !important;
+    font-size: 1rem !important;
     /* Ultra-large descriptions */
-    line-height: 1.4 !important;
+    line-height: 1 !important;
   }
 }
 
@@ -323,15 +323,15 @@ body.mouse-motion::before {
   }
 
   html {
-    font-size: 17px !important;
+    font-size: 16px !important;
   }
 
   .nav-item span {
-    font-size: 0.82rem !important;
+    font-size: 1rem !important;
   }
 
   .logo span {
-    font-size: 1.2rem !important;
+    font-size: 1.4rem !important;
   }
 }
 

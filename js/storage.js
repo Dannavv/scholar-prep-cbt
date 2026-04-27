@@ -134,7 +134,11 @@ const ScholarStorage = {
             if (totalByDifficulty[question.difficulty] !== undefined) totalByDifficulty[question.difficulty] += 1;
         });
 
-        const orderedHistory = [...history].sort((a, b) => new Date(a.date) - new Date(b.date));
+        const orderedHistory = [...history].sort((a, b) => {
+            const dateA = new Date(a.date).getTime();
+            const dateB = new Date(b.date).getTime();
+            return (isNaN(dateA) ? 0 : dateA) - (isNaN(dateB) ? 0 : dateB);
+        });
         const sessionSeries = [];
         const recentSessions = [];
 
@@ -178,7 +182,7 @@ const ScholarStorage = {
                     attempted,
                     skipped,
                     accuracy,
-                    avgTimeMs: session.totalDurationSeconds ? Math.round((session.totalDurationSeconds * 1000) / sessionItems.length) : 0,
+                    avgTimeMs: session.totalDurationSeconds ? Math.round((session.totalDurationSeconds * 1000) / (sessionItems.length || 1)) : 0,
                     section: session.section
                 });
 
@@ -261,9 +265,16 @@ const ScholarStorage = {
             coverage: percent(coverageBySection[section.name].seen, coverageBySection[section.name].total)
         }));
 
-        const topicPerformance = finalizeBuckets(topics).map((topic) => {
-            const masteredIds = this.deriveMasteredIds(this.getQuestionProgress());
-            const topicQuestionIds = allQuestions.filter(q => q.topic === topic.name).map(q => q.id);
+        const masteredIds = this.deriveMasteredIds(this.getQuestionProgress());
+        const questionsByTopic = allQuestions.reduce((acc, q) => {
+            if (!acc[q.topic]) acc[q.topic] = [];
+            acc[q.topic].push(q.id);
+            return acc;
+        }, {});
+
+        const finalizedTopics = finalizeBuckets(topics);
+        const topicPerformance = finalizedTopics.map((topic) => {
+            const topicQuestionIds = questionsByTopic[topic.name] || [];
             const isMastered = topicQuestionIds.length > 0 && topicQuestionIds.every(id => masteredIds.has(id));
             
             return {
@@ -310,12 +321,12 @@ const ScholarStorage = {
                     conceptualWrong
                 }
             }),
-            strongestTopics: finalizeBuckets(topics).sort((a, b) => b.accuracy - a.accuracy).slice(0, 3),
-            weakestTopics: finalizeBuckets(topics).filter(t => t.attempts >= 3).sort((a, b) => a.accuracy - b.accuracy).slice(0, 3),
+            strongestTopics: [...finalizedTopics].sort((a, b) => b.accuracy - a.accuracy).slice(0, 3),
+            weakestTopics: [...finalizedTopics].filter(t => t.attempts >= 3).sort((a, b) => a.accuracy - b.accuracy).slice(0, 3),
             sectionArray,
             difficultyArray: finalizeBuckets(difficulties).map(d => ({
                 ...d,
-                coverage: percent(seenByDifficulty[d.name].size, totalByDifficulty[d.name])
+                coverage: percent(seenByDifficulty[d.name]?.size || 0, totalByDifficulty[d.name] || 1)
             })),
             topicPerformance,
             confidenceStats: {
@@ -361,6 +372,47 @@ const ScholarStorage = {
             }
         });
         return mastered;
+    },
+
+    exportProgressReport() {
+        const stats = this.getStats();
+        const report = [
+            'HPCL SCHOLAR - PERFORMANCE REPORT',
+            '================================',
+            `Generated: ${new Date().toLocaleString()}`,
+            '',
+            'OVERALL SUMMARY',
+            '---------------',
+            `Readiness Score: ${stats.readiness}%`,
+            `Overall Accuracy: ${stats.accuracy}%`,
+            `Syllabus Coverage: ${stats.coverage}%`,
+            `Total Sessions: ${stats.attempts}`,
+            '',
+            'SECTION BREAKDOWN',
+            '-----------------'
+        ];
+
+        stats.sectionArray.forEach(s => {
+            report.push(`[${s.name}]`);
+            report.push(`- Accuracy: ${s.accuracy}%`);
+            report.push(`- Coverage: ${s.coverage}%`);
+            report.push(`- Pace: ${HPCLCommon.formatDurationMs(s.avgTimeMs)}/q`);
+            report.push('');
+        });
+
+        report.push('TOPIC SIGNALS');
+        report.push('-------------');
+        report.push(`Strongest: ${stats.strongestTopics.map(t => t.name).join(', ') || 'N/A'}`);
+        report.push(`Weakest: ${stats.weakestTopics.map(t => t.name).join(', ') || 'N/A'}`);
+        report.push('');
+
+        report.push('RECOMMENDATIONS');
+        report.push('---------------');
+        stats.recommendations.forEach(r => {
+            report.push(`* ${r.title}: ${r.detail}`);
+        });
+
+        return report.join('\n');
     }
 };
 
@@ -438,7 +490,7 @@ function formatSessionSummary(session, accuracy, score, skipped) {
         total: session.total,
         skipped,
         section: session.section,
-        avgTimeMs: session.totalDurationSeconds ? Math.round((session.totalDurationSeconds * 1000) / session.total) : 0
+        avgTimeMs: session.totalDurationSeconds ? Math.round((session.totalDurationSeconds * 1000) / (session.total || 1)) : 0
     };
 }
 

@@ -4,574 +4,2415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subject Notes - HPCL Scholar</title>
+    <title>HPCL Scholar — Complete Exam Notes</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/core.css">
-    <link rel="stylesheet" href="css/themes.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/views.css">
     <style>
-        .strategy-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
+        :root {
+            --bg: #fdf6e3;
+            --surface: #fffbf0;
+            --surface2: #faefc8;
+            --border: rgba(180, 130, 20, 0.15);
+            --text: #2d1f00;
+            --muted: #8a6f3a;
+            --gold: #c47f00;
+            --gold-dim: rgba(196, 127, 0, 0.10);
+            --blue: #1a5f9e;
+            --blue-dim: rgba(26, 95, 158, 0.09);
+            --green: #2d7a4f;
+            --green-dim: rgba(45, 122, 79, 0.09);
+            --rose: #b84466;
+            --rose-dim: rgba(184, 68, 102, 0.09);
+            --violet: #6941b8;
+            --violet-dim: rgba(105, 65, 184, 0.09);
         }
 
-        .strategy-hero {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 3rem;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .strategy-icon {
-            font-size: 3rem;
-            color: var(--accent, #3b82f6);
-            margin-bottom: 1rem;
+        html {
+            scroll-behavior: smooth;
         }
 
-        .strategy-section {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-            border-left: 5px solid var(--accent, #3b82f6);
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
         }
 
-        .strategy-section h2 {
+        /* ─── GRAIN OVERLAY ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ─── SIDE NAV ─── */
+        .sidenav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 260px;
+            background: #fff8e1;
+            border-right: 1px solid rgba(196, 127, 0, 0.18);
+            box-shadow: 2px 0 16px rgba(180, 130, 20, 0.08);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 0;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidenav-logo {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidenav-logo h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+            letter-spacing: -0.02em;
+        }
+
+        .sidenav-logo p {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 0.25rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav-section-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .nav-item {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-main, #1e293b);
-            font-family: 'Lora', serif;
-            font-size: 1.7rem;
+            padding: 0.65rem 1.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            cursor: pointer;
         }
 
-        .strategy-section h3 {
-            margin: 2rem 0 1rem 0;
-            color: var(--accent, #3b82f6);
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-bottom: 2px solid color-mix(in srgb, var(--accent, #3b82f6) 15%, transparent);
-            padding-bottom: 0.5rem;
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--text);
+            background: rgba(196, 127, 0, 0.07);
         }
 
-        .theory-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            background: white;
-            border-radius: 12px;
+        .nav-item.active {
+            border-left-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .nav-item.q.active {
+            border-left-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .nav-item.r.active {
+            border-left-color: var(--green);
+            color: var(--green);
+        }
+
+        .nav-item.e.active {
+            border-left-color: var(--rose);
+            color: var(--rose);
+        }
+
+        .nav-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            flex-shrink: 0;
+        }
+
+        .back-to-app {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--gold);
+        }
+
+        /* ─── MAIN CONTENT ─── */
+        .main {
+            margin-left: 260px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            padding: 5rem 4rem 4rem;
+            background: linear-gradient(135deg, rgba(196, 127, 0, 0.10) 0%, rgba(250, 239, 200, 0.6) 60%);
+            border-bottom: 1px solid rgba(196, 127, 0, 0.18);
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        .theory-table th {
-            background: #f1f5f9;
-            color: var(--text-main);
-            text-align: left;
-            padding: 1rem;
+        .hero::after {
+            content: 'HPCL';
+            position: absolute;
+            right: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 12rem;
+            font-weight: 900;
+            color: rgba(196, 127, 0, 0.06);
+            pointer-events: none;
+            letter-spacing: -0.05em;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(196, 127, 0, 0.12);
+            border: 1px solid rgba(196, 127, 0, 0.3);
+            color: var(--gold);
+            padding: 0.35rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            color: var(--muted);
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {}
+
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
             font-weight: 700;
-            border-bottom: 2px solid #e2e8f0;
+            color: var(--gold);
         }
 
-        .theory-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #f1f5f9;
-            vertical-align: top;
-            line-height: 1.5;
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
 
-        .theory-table tr:hover {
-            background: #f8fafc;
+        /* ─── SUBJECT TABS ─── */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(196, 127, 0, 0.2);
+            position: sticky;
+            top: 0;
+            background: #fff8e1;
+            box-shadow: 0 2px 12px rgba(180, 130, 20, 0.08);
+            z-index: 50;
+            padding: 0 4rem;
         }
 
-        .formula-grid {
+        .tab-btn {
+            padding: 1.25rem 1.75rem;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+        }
+
+        .tab-btn.active-tab {
+            color: var(--blue);
+            border-bottom-color: var(--blue);
+        }
+
+        .tab-btn.tab-r.active-tab {
+            color: var(--green);
+            border-bottom-color: var(--green);
+        }
+
+        .tab-btn.tab-e.active-tab {
+            color: var(--rose);
+            border-bottom-color: var(--rose);
+        }
+
+        .tab-num {
+            background: rgba(196, 127, 0, 0.12);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        /* ─── SUBJECT PANEL ─── */
+        .subject-panel {
+            display: none;
+            padding: 3rem 4rem 5rem;
+        }
+
+        .subject-panel.active {
+            display: block;
+        }
+
+        /* ─── SECTION HEADERS ─── */
+        .section-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1;
+            color: rgba(196, 127, 0, 0.10);
+            min-width: 70px;
+        }
+
+        .section-meta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.4rem;
+        }
+
+        .section-meta p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* ─── CARDS ─── */
+        .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            gap: 1.25rem;
             margin: 1.5rem 0;
         }
 
-        .formula-card {
-            background: #f8fafc;
-            padding: 1.5rem;
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 16px;
-            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            transition: border-color 0.2s;
         }
 
-        .formula-card h4 {
-            color: var(--accent);
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
+        .card:hover {
+            border-color: rgba(196, 127, 0, 0.3);
+            box-shadow: 0 4px 16px rgba(180, 130, 20, 0.10);
         }
 
-        .math-block {
-            background: #fff;
-            padding: 1rem;
-            border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            border: 1px solid #e2e8f0;
-            font-size: 0.95rem;
-            margin-top: 0.5rem;
-        }
-
-        code {
-            background: #f1f5f9;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            color: var(--accent, #3b82f6);
-            font-weight: 600;
-        }
-
-        .lens-badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: var(--accent, #3b82f6);
-            color: white;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-        }
-        .footer-nav {
+        .card-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
             display: flex;
-            justify-content: center;
-            margin-top: 4rem;
-            gap: 1rem;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        /* Mobile Responsive Tables */
-        .table-container {
+        .card-title .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .mono {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.9;
+            color: var(--text);
+        }
+
+        .mono .hl {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .mono .comment {
+            color: #9ca3af;
+        }
+
+        /* ─── TABLES ─── */
+        .table-wrap {
             overflow-x: auto;
             margin: 1.5rem 0;
             border-radius: 12px;
-            border: 1px solid #edf2f7;
-            background: #fff;
+            border: 1px solid var(--border);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 500px; /* Force scroll on narrow screens */
+            min-width: 400px;
         }
 
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #edf2f7;
-            font-size: 0.95rem;
+        thead tr {
+            background: #faefc8;
         }
 
         th {
-            background: #f8fafc;
+            padding: 0.9rem 1.25rem;
+            text-align: left;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: var(--text-main, #1e293b);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
         }
 
-        @media (max-width: 768px) {
-            .strategy-header h1 {
-                font-size: 2.2rem;
+        td {
+            padding: 0.9rem 1.25rem;
+            font-size: 0.875rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(196, 127, 0, 0.04);
+        }
+
+        .td-accent {
+            font-family: 'DM Mono', monospace;
+            font-weight: 500;
+        }
+
+        /* ─── HIGHLIGHT BOX ─── */
+        .highlight-box {
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.25rem 0;
+            border-left: 3px solid;
+        }
+
+        .highlight-box.blue {
+            background: var(--blue-dim);
+            border-color: var(--blue);
+        }
+
+        .highlight-box.gold {
+            background: var(--gold-dim);
+            border-color: var(--gold);
+        }
+
+        .highlight-box.green {
+            background: var(--green-dim);
+            border-color: var(--green);
+        }
+
+        .highlight-box.rose {
+            background: var(--rose-dim);
+            border-color: var(--rose);
+        }
+
+        .highlight-box.violet {
+            background: var(--violet-dim);
+            border-color: var(--violet);
+        }
+
+        .highlight-box strong {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.4rem;
+        }
+
+        .highlight-box.blue strong {
+            color: var(--blue);
+        }
+
+        .highlight-box.gold strong {
+            color: var(--gold);
+        }
+
+        .highlight-box.green strong {
+            color: var(--green);
+        }
+
+        .highlight-box.rose strong {
+            color: var(--rose);
+        }
+
+        .highlight-box.violet strong {
+            color: var(--violet);
+        }
+
+        /* ─── FORMULA STRIP ─── */
+        .formula-strip {
+            background: #fffbf0;
+            border: 1px solid rgba(196, 127, 0, 0.18);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.9rem;
+            margin: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            box-shadow: 0 1px 4px rgba(180, 130, 20, 0.06);
+        }
+
+        .formula-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .formula-eq {
+            color: var(--gold);
+            flex: 1;
+        }
+
+        /* ─── SUBSECTION ─── */
+        .subsection {
+            margin: 3rem 0;
+        }
+
+        .subsection-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .subsection-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ─── RULE LIST ─── */
+        .rule-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .rule-list li {
+            padding: 0.75rem 1rem;
+            background: var(--surface);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.875rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .rule-list li .rule-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--muted);
+            min-width: 24px;
+            margin-top: 0.15rem;
+        }
+
+        b {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        /* ─── DIVIDER ─── */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 3.5rem 0;
+        }
+
+        /* ─── VOCAB PILLS ─── */
+        .vocab-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+
+        .vocab-pill {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.4rem 0.85rem;
+            font-size: 0.8rem;
+        }
+
+        .vocab-pill .word {
+            color: var(--rose);
+            font-weight: 600;
+            font-family: 'DM Mono', monospace;
+        }
+
+        .vocab-pill .meaning {
+            color: var(--muted);
+            margin-left: 0.4rem;
+        }
+
+        /* ─── QUICK REFERENCE BANNER ─── */
+        .qr-banner {
+            background: linear-gradient(135deg, rgba(196, 127, 0, 0.10), rgba(250, 239, 200, 0.5));
+            border: 1px solid rgba(196, 127, 0, 0.2);
+            border-radius: 16px;
+            padding: 1.75rem 2rem;
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .qr-item {
+            text-align: center;
+        }
+
+        .qr-val {
+            font-family: 'DM Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .qr-key {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.25rem;
+        }
+
+        /* ─── EJOTY ─── */
+        .ejoty-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .ejoty-box {
+            background: #fffbf0;
+            border: 1px solid rgba(196, 127, 0, 0.2);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            text-align: center;
+            min-width: 50px;
+            box-shadow: 0 1px 4px rgba(180, 130, 20, 0.08);
+        }
+
+        .ejoty-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .ejoty-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 0.15rem;
+        }
+
+        /* ─── MOBILE SCALING ─── */
+        @media (max-width: 900px) {
+            .sidenav {
+                display: none;
             }
-            .strategy-section {
-                padding: 1.5rem;
+
+            .main {
+                margin-left: 0;
             }
-            .pillar-grid {
-                grid-template-columns: 1fr;
+
+            .hero {
+                padding: 3rem 1.5rem 2.5rem;
             }
+
+            .hero h1 {
+                font-size: 2.25rem !important;
+            }
+
+            .hero p {
+                font-size: 1.05rem !important;
+            }
+
+            .hero::after {
+                display: none;
+            }
+
+            .tabs {
+                padding: 0 1.5rem;
+                overflow-x: auto;
+            }
+
+            .tab-btn {
+                font-size: 0.9rem !important;
+                padding: 1rem 1.25rem !important;
+            }
+
+            .subject-panel {
+                padding: 2rem 1.5rem 4rem;
+            }
+
+            .section-meta h2 {
+                font-size: 1.45rem !important;
+            }
+
+            .section-meta p,
+            .subsection-title,
+            .rule-list li,
+            .mono,
+            td,
+            .vocab-pill {
+                font-size: 1rem !important;
+                line-height: 1.6 !important;
+            }
+
+            .hero-stats {
+                gap: 1.5rem;
+            }
+
+            .stat-num {
+                font-size: 1.75rem !important;
+            }
+
+            .card-title {
+                font-size: 0.8rem !important;
+            }
+        }
+
+        /* ─── ANIMATIONS ─── */
+        .subject-panel.active {
+            animation: fadeUp 0.35s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ─── PROGRESS BAR ─── */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #c47f00, #e8a800);
+            z-index: 200;
+            transition: width 0.1s;
+            box-shadow: 0 0 8px rgba(196, 127, 0, 0.5);
         }
     </style>
 </head>
 
-<body class="mouse-motion theme-vintage">
-    <div class="strategy-container" id="strategyContent">
-        <!-- Content will be injected based on URL param -->
-    </div>
+<body>
+
+    <div class="progress-bar" id="progress"></div>
+
+    <!-- SIDE NAV -->
+    <nav class="sidenav">
+        <div class="sidenav-logo">
+            <h2>HPCL Scholar</h2>
+            <p>Exam Preparation Guide</p>
+        </div>
+
+        <div class="back-to-app">
+            <a href="learn.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Guide
+            </a>
+        </div>
+
+        <span class="nav-section-label">Subjects</span>
+        <a class="nav-item q active" onclick="switchTab('q')">
+            <span class="nav-dot"></span> Quantitative Aptitude
+        </a>
+        <a class="nav-item r" onclick="switchTab('r')">
+            <span class="nav-dot"></span> Reasoning Ability
+        </a>
+        <a class="nav-item e" onclick="switchTab('e')">
+            <span class="nav-dot"></span> English Language
+        </a>
+
+        <span class="nav-section-label" style="margin-top:2rem;">Quick Jump — Quant</span>
+        <a class="nav-item" onclick="switchTab('q')">Speed Math & Tables</a>
+        <a class="nav-item" onclick="switchTab('q')">Interest (SI & CI)</a>
+        <a class="nav-item" onclick="switchTab('q')">Time, Speed & Distance</a>
+        <a class="nav-item" onclick="switchTab('q')">Percentage & Ratio</a>
+
+        <span class="nav-section-label" style="margin-top:1rem;">Quick Jump — Reasoning</span>
+        <a class="nav-item" onclick="switchTab('r')">Syllogisms</a>
+        <a class="nav-item" onclick="switchTab('r')">Coding-Decoding</a>
+        <a class="nav-item" onclick="switchTab('r')">Blood Relations</a>
+
+        <span class="nav-section-label" style="margin-top:1rem;">Quick Jump — English</span>
+        <a class="nav-item" onclick="switchTab('e')">Tenses</a>
+        <a class="nav-item" onclick="switchTab('e')">Grammar Rules</a>
+        <a class="nav-item" onclick="switchTab('e')">Vocabulary</a>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- HERO -->
+        <div class="hero">
+            <div class="hero-badge">📋 Complete Study Notes</div>
+            <h1>Master the <span>HPCL</span><br>Examination</h1>
+            <p>Comprehensive theory, formulas, rules, and examples across all three subjects — everything you need to
+                walk into the exam with confidence.</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-num">3</div>
+                    <div class="stat-label">Subjects</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-num">40+</div>
+                    <div class="stat-label">Concepts</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-num">100+</div>
+                    <div class="stat-label">Formulas & Rules</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-btn active-tab" onclick="switchTab('q')">
+                🔢 Quantitative Aptitude <span class="tab-num">18 Topics</span>
+            </button>
+            <button class="tab-btn tab-r" onclick="switchTab('r')">
+                🧠 Reasoning Ability <span class="tab-num">12 Topics</span>
+            </button>
+            <button class="tab-btn tab-e" onclick="switchTab('e')">
+                🔤 English Language <span class="tab-num">10 Topics</span>
+            </button>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+       PANEL 1 — QUANTITATIVE APTITUDE
+  ═══════════════════════════════════════════ -->
+        <div class="subject-panel active" id="panel-q">
+
+            <!-- SECTION 1 -->
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <div class="section-meta">
+                    <h2>Speed Math & Number Foundations</h2>
+                    <p>Before attempting complex problems, drill these to instant recall — they save 30–40 seconds per
+                        question.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Multiplication Tables — Target: Instant recall, no mental addition</div>
+                <div class="highlight-box blue">
+                    <strong>⚡ Strategy</strong>
+                    Tables 1–20 must be automatic. Beyond 20, decompose: 23×7 = (20×7) + (3×7) = 140+21 = 161. Practice
+                    daily for 10 minutes.
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Range</th>
+                                <th>Must-Know Values</th>
+                                <th>Exam Relevance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Squares</td>
+                                <td>1² – 30²</td>
+                                <td class="td-accent">13²=169, 17²=289, 19²=361, 23²=529, 29²=841</td>
+                                <td>Area, Pythagoras, Algebra</td>
+                            </tr>
+                            <tr>
+                                <td>Cubes</td>
+                                <td>1³ – 15³</td>
+                                <td class="td-accent">11³=1331, 12³=1728, 13³=2197, 15³=3375</td>
+                                <td>Volume, Series questions</td>
+                            </tr>
+                            <tr>
+                                <td>Square Roots</td>
+                                <td>√1 – √25</td>
+                                <td class="td-accent">√2=1.414, √3=1.732, √5=2.236, √7=2.646</td>
+                                <td>Geometry, approximation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Fraction ↔ Percentage Conversion (The Cheat Code)</div>
+                <div class="highlight-box gold">
+                    <strong>💡 Why This Matters</strong>
+                    Converting percentages to fractions mid-calculation is 3x faster. "What is 33.33% of 270?" → 1/3 ×
+                    270 = 90. Done.
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fraction</th>
+                                <th>%</th>
+                                <th>Fraction</th>
+                                <th>%</th>
+                                <th>Fraction</th>
+                                <th>%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1/2</td>
+                                <td>50%</td>
+                                <td>1/7</td>
+                                <td>14.28%</td>
+                                <td>2/3</td>
+                                <td>66.66%</td>
+                            </tr>
+                            <tr>
+                                <td>1/3</td>
+                                <td>33.33%</td>
+                                <td>1/8</td>
+                                <td>12.5%</td>
+                                <td>3/4</td>
+                                <td>75%</td>
+                            </tr>
+                            <tr>
+                                <td>1/4</td>
+                                <td>25%</td>
+                                <td>1/9</td>
+                                <td>11.11%</td>
+                                <td>2/5</td>
+                                <td>40%</td>
+                            </tr>
+                            <tr>
+                                <td>1/5</td>
+                                <td>20%</td>
+                                <td>1/11</td>
+                                <td>9.09%</td>
+                                <td>3/5</td>
+                                <td>60%</td>
+                            </tr>
+                            <tr>
+                                <td>1/6</td>
+                                <td>16.66%</td>
+                                <td>1/12</td>
+                                <td>8.33%</td>
+                                <td>4/5</td>
+                                <td>80%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 2 -->
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <div class="section-meta">
+                    <h2>Percentage, Ratio & Proportion</h2>
+                    <p>These three topics together form ~25% of every Quant paper. Master the interplay between them.
+                    </p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Core Percentage Formulas</div>
+                <div class="formula-strip"><span class="formula-label">% of a number</span><span class="formula-eq">X%
+                        of Y = (X × Y) / 100</span></div>
+                <div class="formula-strip"><span class="formula-label">% change</span><span class="formula-eq">% Change
+                        = [(New − Old) / Old] × 100</span></div>
+                <div class="formula-strip"><span class="formula-label">successive %</span><span class="formula-eq">Net%
+                        = a + b + (ab/100) &nbsp; [use − for decrease]</span></div>
+                <div class="formula-strip"><span class="formula-label">% to decimal</span><span class="formula-eq">x% =
+                        x/100 &nbsp;|&nbsp; Multiply by the number directly</span></div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Ratio & Proportion Rules</div>
+                <ul class="rule-list">
+                    <li><span class="rule-num">R1</span><span>If a:b = 3:5 and b:c = 4:7, then a:b:c = 12:20:35
+                            (multiply to make b equal).</span></li>
+                    <li><span class="rule-num">R2</span><span><b>Proportionality:</b> If a/b = c/d, then ad = bc
+                            (cross-multiply). Product of means = product of extremes.</span></li>
+                    <li><span class="rule-num">R3</span><span><b>Componendo-Dividendo:</b> If a/b = c/d, then
+                            (a+b)/(a-b) = (c+d)/(c-d). Use to simplify complex ratio equations.</span></li>
+                    <li><span class="rule-num">R4</span><span><b>Partnership Rule:</b> Profit is split in ratio of
+                            (Capital × Time). If A invests ₹3000 for 4 months, contribution = 12000 units.</span></li>
+                </ul>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 3 -->
+            <div class="section-header">
+                <div class="section-number">03</div>
+                <div class="section-meta">
+                    <h2>Simple & Compound Interest</h2>
+                    <p>High-frequency topic. Always check whether CI or SI is asked. Know the shortcut differences.</p>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--blue)"></span>Simple Interest
+                    </div>
+                    <div class="mono">
+                        SI = <span class="hl">(P × R × T) / 100</span><br>
+                        Amount = P + SI<br>
+                        <br>
+                        <span class="comment">-- If SI for 2yr = 400,</span><br>
+                        <span class="comment">-- Annual SI = 200</span><br>
+                        <span class="comment">-- P = SI × 100 / (R × T)</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--gold)"></span>Compound Interest
+                    </div>
+                    <div class="mono">
+                        A = <span class="hl">P(1 + R/100)ⁿ</span><br>
+                        CI = A − P<br>
+                        <br>
+                        <span class="comment">-- Half-yearly: R/2, n×2</span><br>
+                        <span class="comment">-- Quarterly: R/4, n×4</span><br>
+                        <span class="comment">-- Monthly: R/12, n×12</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--green)"></span>CI vs SI Shortcuts
+                    </div>
+                    <div class="mono">
+                        Diff (2yr) = <span class="hl">P(R/100)²</span><br>
+                        Diff (3yr) = P(R/100)²(3+R/100)<br>
+                        <br>
+                        <span class="comment">-- CI for 2yr at 10%:</span><br>
+                        <span class="comment">-- = SI + 10% of 1st yr SI</span><br>
+                        <span class="comment">-- CI always > SI for same P,R,T</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box green">
+                <strong>🎯 Exam Trick — Population/Depreciation</strong>
+                Same formula as CI. Population after n years = P(1 + r/100)ⁿ. Depreciation: P(1 − r/100)ⁿ. Price
+                increases by different rates each year: P × (1+r₁/100) × (1+r₂/100) × (1+r₃/100).
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 4 -->
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <div class="section-meta">
+                    <h2>Time, Speed & Distance</h2>
+                    <p>Trains, boats, circular tracks — all derivations from one master formula. Know the unit
+                        conversions cold.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Core Formulas</div>
+                <div class="formula-strip"><span class="formula-label">master formula</span><span
+                        class="formula-eq">Speed = Distance / Time &nbsp;|&nbsp; D = S×T &nbsp;|&nbsp; T = D/S</span>
+                </div>
+                <div class="formula-strip"><span class="formula-label">unit conversion</span><span
+                        class="formula-eq">km/h → m/s: multiply by 5/18 &nbsp;|&nbsp; m/s → km/h: multiply by
+                        18/5</span></div>
+                <div class="formula-strip"><span class="formula-label">average speed</span><span class="formula-eq">Avg
+                        Speed = 2ab / (a+b) &nbsp; [when distance is equal]</span></div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Trains — Problem Types</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Formula</th>
+                                <th>Key Point</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Train crosses a pole / person</td>
+                                <td class="td-accent">D = Length of train</td>
+                                <td>A person has no length</td>
+                            </tr>
+                            <tr>
+                                <td>Train crosses a platform / bridge</td>
+                                <td class="td-accent">D = L(train) + L(platform)</td>
+                                <td>Add both lengths</td>
+                            </tr>
+                            <tr>
+                                <td>Trains moving opposite direction</td>
+                                <td class="td-accent">Relative Speed = S₁ + S₂</td>
+                                <td>Time to cross = sum of lengths / relative speed</td>
+                            </tr>
+                            <tr>
+                                <td>Trains moving same direction</td>
+                                <td class="td-accent">Relative Speed = S₁ − S₂</td>
+                                <td>Faster train overtakes slower</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Boats & Streams</div>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title"><span class="dot" style="background:var(--blue)"></span>Downstream /
+                            Upstream</div>
+                        <div class="mono">
+                            Downstream = B + S<br>
+                            Upstream = B − S<br>
+                            <span class="hl">B = (D + U) / 2</span><br>
+                            <span class="hl">S = (D − U) / 2</span><br>
+                            <span class="comment">-- B = boat speed, S = stream</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title"><span class="dot" style="background:var(--violet)"></span>Same Distance
+                            Both Ways</div>
+                        <div class="mono">
+                            Total time = D/DS + D/US<br>
+                            <span class="hl">= 2D × B / (B² − S²)</span><br>
+                            <span class="comment">-- If B >> S, use approx</span><br>
+                            <span class="comment">-- 2D/B × (1 + S²/B²)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 5 -->
+            <div class="section-header">
+                <div class="section-number">05</div>
+                <div class="section-meta">
+                    <h2>Profit & Loss</h2>
+                    <p>Read carefully — "marked price", "selling price", and "cost price" are three different things.
+                    </p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Key Formulas</div>
+                <div class="formula-strip"><span class="formula-label">profit %</span><span class="formula-eq">Profit% =
+                        (Profit / CP) × 100 &nbsp;|&nbsp; Loss% = (Loss / CP) × 100</span></div>
+                <div class="formula-strip"><span class="formula-label">SP from CP</span><span class="formula-eq">SP = CP
+                        × (100 + Profit%) / 100 &nbsp;|&nbsp; SP = CP × (100 − Loss%) / 100</span></div>
+                <div class="formula-strip"><span class="formula-label">successive discounts</span><span
+                        class="formula-eq">Net Discount = a + b − ab/100 &nbsp; (like successive % change)</span></div>
+                <div class="formula-strip"><span class="formula-label">dishonest shopkeeper</span><span
+                        class="formula-eq">Profit% = [(True weight − False weight) / False weight] × 100</span></div>
+            </div>
+
+            <div class="highlight-box rose">
+                <strong>⚠️ Common Traps</strong>
+                "Profit of 20% on SP" ≠ "Profit of 20% on CP". On CP: profit = 0.2 × CP. On SP: if SP = 100, profit =
+                20, so CP = 80, which means profit on CP = 25%. Always identify the base!
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 6 -->
+            <div class="section-header">
+                <div class="section-number">06</div>
+                <div class="section-meta">
+                    <h2>Time & Work</h2>
+                    <p>Always solve using the LCM method (Work Units). Faster than fractions every time.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box blue">
+                <strong>📐 The LCM Work Method (Non-Negotiable)</strong>
+                Step 1: Find LCM of all given days — that is your Total Work. Step 2: Efficiency = Total Work / Days.
+                Step 3: Combined efficiency = sum. Step 4: Time = Total Work / Combined Efficiency.
+                Example: A=10 days, B=15 days → LCM=30 units. A does 3/day, B does 2/day. Together: 5/day. Time = 30/5 =
+                6 days.
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Pipes & Cisterns (Same Concept)</div>
+                <ul class="rule-list">
+                    <li><span class="rule-num">P1</span><span>Inlet pipe fills tank. Outlet pipe empties it. If both
+                            open: Net rate = Fill rate − Empty rate.</span></li>
+                    <li><span class="rule-num">P2</span><span>If inlet fills in 6hrs and outlet empties in 10hrs, net =
+                            1/6 − 1/10 = 2/30 = 1/15. Tank fills in 15hrs.</span></li>
+                    <li><span class="rule-num">P3</span><span>If pipe fills 3/4 tank in 9 hours, it fills full tank in
+                            12 hours. Always find unit rate first.</span></li>
+                </ul>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 7 -->
+            <div class="section-header">
+                <div class="section-number">07</div>
+                <div class="section-meta">
+                    <h2>Mixture & Alligation</h2>
+                    <p>A visual method that turns complex mixing problems into simple cross-multiplication.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box violet">
+                <strong>📊 The Alligation Cross Rule</strong>
+                Place Cheaper price (C) top-left, Dearer price (D) top-right, Mean price (M) in center.<br>
+                Cross-subtract: Right quantity = M − C. Left quantity = D − M.<br>
+                Ratio = (M − C) : (D − M) = Cheaper : Dearer.
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--violet)"></span>Example: Milk &
+                        Water</div>
+                    <div class="mono">
+                        <span class="comment">-- Milk at ₹20/L, Water free</span><br>
+                        <span class="comment">-- Mean price ₹15/L</span><br>
+                        Cross: (15−0):(20−15)<br>
+                        = <span class="hl">15:5 = 3:1</span><br>
+                        Mix 3 parts milk : 1 part water
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--green)"></span>Removal &
+                        Replacement</div>
+                    <div class="mono">
+                        Final conc. = <span class="hl">P(1 − x/V)ⁿ</span><br>
+                        P = initial amount<br>
+                        x = removed each time<br>
+                        V = vessel capacity<br>
+                        n = number of times
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 8 -->
+            <div class="section-header">
+                <div class="section-number">08</div>
+                <div class="section-meta">
+                    <h2>Mensuration — 2D & 3D</h2>
+                    <p>Know all formulas. Questions give you the shape and ask for area, perimeter, or volume.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">2D Shapes</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Shape</th>
+                                <th>Area</th>
+                                <th>Perimeter</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Rectangle</td>
+                                <td class="td-accent">l × b</td>
+                                <td>2(l + b)</td>
+                            </tr>
+                            <tr>
+                                <td>Square</td>
+                                <td class="td-accent">a²</td>
+                                <td>4a</td>
+                            </tr>
+                            <tr>
+                                <td>Triangle</td>
+                                <td class="td-accent">½ × base × height</td>
+                                <td>sum of all sides</td>
+                            </tr>
+                            <tr>
+                                <td>Equilateral Triangle</td>
+                                <td class="td-accent">(√3/4)a²</td>
+                                <td>3a</td>
+                            </tr>
+                            <tr>
+                                <td>Circle</td>
+                                <td class="td-accent">πr²</td>
+                                <td>2πr</td>
+                            </tr>
+                            <tr>
+                                <td>Trapezium</td>
+                                <td class="td-accent">½(a+b) × h</td>
+                                <td>sum of all sides</td>
+                            </tr>
+                            <tr>
+                                <td>Rhombus</td>
+                                <td class="td-accent">½ × d₁ × d₂</td>
+                                <td>4a</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">3D Shapes</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Shape</th>
+                                <th>Volume</th>
+                                <th>Surface Area (Total)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cube</td>
+                                <td class="td-accent">a³</td>
+                                <td>6a²</td>
+                            </tr>
+                            <tr>
+                                <td>Cuboid</td>
+                                <td class="td-accent">l × b × h</td>
+                                <td>2(lb + bh + lh)</td>
+                            </tr>
+                            <tr>
+                                <td>Cylinder</td>
+                                <td class="td-accent">πr²h</td>
+                                <td>2πr(r + h)</td>
+                            </tr>
+                            <tr>
+                                <td>Cone</td>
+                                <td class="td-accent">⅓πr²h</td>
+                                <td>πr(r + l) where l=slant</td>
+                            </tr>
+                            <tr>
+                                <td>Sphere</td>
+                                <td class="td-accent">4/3 πr³</td>
+                                <td>4πr²</td>
+                            </tr>
+                            <tr>
+                                <td>Hemisphere</td>
+                                <td class="td-accent">⅔πr³</td>
+                                <td>3πr²</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 9 -->
+            <div class="section-header">
+                <div class="section-number">09</div>
+                <div class="section-meta">
+                    <h2>Permutation, Combination & Probability</h2>
+                    <p>P&C feeds directly into probability. Understand the counting principle first.</p>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--blue)"></span>Permutation (Order
+                        matters)</div>
+                    <div class="mono">
+                        ⁿPr = <span class="hl">n! / (n−r)!</span><br>
+                        Arranging 3 from 5 = ⁵P₃<br>
+                        = 5×4×3 = 60<br>
+                        <span class="comment">-- "How many ways to arrange"</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--green)"></span>Combination (Order
+                        doesn't)</div>
+                    <div class="mono">
+                        ⁿCr = <span class="hl">n! / [r! × (n−r)!]</span><br>
+                        Choosing 3 from 5 = ⁵C₃<br>
+                        = 10<br>
+                        <span class="comment">-- "How many ways to select"</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--gold)"></span>Probability</div>
+                    <div class="mono">
+                        P(E) = <span class="hl">Favourable / Total</span><br>
+                        P(A∪B) = P(A)+P(B)−P(A∩B)<br>
+                        P(A') = 1 − P(A)<br>
+                        <span class="comment">-- 0 ≤ P(E) ≤ 1 always</span>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /panel-q -->
+
+
+        <!-- ═══════════════════════════════════════════
+       PANEL 2 — REASONING ABILITY
+  ═══════════════════════════════════════════ -->
+        <div class="subject-panel" id="panel-r">
+
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <div class="section-meta">
+                    <h2>Syllogism — Set Theory Logic</h2>
+                    <p>Never use real-world knowledge. Follow strict logical rules. Use Venn diagrams for all questions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="highlight-box green">
+                <strong>🔑 The Core Principle</strong>
+                Syllogism lives in a closed logical world. "All dogs are cats" is valid here even if absurd in reality.
+                Draw diagrams. Never assume. Every conclusion must be provable from the given statements.
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Statement Types & Their Logical Meaning</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Statement</th>
+                                <th>Venn Meaning</th>
+                                <th>Definite Conclusions</th>
+                                <th>Possible Conclusions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>All A are B</b></td>
+                                <td>A ⊂ B (A inside B)</td>
+                                <td>Some B are A ✓ / Some A are B ✓</td>
+                                <td>All B are A (possible)</td>
+                            </tr>
+                            <tr>
+                                <td><b>No A is B</b></td>
+                                <td>A ∩ B = ∅ (no overlap)</td>
+                                <td>No B is A ✓ / Some A are not B ✓</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td><b>Some A are B</b></td>
+                                <td>A and B overlap partially</td>
+                                <td>Some B are A ✓</td>
+                                <td>All A are B / No A is B</td>
+                            </tr>
+                            <tr>
+                                <td><b>Some A are not B</b></td>
+                                <td>Part of A is outside B</td>
+                                <td>—</td>
+                                <td>All A are B (not possible)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Combination Rules (Chain Syllogism)</div>
+                <ul class="rule-list">
+                    <li><span class="rule-num">C1</span><span><b>All + All = All:</b> "All A→B" + "All B→C" = "All A→C".
+                            A⊂B and B⊂C means A⊂C.</span></li>
+                    <li><span class="rule-num">C2</span><span><b>All + No = No:</b> "All A→B" + "No B→C" = "No A→C". If
+                            A is inside B, and B has no overlap with C, then A has no overlap with C.</span></li>
+                    <li><span class="rule-num">C3</span><span><b>Some + All = Some:</b> "Some A→B" + "All B→C" = "Some
+                            A→C".</span></li>
+                    <li><span class="rule-num">C4</span><span><b>Some + No = Some Not:</b> "Some A→B" + "No B→C" = "Some
+                            A are not C".</span></li>
+                    <li><span class="rule-num">C5</span><span><b>All + Some = No Definite:</b> "All A→B" + "Some B→C" —
+                            you CANNOT conclude anything definite about A and C.</span></li>
+                </ul>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 2 -->
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <div class="section-meta">
+                    <h2>Coding-Decoding</h2>
+                    <p>Pattern recognition + the EJOTY system. Once you crack the pattern, all 5 sub-questions from one
+                        set are answered instantly.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">The EJOTY System — Memorize This</div>
+                <div class="ejoty-row">
+                    <div class="ejoty-box">
+                        <div class="ejoty-letter">A</div>
+                        <div class="ejoty-num">1</div>
+                    </div>
+                    <div class="ejoty-box">
+                        <div class="ejoty-letter">E</div>
+                        <div class="ejoty-num">5</div>
+                    </div>
+                    <div class="ejoty-box">
+                        <div class="ejoty-letter">J</div>
+                        <div class="ejoty-num">10</div>
+                    </div>
+                    <div class="ejoty-box">
+                        <div class="ejoty-letter">O</div>
+                        <div class="ejoty-num">15</div>
+                    </div>
+                    <div class="ejoty-box">
+                        <div class="ejoty-letter">T</div>
+                        <div class="ejoty-num">20</div>
+                    </div>
+                    <div class="ejoty-box">
+                        <div class="ejoty-letter">Y</div>
+                        <div class="ejoty-num">25</div>
+                    </div>
+                    <div class="ejoty-box">
+                        <div class="ejoty-letter">Z</div>
+                        <div class="ejoty-num">26</div>
+                    </div>
+                </div>
+                <p style="color:var(--muted);font-size:0.85rem;margin-top:0.75rem;">From any anchor: M = O(15) − 2 = 13.
+                    R = T(20) + 2 = 18. Instant position for any letter.</p>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Opposite Letter Pairs (Sum = 27)</div>
+                <div class="qr-banner">
+                    <div class="qr-item">
+                        <div class="qr-val">A ↔ Z</div>
+                        <div class="qr-key">1 + 26</div>
+                    </div>
+                    <div class="qr-item">
+                        <div class="qr-val">B ↔ Y</div>
+                        <div class="qr-key">2 + 25</div>
+                    </div>
+                    <div class="qr-item">
+                        <div class="qr-val">C ↔ X</div>
+                        <div class="qr-key">3 + 24</div>
+                    </div>
+                    <div class="qr-item">
+                        <div class="qr-val">D ↔ W</div>
+                        <div class="qr-key">4 + 23</div>
+                    </div>
+                    <div class="qr-item">
+                        <div class="qr-val">F ↔ U</div>
+                        <div class="qr-key">6 + 21</div>
+                    </div>
+                    <div class="qr-item">
+                        <div class="qr-val">G ↔ T</div>
+                        <div class="qr-key">7 + 20</div>
+                    </div>
+                    <div class="qr-item">
+                        <div class="qr-val">H ↔ S</div>
+                        <div class="qr-key">8 + 19</div>
+                    </div>
+                    <div class="qr-item">
+                        <div class="qr-val">M ↔ N</div>
+                        <div class="qr-key">13 + 14</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Common Coding Patterns — Identify First</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pattern Type</th>
+                                <th>How to Identify</th>
+                                <th>How to Decode</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Letter Shift (+n)</td>
+                                <td>BEAD → CFBE (each +1)</td>
+                                <td>Shift each letter by same amount</td>
+                            </tr>
+                            <tr>
+                                <td>Reverse Alphabet</td>
+                                <td>A→Z, B→Y pattern</td>
+                                <td>Opposite letter = 27 − position</td>
+                            </tr>
+                            <tr>
+                                <td>Skip letters</td>
+                                <td>Alternate letters kept</td>
+                                <td>Check 1st, 3rd, 5th of word</td>
+                            </tr>
+                            <tr>
+                                <td>Number Code</td>
+                                <td>CAT = 24+26+7 (reverse pos)</td>
+                                <td>Add/multiply letter positions</td>
+                            </tr>
+                            <tr>
+                                <td>Symbol Code</td>
+                                <td>Each letter replaced by symbol</td>
+                                <td>Find common letter across given words</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 3 -->
+            <div class="section-header">
+                <div class="section-number">03</div>
+                <div class="section-meta">
+                    <h2>Blood Relations</h2>
+                    <p>Always draw a family tree. Use symbols for gender. Never assume gender from names.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Family Tree Symbols</div>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title"><span class="dot" style="background:var(--green)"></span>Drawing
+                            Convention</div>
+                        <div class="mono">
+                            □ = Male &nbsp;&nbsp; ○ = Female<br>
+                            □ = ○ means married<br>
+                            │ = parent-child<br>
+                            ─── = siblings<br>
+                            <span class="hl">Always go top-down (oldest first)</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title"><span class="dot" style="background:var(--rose)"></span>Common Tricky
+                            Terms</div>
+                        <div class="mono">
+                            <span class="hl">Maternal uncle</span> = Mother's brother<br>
+                            <span class="hl">Paternal aunt</span> = Father's sister<br>
+                            <span class="hl">Nephew/Niece</span> = sibling's child<br>
+                            <span class="hl">Cousin</span> = uncle/aunt's child
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Coded Blood Relation (Symbol Problems)</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Typical Meaning</th>
+                                <th>How to Use</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-accent">A + B</td>
+                                <td>A is father of B</td>
+                                <td>A is one generation above B</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">A − B</td>
+                                <td>A is mother of B</td>
+                                <td>A is one generation above B (female)</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">A × B</td>
+                                <td>A is brother of B</td>
+                                <td>Same generation, male</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">A ÷ B</td>
+                                <td>A is sister of B</td>
+                                <td>Same generation, female</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="highlight-box gold">
+                    <strong>⚡ Method</strong>
+                    Read the coded expression left to right. Draw each relationship as you read. Final question asks
+                    about the relationship between the first and last person. Count generations: each +/− moves up or
+                    down one level.
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 4 -->
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <div class="section-meta">
+                    <h2>Direction & Distance Sense</h2>
+                    <p>Draw. Always draw. Mark starting point as origin (0,0) and track each movement on a coordinate
+                        grid.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Compass & Shadow Rules</div>
+                <ul class="rule-list">
+                    <li><span class="rule-num">D1</span><span><b>Facing North, turn Right (CW) 90°:</b> Now facing East.
+                            Turn Right again: South. Turn Right again: West.</span></li>
+                    <li><span class="rule-num">D2</span><span><b>Facing North, turn Left (ACW) 90°:</b> Now facing West.
+                            Left again: South. Left again: East.</span></li>
+                    <li><span class="rule-num">D3</span><span><b>Morning Shadow (sunrise in East):</b> Shadow always
+                            falls to the West (behind you if you face East).</span></li>
+                    <li><span class="rule-num">D4</span><span><b>Evening Shadow (sunset in West):</b> Shadow always
+                            falls to the East.</span></li>
+                    <li><span class="rule-num">D5</span><span><b>Distance formula:</b> For right-angle paths, use
+                            Pythagoras: D = √(horizontal² + vertical²).</span></li>
+                </ul>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 5 -->
+            <div class="section-header">
+                <div class="section-number">05</div>
+                <div class="section-meta">
+                    <h2>Seating Arrangement</h2>
+                    <p>Most marks-rich topic in Reasoning. Method determines speed — not intelligence.</p>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--green)"></span>Linear Arrangement
+                    </div>
+                    <div class="mono">
+                        Step 1: <span class="hl">Fix definites first</span><br>
+                        Step 2: Place relative clues<br>
+                        Step 3: Fill gaps<br>
+                        <span class="comment">-- "Immediate left/right" = adjacent</span><br>
+                        <span class="comment">-- "2nd to left of X" = count 2</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--blue)"></span>Circular Arrangement
+                    </div>
+                    <div class="mono">
+                        Facing centre: <span class="hl">right = clockwise</span><br>
+                        Facing outside: right = anti-CW<br>
+                        <span class="comment">-- Fix one person first</span><br>
+                        <span class="comment">-- Build clockwise from fixed</span><br>
+                        <span class="comment">-- Verify: "opposite" = 180° away</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 6 -->
+            <div class="section-header">
+                <div class="section-number">06</div>
+                <div class="section-meta">
+                    <h2>Inequalities & Ranking</h2>
+                    <p>Speed questions. One minute of practice = instant answers in exams.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Coded Inequality Rules</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Meaning</th>
+                                <th>Conclusion Possible?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-accent">A @ B</td>
+                                <td>A > B</td>
+                                <td>B < A ✓</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">A © B</td>
+                                <td>A ≥ B</td>
+                                <td>B ≤ A ✓</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">A $ B</td>
+                                <td>A = B</td>
+                                <td>B = A ✓</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">A # B</td>
+                                <td>A ≤ B</td>
+                                <td>B ≥ A ✓</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">A % B</td>
+                                <td>A < B</td>
+                                <td>B > A ✓</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="highlight-box violet">
+                    <strong>Rule: When Chain Breaks, Conclusion Fails</strong>
+                    A > B ≥ C → A > C ✓ (chain holds). But A > B and C > B → cannot compare A and C (no chain between
+                    them). Always trace the chain from left to right.
+                </div>
+            </div>
+
+        </div><!-- /panel-r -->
+
+
+        <!-- ═══════════════════════════════════════════
+       PANEL 3 — ENGLISH LANGUAGE
+  ═══════════════════════════════════════════ -->
+        <div class="subject-panel" id="panel-e">
+
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <div class="section-meta">
+                    <h2>Tense System — Complete Reference</h2>
+                    <p>Tense errors are the #1 source of Error Spotting questions. Know structure + usage cold.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">The 12-Tense Master Table</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tense</th>
+                                <th>Structure</th>
+                                <th>Signal Words</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Simple Present</td>
+                                <td class="td-accent">S + V1(s/es)</td>
+                                <td>always, usually, often, daily</td>
+                                <td>She writes every day.</td>
+                            </tr>
+                            <tr>
+                                <td>Present Continuous</td>
+                                <td class="td-accent">S + is/am/are + V-ing</td>
+                                <td>now, currently, at this moment</td>
+                                <td>She is writing now.</td>
+                            </tr>
+                            <tr>
+                                <td>Present Perfect</td>
+                                <td class="td-accent">S + has/have + V3</td>
+                                <td>just, already, yet, ever, never, recently</td>
+                                <td>She has written the report.</td>
+                            </tr>
+                            <tr>
+                                <td>Present Perfect Cont.</td>
+                                <td class="td-accent">S + has/have been + V-ing</td>
+                                <td>since, for (ongoing)</td>
+                                <td>She has been writing since morning.</td>
+                            </tr>
+                            <tr>
+                                <td>Simple Past</td>
+                                <td class="td-accent">S + V2</td>
+                                <td>yesterday, ago, last, in 1999</td>
+                                <td>She wrote the report.</td>
+                            </tr>
+                            <tr>
+                                <td>Past Continuous</td>
+                                <td class="td-accent">S + was/were + V-ing</td>
+                                <td>while, when (with past action)</td>
+                                <td>She was writing when I arrived.</td>
+                            </tr>
+                            <tr>
+                                <td>Past Perfect</td>
+                                <td class="td-accent">S + had + V3</td>
+                                <td>before, after, by the time</td>
+                                <td>She had written before he arrived.</td>
+                            </tr>
+                            <tr>
+                                <td>Past Perfect Cont.</td>
+                                <td class="td-accent">S + had been + V-ing</td>
+                                <td>for, since (in past narrative)</td>
+                                <td>She had been writing for hours.</td>
+                            </tr>
+                            <tr>
+                                <td>Simple Future</td>
+                                <td class="td-accent">S + will/shall + V1</td>
+                                <td>tomorrow, next week, soon</td>
+                                <td>She will write tomorrow.</td>
+                            </tr>
+                            <tr>
+                                <td>Future Continuous</td>
+                                <td class="td-accent">S + will be + V-ing</td>
+                                <td>at this time tomorrow</td>
+                                <td>She will be writing at 5pm.</td>
+                            </tr>
+                            <tr>
+                                <td>Future Perfect</td>
+                                <td class="td-accent">S + will have + V3</td>
+                                <td>by tomorrow, by the time</td>
+                                <td>She will have written by 5pm.</td>
+                            </tr>
+                            <tr>
+                                <td>Future Perfect Cont.</td>
+                                <td class="td-accent">S + will have been + V-ing</td>
+                                <td>by…for</td>
+                                <td>She will have been writing for 2 hours by 5pm.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 2 -->
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <div class="section-meta">
+                    <h2>Subject-Verb Agreement (SVA)</h2>
+                    <p>The most tested grammar rule. 40% of error spotting questions involve SVA violations.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Core SVA Rules</div>
+                <ul class="rule-list">
+                    <li><span class="rule-num">S1</span><span><b>Basic Rule:</b> Singular subject → singular verb.
+                            Plural subject → plural verb. "He <em>plays</em>" / "They <em>play</em>".</span></li>
+                    <li><span class="rule-num">S2</span><span><b>Either…Or / Neither…Nor:</b> Verb agrees with the
+                            subject <em>closest to the verb</em>. "Neither the boys nor the <b>man</b> <em>is</em>
+                            coming." (man is singular).</span></li>
+                    <li><span class="rule-num">S3</span><span><b>Collective Nouns</b> (team, jury, committee, class):
+                            Singular verb if they act as one unit. Plural if members act individually. "The team
+                            <em>is</em> ready." / "The jury <em>are</em> divided."</span></li>
+                    <li><span class="rule-num">S4</span><span><b>Each / Every / Someone / Nobody / Either / Neither:</b>
+                            Always take <em>singular verb</em>. "Everyone <em>is</em> here." "Each of the students
+                            <em>has</em> a book."</span></li>
+                    <li><span class="rule-num">S5</span><span><b>None:</b> Can be singular or plural depending on
+                            context. "None of the water <em>is</em> clean." / "None of the students <em>are</em>
+                            ready."</span></li>
+                    <li><span class="rule-num">S6</span><span><b>There is / There are:</b> Verb depends on the noun that
+                            follows. "There <em>is</em> a cat." / "There <em>are</em> two cats."</span></li>
+                    <li><span class="rule-num">S7</span><span><b>Mathematical expressions:</b> Usually singular. "Five
+                            and five <em>is</em> ten." "Twenty rupees <em>is</em> the price."</span></li>
+                </ul>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 3 -->
+            <div class="section-header">
+                <div class="section-number">03</div>
+                <div class="section-meta">
+                    <h2>Conditionals (If-Then Clauses)</h2>
+                    <p>A classic source of Fill-in-the-blanks and Error Spotting. Four types — each with fixed
+                        structure.</p>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Condition</th>
+                            <th>If Clause</th>
+                            <th>Main Clause</th>
+                            <th>Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Type 0</b></td>
+                            <td>Always true</td>
+                            <td class="td-accent">Simple Present</td>
+                            <td class="td-accent">Simple Present</td>
+                            <td>Ice melts if you heat it.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Type 1</b></td>
+                            <td>Real/Possible</td>
+                            <td class="td-accent">Simple Present</td>
+                            <td class="td-accent">Will + V1</td>
+                            <td>If it rains, I will stay home.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Type 2</b></td>
+                            <td>Hypothetical</td>
+                            <td class="td-accent">Simple Past</td>
+                            <td class="td-accent">Would + V1</td>
+                            <td>If I were rich, I would travel.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Type 3</b></td>
+                            <td>Impossible (past)</td>
+                            <td class="td-accent">Past Perfect</td>
+                            <td class="td-accent">Would have + V3</td>
+                            <td>If she had studied, she would have passed.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box rose">
+                <strong>⚠️ Classic Error — Type 2</strong>
+                "If I <em>was</em> rich" is WRONG. Always use "If I <em>were</em> rich" — subjunctive mood requires
+                'were' for all persons (I/he/she/it) in Type 2 conditionals.
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 4 -->
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <div class="section-meta">
+                    <h2>Articles — A / An / The</h2>
+                    <p>Simple rules but commonly tested. Articles wrong = error spotting mark lost.</p>
+                </div>
+            </div>
+
+            <ul class="rule-list">
+                <li><span class="rule-num">A1</span><span><b>A:</b> Before consonant sound. "A university" (yu- sound),
+                        "a European" (yu- sound). Sound, not spelling.</span></li>
+                <li><span class="rule-num">A2</span><span><b>An:</b> Before vowel sound. "An hour" (silent h), "an
+                        honest man", "an MBA" (em-sound).</span></li>
+                <li><span class="rule-num">A3</span><span><b>The:</b> Before specific/known noun. "The moon, the sun,
+                        the Earth." Superlatives: "the best, the tallest". Unique things: "the Prime Minister."</span>
+                </li>
+                <li><span class="rule-num">A4</span><span><b>No Article:</b> Before plural general nouns ("Dogs are
+                        loyal"), languages ("She speaks French"), meals ("Have breakfast"), sports ("He plays
+                        cricket").</span></li>
+            </ul>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 5 -->
+            <div class="section-header">
+                <div class="section-number">05</div>
+                <div class="section-meta">
+                    <h2>Vocabulary — Word Roots & High-Frequency Words</h2>
+                    <p>Learn roots to decode any unfamiliar word. 15 roots = ability to guess 200+ words.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">Power Roots — Master These First</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Root</th>
+                                <th>Origin</th>
+                                <th>Meaning</th>
+                                <th>Words</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-accent">Bene</td>
+                                <td>Latin</td>
+                                <td>Good, Well</td>
+                                <td>Beneficial, Benefactor, Benevolent, Benign</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Mal / Male</td>
+                                <td>Latin</td>
+                                <td>Bad, Evil</td>
+                                <td>Malice, Malignant, Malevolent, Malfunction</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Omni</td>
+                                <td>Latin</td>
+                                <td>All</td>
+                                <td>Omnipresent, Omnipotent, Omniscient, Omnivore</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Phil / Philo</td>
+                                <td>Greek</td>
+                                <td>Love</td>
+                                <td>Philanthropy, Philosophy, Bibliophile, Philharmonic</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Path / Pathos</td>
+                                <td>Greek</td>
+                                <td>Feeling, Suffering</td>
+                                <td>Empathy, Apathy, Sympathy, Pathetic, Telepathy</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Chron</td>
+                                <td>Greek</td>
+                                <td>Time</td>
+                                <td>Chronological, Anachronism, Chronicle, Synchronize</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Bio</td>
+                                <td>Greek</td>
+                                <td>Life</td>
+                                <td>Biology, Biography, Biodegradable, Biometric</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Log / Logy</td>
+                                <td>Greek</td>
+                                <td>Word, Study</td>
+                                <td>Monologue, Prologue, Dialogue, Catalogue</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Mis / Miso</td>
+                                <td>Greek</td>
+                                <td>Hate</td>
+                                <td>Misanthrope, Misogyny, Misogamy</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Contra / Counter</td>
+                                <td>Latin</td>
+                                <td>Against</td>
+                                <td>Contradict, Counteract, Contravene, Contrary</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <div class="subsection-title">High-Frequency Exam Words — Meaning & Antonym</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Word</th>
+                                <th>Meaning</th>
+                                <th>Synonym</th>
+                                <th>Antonym</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-accent">Ambiguous</td>
+                                <td>Having more than one meaning; unclear</td>
+                                <td>Vague, unclear</td>
+                                <td>Clear, explicit</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Benevolent</td>
+                                <td>Kind, generous, well-wishing</td>
+                                <td>Charitable, philanthropic</td>
+                                <td>Malevolent, cruel</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Candid</td>
+                                <td>Honest and straightforward</td>
+                                <td>Frank, sincere</td>
+                                <td>Deceitful, dishonest</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Debilitate</td>
+                                <td>To weaken physically or mentally</td>
+                                <td>Enfeeble, weaken</td>
+                                <td>Strengthen, fortify</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Eloquent</td>
+                                <td>Fluent and persuasive in speech</td>
+                                <td>Articulate, expressive</td>
+                                <td>Inarticulate, halting</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Frugal</td>
+                                <td>Sparing, economical with money</td>
+                                <td>Thrifty, economical</td>
+                                <td>Extravagant, wasteful</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Gregarious</td>
+                                <td>Fond of company, sociable</td>
+                                <td>Sociable, outgoing</td>
+                                <td>Solitary, introverted</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Insolent</td>
+                                <td>Rude and disrespectful</td>
+                                <td>Impudent, brazen</td>
+                                <td>Respectful, polite</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Lucid</td>
+                                <td>Clear and easy to understand</td>
+                                <td>Clear, intelligible</td>
+                                <td>Obscure, confusing</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Meticulous</td>
+                                <td>Very careful about details</td>
+                                <td>Thorough, precise</td>
+                                <td>Careless, sloppy</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Nonchalant</td>
+                                <td>Casually calm; not worried</td>
+                                <td>Indifferent, casual</td>
+                                <td>Anxious, concerned</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Obstinate</td>
+                                <td>Stubbornly refusing to change</td>
+                                <td>Stubborn, headstrong</td>
+                                <td>Flexible, compliant</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Prudent</td>
+                                <td>Wise and careful in practical matters</td>
+                                <td>Judicious, sensible</td>
+                                <td>Imprudent, reckless</td>
+                            </tr>
+                            <tr>
+                                <td class="td-accent">Verbose</td>
+                                <td>Using more words than needed</td>
+                                <td>Wordy, long-winded</td>
+                                <td>Concise, succinct</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 6 -->
+            <div class="section-header">
+                <div class="section-number">06</div>
+                <div class="section-meta">
+                    <h2>Reading Comprehension — Strategy</h2>
+                    <p>RC is not about reading fast. It's about reading smart. These strategies cut average time by 40%.
+                    </p>
+                </div>
+            </div>
+
+            <ul class="rule-list">
+                <li><span class="rule-num">RC1</span><span><b>Read questions first</b> (not answers). Know what to look
+                        for before you enter the passage. Mark keywords in questions.</span></li>
+                <li><span class="rule-num">RC2</span><span><b>Skim the passage:</b> First sentence of every paragraph =
+                        topic sentence. Read these, skip the middle, read conclusion. Build a mental map.</span></li>
+                <li><span class="rule-num">RC3</span><span><b>Inference questions:</b> Answer must be supported by the
+                        passage, not your general knowledge. If the passage doesn't say it, the answer is wrong — even
+                        if it's true in real life.</span></li>
+                <li><span class="rule-num">RC4</span><span><b>Tone questions:</b> Look for adjectives and adverbs.
+                        "Unfortunately" = negative tone. "Remarkably" = positive. Author tone ≠ topic tone.</span></li>
+                <li><span class="rule-num">RC5</span><span><b>Eliminate extremes:</b> Options with "always", "never",
+                        "completely", "all" are almost always wrong. Passages rarely make absolute claims.</span></li>
+                <li><span class="rule-num">RC6</span><span><b>"Best title" questions:</b> Title must capture the MAIN
+                        idea, not a detail. If the passage is about XYZ and only one paragraph mentions ABC, don't pick
+                        ABC as the title.</span></li>
+            </ul>
+
+            <div class="divider"></div>
+
+            <!-- SECTION 7 -->
+            <div class="section-header">
+                <div class="section-number">07</div>
+                <div class="section-meta">
+                    <h2>Error Spotting — Systematic Checklist</h2>
+                    <p>Run every sentence through this checklist. Most errors fall into one of these categories.</p>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--rose)"></span>Check in This Order
+                    </div>
+                    <div class="mono">
+                        1. <span class="hl">Subject-Verb Agreement</span><br>
+                        2. <span class="hl">Tense Consistency</span><br>
+                        3. Pronoun-Antecedent Agreement<br>
+                        4. Article (a/an/the/no article)<br>
+                        5. Preposition usage<br>
+                        6. Comparative/Superlative form<br>
+                        7. Parallelism in lists<br>
+                        8. Redundancy / Double negatives
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><span class="dot" style="background:var(--violet)"></span>Parallelism Rule
+                    </div>
+                    <div class="mono">
+                        Items in a list must be<br>
+                        the same grammatical form.<br>
+                        <br>
+                        ✗ <span class="comment">He likes swimming, to run</span><br>
+                        <span class="comment"> and to eat pizza.</span><br>
+                        ✓ <span class="hl">He likes swimming, running</span><br>
+                        <span class="hl"> and eating pizza.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /panel-e -->
+
+    </div><!-- /main -->
 
     <script>
-        const notes = {
-            'Quantitative Aptitude': `
-                <div class="strategy-hero">
-                    <div class="strategy-icon"><i class="fas fa-calculator"></i></div>
-                    <h1>Quantitative Aptitude Theory</h1>
-                    <div class="lens-badge">Core Lens: Convert → Compress → Execute</div>
-                </div>
+        const panels = { q: 'panel-q', r: 'panel-r', e: 'panel-e' };
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const navItems = document.querySelectorAll('.nav-item');
 
-                <div class="strategy-section">
-                    <h2>1. Foundations & Speed Math</h2>
-                    <p>Before complex problems, master the base numbers. 80% of Paper I Quant is simple calculation hidden in complex language.</p>
-                    
-                    <h3>Essential Number Targets</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Category</th>
-                                    <th>Range</th>
-                                    <th>Target</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Tables</td>
-                                    <td>1 to 20</td>
-                                    <td>Instant recall without mental addition.</td>
-                                </tr>
-                                <tr>
-                                    <td>Squares</td>
-                                    <td>1 to 30</td>
-                                    <td>Focus on 13², 17², 19², 23², 29².</td>
-                                </tr>
-                                <tr>
-                                    <td>Cubes</td>
-                                    <td>1 to 15</td>
-                                    <td>Key: 11³ (1331), 12³ (1728), 15³ (3375).</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+        function switchTab(key) {
+            Object.entries(panels).forEach(([k, id]) => {
+                document.getElementById(id).classList.toggle('active', k === key);
+            });
 
-                    <h3>Fraction-to-Percentage (The Cheat Code)</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Fraction</th>
-                                    <th>Percentage</th>
-                                    <th>Fraction</th>
-                                    <th>Percentage</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>1/2</td><td>50%</td><td>1/7</td><td>14.28%</td></tr>
-                                <tr><td>1/3</td><td>33.33%</td><td>1/8</td><td>12.5%</td></tr>
-                                <tr><td>1/4</td><td>25%</td><td>1/9</td><td>11.11%</td></tr>
-                                <tr><td>1/5</td><td>20%</td><td>1/11</td><td>9.09%</td></tr>
-                                <tr><td>1/6</td><td>16.66%</td><td>1/12</td><td>8.33%</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            tabBtns.forEach((btn, i) => {
+                const keys = ['q', 'r', 'e'];
+                btn.classList.toggle('active-tab', keys[i] === key);
+            });
 
-                <div class="strategy-section">
-                    <h2>2. The Arithmetic Formula Vault</h2>
-                    <div class="formula-grid">
-                        <div class="formula-card">
-                            <h4>Interest (SI & CI)</h4>
-                            <div class="math-block">
-                                SI = (P × R × T) / 100<br>
-                                CI Amount = P(1 + R/100)ⁿ<br>
-                                Diff (2yr) = P(R/100)²<br>
-                                Diff (3yr) = P(R/100)² × (3 + R/100)
-                            </div>
-                        </div>
-                        <div class="formula-card">
-                            <h4>Time, Speed & Distance</h4>
-                            <div class="math-block">
-                                Speed = D / T<br>
-                                Rel Speed (Opp) = S1 + S2<br>
-                                Rel Speed (Same) = S1 - S2<br>
-                                km/hr ➔ m/s = Multiply 5/18
-                            </div>
-                        </div>
-                        <div class="formula-card">
-                            <h4>Profit & Loss</h4>
-                            <div class="math-block">
-                                Profit% = (Gain/CP) × 100<br>
-                                SP = CP × (100 ± %)/100<br>
-                                Discount = MP - SP<br>
-                                Net Profit = a + b + ab/100
-                            </div>
-                        </div>
-                        <div class="formula-card">
-                            <h4>Mensuration (3D)</h4>
-                            <div class="math-block">
-                                Cylinder Vol = πr²h<br>
-                                Cone Vol = 1/3 πr²h<br>
-                                Sphere Vol = 4/3 πr³<br>
-                                Cube Vol = a³
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="strategy-section">
-                    <h2>3. Advanced Concept Theory</h2>
-                    <h3>Mixture & Alligation Theory</h3>
-                    <p>Used to find the ratio in which ingredients are mixed. <b>Rule:</b> (Cheaper Quantity / Dearer Quantity) = (Dearer Price - Mean Price) / (Mean Price - Cheaper Price).</p>
-                    
-                    <h3>Time & Work Rate Logic</h3>
-                    <p>Always solve using <b>Work Units</b>. If A takes 10 days and B takes 15, assume total work = 30 units (LCM). A does 3 u/day, B does 2 u/day. Combined = 5 u/day. Result = 30/5 = 6 days.</p>
-                </div>
-
-                <div class="footer-nav"></div>
-            `,
-            'Reasoning': `
-                <div class="strategy-hero">
-                    <div class="strategy-icon"><i class="fas fa-brain"></i></div>
-                    <h1>Reasoning Ability Theory</h1>
-                    <div class="lens-badge">Core Lens: Translate → Visualize → Eliminate</div>
-                </div>
-
-                <div class="strategy-section">
-                    <h2>1. Syllogism Logical Rules</h2>
-                    <p>Syllogisms follow strict set-theory rules. Don't use real-world logic.</p>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Statement Type</th>
-                                    <th>Logical Meaning</th>
-                                    <th>Conclusive Result</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>All A are B</td>
-                                    <td>A is a subset of B</td>
-                                    <td>Some B are A (True)</td>
-                                </tr>
-                                <tr>
-                                    <td>No A is B</td>
-                                    <td>A and B are disjoint</td>
-                                    <td>No B is A (True)</td>
-                                </tr>
-                                <tr>
-                                    <td>Some A are B</td>
-                                    <td>A and B overlap</td>
-                                    <td>Some B are A (True)</td>
-                                </tr>
-                                <tr>
-                                    <td>Some A are not B</td>
-                                    <td>Part of A is outside B</td>
-                                    <td>All A are B (False)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="strategy-section">
-                    <h2>2. Direction & Distance Framework</h2>
-                    <h3>The Compass Degree Map</h3>
-                    <ul class="strategy-list">
-                        <li><b>North:</b> 0° / 360°</li>
-                        <li><b>East:</b> 90°</li>
-                        <li><b>South:</b> 180°</li>
-                        <li><b>West:</b> 270°</li>
-                    </ul>
-                    <h3>Clockwise vs Anti-Clockwise</h3>
-                    <p>If facing North, 90° CW is East. 90° ACW is West. Shadow in the morning is always in the West. Shadow in the evening is always in the East.</p>
-                </div>
-
-                <div class="strategy-section">
-                    <h2>3. Blood Relation Mapping</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Symbol</th>
-                                    <th>Meaning</th>
-                                    <th>Generation Change</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>[ + ]</td><td>Male</td><td>0</td></tr>
-                                <tr><td>[ - ]</td><td>Female</td><td>0</td></tr>
-                                <tr><td>[ = ]</td><td>Marriage</td><td>0</td></tr>
-                                <tr><td>Vertical Line</td><td>Parent/Child</td><td>± 1</td></tr>
-                                <tr><td>Horizontal Line</td><td>Siblings</td><td>0</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="strategy-section">
-                    <h2>4. Coding-Decoding Theory</h2>
-                    <h3>EJOTY System</h3>
-                    <div class="math-block">
-                        E=5 | J=10 | O=15 | T=20 | Y=25
-                    </div>
-                    <h3>Opposite Letters (Sum = 27)</h3>
-                    <ul class="strategy-list">
-                        <li>A ➔ Z (1+26)</li>
-                        <li>B ➔ Y (2+25)</li>
-                        <li>C ➔ X (3+24)</li>
-                        <li>G ➔ T (7+20) [G-T Road]</li>
-                        <li>H ➔ S (8+19) [High School]</li>
-                    </ul>
-                </div>
-
-                <div class="footer-nav"></div>
-            `,
-            'English Language': `
-                <div class="strategy-hero">
-                    <div class="strategy-icon"><i class="fas fa-language"></i></div>
-                    <h1>English Language Theory</h1>
-                    <div class="lens-badge">Core Lens: Structure → Tone → Elimination</div>
-                </div>
-
-                <div class="strategy-section">
-                    <h2>1. The Tense Master Table</h2>
-                    <p>HPCL Paper I focuses heavily on Tense consistency in Error Spotting.</p>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tense</th>
-                                    <th>Structure</th>
-                                    <th>Usage / Example</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Simple Present</td>
-                                    <td>Subj + V1(s/es)</td>
-                                    <td>Habits: "He drinks tea."</td>
-                                </tr>
-                                <tr>
-                                    <td>Present Cont.</td>
-                                    <td>Subj + am/is/are + V4</td>
-                                    <td>Now: "He is drinking tea."</td>
-                                </tr>
-                                <tr>
-                                    <td>Present Perfect</td>
-                                    <td>Subj + has/have + V3</td>
-                                    <td>Just finished: "He has drunk tea."</td>
-                                </tr>
-                                <tr>
-                                    <td>Simple Past</td>
-                                    <td>Subj + V2</td>
-                                    <td>Completed: "He drank tea."</td>
-                                </tr>
-                                <tr>
-                                    <td>Past Continuous</td>
-                                    <td>Subj + was/were + V4</td>
-                                    <td>Was ongoing: "He was drinking tea."</td>
-                                </tr>
-                                <tr>
-                                    <td>Past Perfect</td>
-                                    <td>Subj + had + V3</td>
-                                    <td>Past of Past: "He had drunk tea."</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="strategy-section">
-                    <h2>2. Subject-Verb Agreement Rules</h2>
-                    <ul class="strategy-list">
-                        <li><b>Rule 1:</b> Singular Subject ➔ Singular Verb (He plays). Plural Subject ➔ Plural Verb (They play).</li>
-                        <li><b>Rule 2:</b> "Either...or" and "Neither...nor" ➔ Verb agrees with the <b>closest</b> subject. (Neither the boys nor the <u>man</u> <u>is</u> coming).</li>
-                        <li><b>Rule 3:</b> Collective Nouns (Team, Jury, Class) are singular if they act as one, plural if members disagree.</li>
-                        <li><b>Rule 4:</b> Words like "Each", "Every", "Someone" are <u>always</u> singular.</li>
-                    </ul>
-                </div>
-
-                <div class="strategy-section">
-                    <h2>3. Grammar: Conditionals</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>If Clause</th>
-                                    <th>Main Clause</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Type 0</td><td>Simple Present</td><td>Simple Present</td></tr>
-                                <tr><td>Type 1</td><td>Simple Present</td><td>Will + V1</td></tr>
-                                <tr><td>Type 2</td><td>Simple Past</td><td>Would + V1</td></tr>
-                                <tr><td>Type 3</td><td>Past Perfect</td><td>Would have + V3</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="strategy-section">
-                    <h2>4. Vocabulary Roots</h2>
-                    <p>Mastering roots allows you to guess unknown words accurately.</p>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Root</th>
-                                    <th>Meaning</th>
-                                    <th>Examples</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><b>Bene</b></td><td>Good/Well</td><td>Beneficial, Benevolent</td></tr>
-                                <tr><td><b>Mal</b></td><td>Bad/Evil</td><td>Malice, Malignant</td></tr>
-                                <tr><td><b>Omni</b></td><td>All</td><td>Omnipresent, Omnipotent</td></tr>
-                                <tr><td><b>Phil</b></td><td>Love</td><td>Philanthropy, Philosophy</td></tr>
-                                <tr><td><b>Path</b></td><td>Feeling</td><td>Empathy, Apathy, Sympathy</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="footer-nav"></div>
-            `
-        };
-
-        function renderNotes() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const subject = urlParams.get('subject');
-            const container = document.getElementById('strategyContent');
-
-            const subjectList = ['Quantitative Aptitude', 'Reasoning', 'English Language'];
-            const currentIndex = subjectList.indexOf(subject);
-            const prevSub = subjectList[currentIndex - 1];
-            const nextSub = subjectList[currentIndex + 1];
-
-            if (notes[subject]) {
-                container.innerHTML = notes[subject];
-                
-                const footerNav = container.querySelector('.footer-nav');
-                if (footerNav) {
-                    footerNav.innerHTML = `
-                        <div style="display: flex; gap: 1rem; width: 100%; justify-content: center; flex-wrap: wrap;">
-                            ${prevSub ? `
-                                <a href="subject-notes.html?subject=${encodeURIComponent(prevSub)}" class="btn btn-outline" style="flex: 1; min-width: 200px;">
-                                    <i class="fas fa-chevron-left"></i> Previous Subject
-                                </a>
-                            ` : ''}
-                            
-                            <a href="learn.html" class="btn btn-outline" style="flex: 1; min-width: 150px;">
-                                <i class="fas fa-arrow-left"></i> Back to Guide
-                            </a>
-
-                            ${nextSub ? `
-                                <a href="subject-notes.html?subject=${encodeURIComponent(nextSub)}" class="btn btn-primary" style="flex: 1; min-width: 200px;">
-                                    Next Subject <i class="fas fa-chevron-right"></i>
-                                </a>
-                            ` : ''}
-                        </div>
-                    `;
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                const fn = item.getAttribute('onclick');
+                if (fn && fn.includes(`'${key}'`)) {
+                    // Only activate the subject-level nav items
                 }
-            } else {
-                container.innerHTML = `
-                    <div class="strategy-hero">
-                        <h1>Notes Not Found</h1>
-                        <p>Please select a subject from the Guide.</p>
-                        <a href="learn.html" class="btn btn-primary">Go to Guide</a>
-                    </div>
-                `;
+            });
+
+            // Activate correct subject nav
+            const subjectNavs = document.querySelectorAll('.nav-item.q, .nav-item.r, .nav-item.e');
+            subjectNavs.forEach(n => {
+                n.classList.remove('active');
+                if (n.classList.contains(key)) n.classList.add('active');
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initURLSwitch() {
+            const params = new URLSearchParams(window.location.search);
+            const subject = params.get('subject');
+            if (subject) {
+                if (subject.includes('Quant')) switchTab('q');
+                if (subject.includes('Reasoning')) switchTab('r');
+                if (subject.includes('English')) switchTab('e');
             }
         }
 
-        document.addEventListener('DOMContentLoaded', renderNotes);
+        window.addEventListener('DOMContentLoaded', initURLSwitch);
     </script>
+
 </body>
 
 </html>

@@ -115,16 +115,20 @@
         ];
 
         grid.innerHTML = subjects.map(sub => `
-            <div class="topic-card" data-subject-link="${sub.name}" style="border-top: 4px solid ${sub.color};">
-                <div class="topic-icon" style="color: ${sub.color}; background: ${sub.color}15;">
-                    <i class="fas ${sub.icon}"></i>
+            <div class="card topic-card subject-note-card" data-subject-link="${sub.name}" style="border-top: 6px solid ${sub.color};">
+                <div class="topic-card-heading">
+                    <div class="topic-card-icon" style="color: ${sub.color}; background: ${sub.color}15;">
+                        <i class="fas ${sub.icon}"></i>
+                    </div>
+                    <h3 class="topic-card-title" style="color: ${sub.color}; margin: 0;">${sub.name}</h3>
                 </div>
-                <div class="topic-info">
-                    <h4 class="topic-name">${sub.name}</h4>
-                    <p class="topic-meta-text">${sub.detail}</p>
+                <div class="topic-pill topic-pill-tight" style="font-size: 0.85rem; width: fit-content;">
+                    ${sub.detail}
                 </div>
-                <div class="topic-footer" style="margin-top: 1rem; color: ${sub.color}; font-weight: 600; font-size: 0.85rem;">
-                    Concept Blueprint <i class="fas fa-arrow-right" style="font-size: 0.7rem; margin-left: 0.3rem;"></i>
+                <div class="topic-card-summary" style="margin-top: 0.5rem;">
+                    <p style="font-weight: 600; color: ${sub.color}; display: flex; align-items: center; gap: 0.5rem;">
+                        Concept Blueprint <i class="fas fa-arrow-right"></i>
+                    </p>
                 </div>
             </div>
         `).join('');

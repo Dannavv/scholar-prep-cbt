@@ -43,7 +43,7 @@
                     <h2>Concept Summary</h2>
                 </div>
                 <div class="content-card">
-                    <p style="font-size: 1.1rem; color: var(--text-main);">${notes.summary}</p>
+                    <p class="summary-text">${notes.summary}</p>
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
                     <h2>Key Heuristics & Details</h2>
                 </div>
                 <div class="content-card">
-                    <p style="font-size: 1.05rem;">${notes.details}</p>
+                    <p class="details-text">${notes.details}</p>
                 </div>
             </div>
 
@@ -76,7 +76,7 @@
                 </div>
                 <div class="content-card">
                     <div class="worked-example">
-                        <div class="example-text" style="font-family: 'Inter', sans-serif; line-height: 1.8;">
+                        <div class="example-text">
                             ${notes.example ? notes.example.replace(/\n/g, '<br>') : 'Refer to practice questions for worked examples.'}
                         </div>
                     </div>
