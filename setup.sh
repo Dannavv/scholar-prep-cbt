@@ -36,10 +36,14 @@ echo "Building HPCL Scholar Image..."
 docker-compose build
 
 # Start the container
-echo "Starting HPCL Scholar on port 8080..."
+echo "Starting Scholar Prep on port 80..."
 docker-compose up -d
+
+# Detect Public IP
+echo "Detecting Public IP..."
+PUBLIC_IP=$(curl -s https://ifconfig.me || curl -s https://icanhazip.com || echo "your-vps-ip")
 
 echo "------------------------------------------------"
 echo "Deployment complete!"
-echo "Access the app at: http://your-vps-ip:8080"
+echo "Access the app at: http://$PUBLIC_IP"
 echo "------------------------------------------------"
