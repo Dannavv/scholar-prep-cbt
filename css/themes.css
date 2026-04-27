@@ -111,6 +111,7 @@ body.theme-vintage .stat,
 body.theme-vintage .topic-summary,
 body.theme-vintage .strategy-card,
 body.theme-vintage .cbt-container,
+body.theme-vintage .cheatsheet-section,
 body.theme-vintage .modal-content {
   position: relative;
   background:
@@ -126,6 +127,7 @@ body.theme-vintage .stat::before,
 body.theme-vintage .topic-summary::before,
 body.theme-vintage .strategy-card::before,
 body.theme-vintage .cbt-container::before,
+body.theme-vintage .cheatsheet-section::before,
 body.theme-vintage .modal-content::before {
   content: "";
   position: absolute;

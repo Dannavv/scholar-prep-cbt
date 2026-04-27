@@ -206,7 +206,7 @@ body.mouse-motion::before {
 
   .sidebar {
     width: 100% !important;
-    height: var(--mobile-header-height) !important;
+    height: 72px !important; /* Fixed height for better control */
     position: fixed !important;
     top: auto !important;
     bottom: 0 !important;
@@ -214,9 +214,11 @@ body.mouse-motion::before {
     padding: 0 !important;
     flex-direction: row !important;
     z-index: 9999 !important;
-    background: var(--sidebar-bg) !important;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: color-mix(in srgb, var(--sidebar-bg) 85%, transparent) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.12) !important;
+    border-top: 1px solid color-mix(in srgb, var(--border) 40%, transparent) !important;
   }
 
   .sidebar-header {
@@ -246,43 +248,45 @@ body.mouse-motion::before {
   }
 
   .nav-item {
-    border-left: none;
-    border-right: 1px solid rgba(0, 0, 0, 0.03);
+    border: none !important;
     height: 100%;
-    padding: 0;
+    padding: 0.5rem 0;
     margin: 0;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0.1rem;
-    font-size: 0.95rem !important;
+    gap: 0.25rem;
+    font-size: 0.8rem !important;
     text-align: center;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    overflow: hidden;
+    color: var(--text-muted) !important;
   }
 
-  .nav-item:active {
-    transform: scale(0.96);
-    /* Haptic feel */
-    background: rgba(0, 0, 0, 0.05);
+  .nav-item i {
+    font-size: 1.25rem !important;
+    margin-bottom: 2px;
+  }
+
+  .nav-item span {
+    font-size: 0.75rem !important;
+    font-weight: 600;
   }
 
   .nav-item.active {
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: transparent !important;
     color: var(--accent) !important;
   }
 
   .nav-item.active::after {
     content: "";
     position: absolute;
-    bottom: 0;
-    left: 15%;
-    right: 15%;
-    height: 5px;
-    background: var(--accent);
-    border-radius: 10px 10px 0 0;
-    box-shadow: 0 -4px 10px var(--accent);
+    top: 12px;
+    width: 32px;
+    height: 32px;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border-radius: 12px;
+    z-index: -1;
   }
 
   .main {
@@ -327,9 +331,6 @@ body.mouse-motion::before {
   }
 }
 
-.nav-item span {
-  font-size: 0.75rem !important;
-}
 
 .logo span {
   font-size: 1.2rem !important;

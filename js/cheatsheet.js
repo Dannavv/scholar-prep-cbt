@@ -31,7 +31,7 @@
         container.innerHTML = `
             <div class="cheatsheet-header">
                 <h1 class="cheatsheet-title">${topicId}</h1>
-                <div class="topic-meta" style="justify-content: center;">
+                <div class="topic-meta">
                     <span class="badge"><i class="fas fa-fire"></i> High Yield Topic</span>
                     <span class="badge" style="background: color-mix(in srgb, var(--accent-2) 10%, transparent); color: var(--accent-2);"><i class="fas fa-microchip"></i> Core Module</span>
                 </div>
@@ -83,19 +83,19 @@
                 </div>
             </div>
 
-            <div class="cheatsheet-footer" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 3rem;">
+            <div class="cheatsheet-footer">
                 ${prevTopic ? `
-                    <a href="cheatsheet.html?topic=${encodeURIComponent(prevTopic)}" class="btn btn-outline" style="padding: 1rem 1.5rem; flex: 1; min-width: 160px; background: white;">
+                    <a href="cheatsheet.html?topic=${encodeURIComponent(prevTopic)}" class="btn btn-outline">
                         <i class="fas fa-chevron-left"></i> Previous Topic
                     </a>
                 ` : ''}
                 
-                <a href="learn.html" class="btn btn-outline" style="padding: 1rem 1.5rem; flex: 1; min-width: 160px; background: white;">
+                <a href="learn.html" class="btn btn-outline">
                     <i class="fas fa-arrow-left"></i> Back to Guide
                 </a>
 
                 ${nextTopic ? `
-                    <a href="cheatsheet.html?topic=${encodeURIComponent(nextTopic)}" class="btn btn-primary" style="padding: 1rem 1.5rem; flex: 1; min-width: 160px; background: var(--accent); color: white;">
+                    <a href="cheatsheet.html?topic=${encodeURIComponent(nextTopic)}" class="btn btn-primary">
                         Next Topic <i class="fas fa-chevron-right"></i>
                     </a>
                 ` : ''}
