@@ -5,3 +5,5 @@ services:
       - "80:80"
     restart: always
     container_name: hpcl-scholar-app
+    volumes:
+      - .:/usr/share/nginx/html
