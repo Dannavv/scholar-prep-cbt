@@ -37,7 +37,8 @@ sudo docker compose build
 
 # Start the container
 echo "Starting Scholar Prep on port 80..."
-sudo docker compose up -d
+sudo docker compose down --remove-orphans
+sudo docker compose up -d --build
 
 # Detect Public IP
 echo "Detecting Public IP..."
