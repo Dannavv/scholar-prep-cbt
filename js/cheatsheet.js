@@ -7,7 +7,7 @@
     function renderCheatSheet() {
         const topicId = getQueryParam('topic');
         if (!topicId) {
-            document.getElementById('topicTitle').textContent = 'Topic Not Found';
+            window.location.replace('learn.html');
             return;
         }
 
@@ -17,13 +17,13 @@
         document.getElementById('topicTitle').textContent = topicId;
         
         const formulaItems = notes.formula
-            .split(/\. (?=[A-Z0-9(])|\.\s*$/)
+            .split(/\.\s+(?=[A-Z0-9(])|\.\s*$/)
             .map((item) => item.trim())
             .filter(Boolean)
             .map((item) => `<li>${item}${item.endsWith('.') ? '' : '.'}</li>`)
             .join('');
 
-        const topics = [...new Set(allQuestions.map(q => q.topic))];
+        const topics = [...new Set(allQuestions.map(q => q.topic))].sort();
         const currentIndex = topics.indexOf(topicId);
         const prevTopic = topics[currentIndex - 1];
         const nextTopic = topics[currentIndex + 1];

@@ -130,8 +130,9 @@
         state.currentIndex = 0;
         state.responses = {};
         state.questionMeta = createQuestionMeta();
-        state.secondsRemaining = state.filteredQuestions.length * 52;
-        state.startedAtMs = performance.now();
+        state.totalAllocatedSeconds = state.filteredQuestions.length * 52;
+        state.secondsRemaining = state.totalAllocatedSeconds;
+        state.examStartTimeMs = Date.now();
         state.currentQuestionEnteredAtMs = 0;
         state.activeSection = section;
         state.isActive = true;
@@ -227,7 +228,12 @@
         syncCurrentQuestionTiming();
 
         if (direction === 1 && state.currentIndex === state.filteredQuestions.length - 1) {
-            if (confirm('Submit exam?')) submitExam();
+            const unanswered = state.filteredQuestions.length - Object.keys(state.responses).length;
+            const message = unanswered > 0 
+                ? `You have ${unanswered} unanswered questions. Are you sure you want to submit?`
+                : 'Finished! Submit your exam now?';
+            
+            if (confirm(message)) submitExam();
             return;
         }
 
@@ -245,10 +251,12 @@
     }
 
     function startTimer() {
-        clearInterval(state.timerId);
-        updateTimer();
+        if (state.timerId) clearInterval(state.timerId);
+        state.examStartTimeMs = Date.now();
+        
         state.timerId = window.setInterval(() => {
-            state.secondsRemaining -= 1;
+            const elapsedSeconds = Math.floor((Date.now() - state.examStartTimeMs) / 1000);
+            state.secondsRemaining = Math.max(0, state.totalAllocatedSeconds - elapsedSeconds);
             updateTimer();
             if (state.secondsRemaining <= 0) {
                 submitExam();
@@ -303,7 +311,7 @@
         });
 
         const score = sessionItems.filter((item) => item.isCorrect).length;
-        const totalDurationSeconds = Math.round((performance.now() - state.startedAtMs) / 1000);
+        const totalDurationSeconds = Math.round((Date.now() - state.examStartTimeMs) / 1000);
 
         return {
             date: new Date().toISOString(),

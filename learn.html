@@ -33,15 +33,29 @@
     </nav>
 
     <main class="main">
+        <header class="view-header">
+            <div class="header-info">
+                <h1 class="view-title">Preparation Guide</h1>
+                <p class="view-subtitle">Master the syllabus through concept notes and rapid-revision cheat sheets.</p>
+            </div>
+        </header>
+
         <section id="learn" class="view active">
+            <div class="stat-row" id="statRow" style="margin-bottom: 2.5rem;">
+                <!-- Stats injected by learn.js -->
+            </div>
+
             <div class="topic-summary topic-summary-intro">
-                <h3>How to use this page</h3>
-                <p>Open a topic card to read a brief note about the topic and understand what it tests.</p>
+                <h3>Subject Notes</h3>
+                <p>Dense, execution-focused blueprints for mastering each major subject.</p>
+            </div>
+            <div class="grid topic-grid" id="subjectGrid" style="margin-bottom: 3rem;"></div>
+
+            <div class="topic-summary topic-summary-intro">
+                <h3>Topic-wise Notes</h3>
+                <p>Click a topic card to read key formulas and shortcuts for quick revision.</p>
             </div>
             <div class="grid topic-grid" id="topicGrid"></div>
-        </section>
-    </main>
-
         </section>
     </main>
 

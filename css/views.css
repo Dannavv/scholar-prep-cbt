@@ -83,6 +83,7 @@
 .topic-card {
   display: grid;
   gap: 1.15rem;
+  cursor: pointer;
 }
 
 .topic-card-top,

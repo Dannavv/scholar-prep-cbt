@@ -49,7 +49,7 @@
                     <h3 class="topic-card-title">${index + 1}. ${group.topic}</h3>
 
                     <div class="topic-card-summary">
-                        <p>${notes.summary.length > 110 ? notes.summary.substring(0, 110) + '...' : notes.summary}</p>
+                        <p>${HPCLCommon.stripHtml(notes.summary).length > 110 ? HPCLCommon.stripHtml(notes.summary).substring(0, 110) + '...' : HPCLCommon.stripHtml(notes.summary)}</p>
                     </div>
 
                     <div class="mastery-card">
@@ -104,11 +104,52 @@
         }
     }
 
+    function renderSubjectGrid() {
+        const grid = document.getElementById('subjectGrid');
+        if (!grid) return;
+
+        const subjects = [
+            { name: 'Quantitative Aptitude', icon: 'fa-calculator', color: '#3b82f6', detail: '34% Weight • Arithmetic, DI, Speed Math' },
+            { name: 'Reasoning', icon: 'fa-brain', color: '#8b5cf6', detail: '33% Weight • Logic, Puzzles, Series' },
+            { name: 'English Language', icon: 'fa-language', color: '#10b981', detail: '33% Weight • Grammar, Vocab, RC' }
+        ];
+
+        grid.innerHTML = subjects.map(sub => `
+            <div class="topic-card" data-subject-link="${sub.name}" style="border-top: 4px solid ${sub.color};">
+                <div class="topic-icon" style="color: ${sub.color}; background: ${sub.color}15;">
+                    <i class="fas ${sub.icon}"></i>
+                </div>
+                <div class="topic-info">
+                    <h4 class="topic-name">${sub.name}</h4>
+                    <p class="topic-meta-text">${sub.detail}</p>
+                </div>
+                <div class="topic-footer" style="margin-top: 1rem; color: ${sub.color}; font-weight: 600; font-size: 0.85rem;">
+                    Concept Blueprint <i class="fas fa-arrow-right" style="font-size: 0.7rem; margin-left: 0.3rem;"></i>
+                </div>
+            </div>
+        `).join('');
+
+        grid.querySelectorAll('[data-subject-link]').forEach(card => {
+            card.addEventListener('click', () => {
+                sessionStorage.setItem('learnScrollPosition', window.scrollY);
+                window.location.href = `subject-notes.html?subject=${encodeURIComponent(card.dataset.subjectLink)}`;
+            });
+        });
+    }
+
     function initLearnPage() {
         if (!document.getElementById('learn')) return;
+        renderSubjectGrid();
         renderTopicGrid();
         updateDashboard();
         restoreScrollPosition();
+
+        // Save scroll when navigating away via sidebar
+        document.querySelectorAll('.nav-item').forEach(link => {
+            link.addEventListener('click', () => {
+                sessionStorage.setItem('learnScrollPosition', window.scrollY);
+            });
+        });
     }
 
     function summaryCard(label, value, detail) {

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Notes - HPCL Scholar</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/views.css">
+    <style>
+        .strategy-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .strategy-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .strategy-icon {
+            font-size: 3rem;
+            color: var(--accent, #3b82f6);
+            margin-bottom: 1rem;
+        }
+
+        .strategy-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            border-left: 5px solid var(--accent, #3b82f6);
+        }
+
+        .strategy-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-main, #1e293b);
+            font-family: 'Lora', serif;
+            font-size: 1.7rem;
+        }
+
+        .strategy-section h3 {
+            margin: 2rem 0 1rem 0;
+            color: var(--accent, #3b82f6);
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-bottom: 2px solid color-mix(in srgb, var(--accent, #3b82f6) 15%, transparent);
+            padding-bottom: 0.5rem;
+        }
+
+        .theory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .theory-table th {
+            background: #f1f5f9;
+            color: var(--text-main);
+            text-align: left;
+            padding: 1rem;
+            font-weight: 700;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .theory-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .theory-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .formula-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .formula-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .math-block {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: var(--accent, #3b82f6);
+            font-weight: 600;
+        }
+
+        .lens-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--accent, #3b82f6);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 4rem;
+            gap: 1rem;
+        }
+    </style>
+</head>
+
+<body class="mouse-motion theme-vintage">
+    <div class="strategy-container" id="strategyContent">
+        <!-- Content will be injected based on URL param -->
+    </div>
+
+    <script>
+        const notes = {
+            'Quantitative Aptitude': `
+                <div class="strategy-hero">
+                    <div class="strategy-icon"><i class="fas fa-calculator"></i></div>
+                    <h1>Quantitative Aptitude Theory</h1>
+                    <div class="lens-badge">Core Lens: Convert → Compress → Execute</div>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>1. Foundations & Speed Math</h2>
+                    <p>Before complex problems, master the base numbers. 80% of Paper I Quant is simple calculation hidden in complex language.</p>
+                    
+                    <h3>Essential Number Targets</h3>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Range</th>
+                                <th>Target</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tables</td>
+                                <td>1 to 20</td>
+                                <td>Instant recall without mental addition.</td>
+                            </tr>
+                            <tr>
+                                <td>Squares</td>
+                                <td>1 to 30</td>
+                                <td>Focus on 13², 17², 19², 23², 29².</td>
+                            </tr>
+                            <tr>
+                                <td>Cubes</td>
+                                <td>1 to 15</td>
+                                <td>Key: 11³ (1331), 12³ (1728), 15³ (3375).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Fraction-to-Percentage (The Cheat Code)</h3>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Fraction</th>
+                                <th>Percentage</th>
+                                <th>Fraction</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1/2</td><td>50%</td><td>1/7</td><td>14.28%</td></tr>
+                            <tr><td>1/3</td><td>33.33%</td><td>1/8</td><td>12.5%</td></tr>
+                            <tr><td>1/4</td><td>25%</td><td>1/9</td><td>11.11%</td></tr>
+                            <tr><td>1/5</td><td>20%</td><td>1/11</td><td>9.09%</td></tr>
+                            <tr><td>1/6</td><td>16.66%</td><td>1/12</td><td>8.33%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>2. The Arithmetic Formula Vault</h2>
+                    <div class="formula-grid">
+                        <div class="formula-card">
+                            <h4>Interest (SI & CI)</h4>
+                            <div class="math-block">
+                                SI = (P × R × T) / 100<br>
+                                CI Amount = P(1 + R/100)ⁿ<br>
+                                Diff (2yr) = P(R/100)²<br>
+                                Diff (3yr) = P(R/100)² × (3 + R/100)
+                            </div>
+                        </div>
+                        <div class="formula-card">
+                            <h4>Time, Speed & Distance</h4>
+                            <div class="math-block">
+                                Speed = D / T<br>
+                                Rel Speed (Opp) = S1 + S2<br>
+                                Rel Speed (Same) = S1 - S2<br>
+                                km/hr ➔ m/s = Multiply 5/18
+                            </div>
+                        </div>
+                        <div class="formula-card">
+                            <h4>Profit & Loss</h4>
+                            <div class="math-block">
+                                Profit% = (Gain/CP) × 100<br>
+                                SP = CP × (100 ± %)/100<br>
+                                Discount = MP - SP<br>
+                                Net Profit = a + b + ab/100
+                            </div>
+                        </div>
+                        <div class="formula-card">
+                            <h4>Mensuration (3D)</h4>
+                            <div class="math-block">
+                                Cylinder Vol = πr²h<br>
+                                Cone Vol = 1/3 πr²h<br>
+                                Sphere Vol = 4/3 πr³<br>
+                                Cube Vol = a³
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>3. Advanced Concept Theory</h2>
+                    <h3>Mixture & Alligation Theory</h3>
+                    <p>Used to find the ratio in which ingredients are mixed. <b>Rule:</b> (Cheaper Quantity / Dearer Quantity) = (Dearer Price - Mean Price) / (Mean Price - Cheaper Price).</p>
+                    
+                    <h3>Time & Work Rate Logic</h3>
+                    <p>Always solve using <b>Work Units</b>. If A takes 10 days and B takes 15, assume total work = 30 units (LCM). A does 3 u/day, B does 2 u/day. Combined = 5 u/day. Result = 30/5 = 6 days.</p>
+                </div>
+
+                <div class="footer-nav"></div>
+            `,
+            'Reasoning': `
+                <div class="strategy-hero">
+                    <div class="strategy-icon"><i class="fas fa-brain"></i></div>
+                    <h1>Reasoning Ability Theory</h1>
+                    <div class="lens-badge">Core Lens: Translate → Visualize → Eliminate</div>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>1. Syllogism Logical Rules</h2>
+                    <p>Syllogisms follow strict set-theory rules. Don't use real-world logic.</p>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Statement Type</th>
+                                <th>Logical Meaning</th>
+                                <th>Conclusive Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>All A are B</td>
+                                <td>A is a subset of B</td>
+                                <td>Some B are A (True)</td>
+                            </tr>
+                            <tr>
+                                <td>No A is B</td>
+                                <td>A and B are disjoint</td>
+                                <td>No B is A (True)</td>
+                            </tr>
+                            <tr>
+                                <td>Some A are B</td>
+                                <td>A and B overlap</td>
+                                <td>Some B are A (True)</td>
+                            </tr>
+                            <tr>
+                                <td>Some A are not B</td>
+                                <td>Part of A is outside B</td>
+                                <td>All A are B (False)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>2. Direction & Distance Framework</h2>
+                    <h3>The Compass Degree Map</h3>
+                    <ul class="strategy-list">
+                        <li><b>North:</b> 0° / 360°</li>
+                        <li><b>East:</b> 90°</li>
+                        <li><b>South:</b> 180°</li>
+                        <li><b>West:</b> 270°</li>
+                    </ul>
+                    <h3>Clockwise vs Anti-Clockwise</h3>
+                    <p>If facing North, 90° CW is East. 90° ACW is West. Shadow in the morning is always in the West. Shadow in the evening is always in the East.</p>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>3. Blood Relation Mapping</h2>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Meaning</th>
+                                <th>Generation Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>[ + ]</td><td>Male</td><td>0</td></tr>
+                            <tr><td>[ - ]</td><td>Female</td><td>0</td></tr>
+                            <tr><td>[ = ]</td><td>Marriage</td><td>0</td></tr>
+                            <tr><td>Vertical Line</td><td>Parent/Child</td><td>± 1</td></tr>
+                            <tr><td>Horizontal Line</td><td>Siblings</td><td>0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>4. Coding-Decoding Theory</h2>
+                    <h3>EJOTY System</h3>
+                    <div class="math-block">
+                        E=5 | J=10 | O=15 | T=20 | Y=25
+                    </div>
+                    <h3>Opposite Letters (Sum = 27)</h3>
+                    <ul class="strategy-list">
+                        <li>A ➔ Z (1+26)</li>
+                        <li>B ➔ Y (2+25)</li>
+                        <li>C ➔ X (3+24)</li>
+                        <li>G ➔ T (7+20) [G-T Road]</li>
+                        <li>H ➔ S (8+19) [High School]</li>
+                    </ul>
+                </div>
+
+                <div class="footer-nav"></div>
+            `,
+            'English Language': `
+                <div class="strategy-hero">
+                    <div class="strategy-icon"><i class="fas fa-language"></i></div>
+                    <h1>English Language Theory</h1>
+                    <div class="lens-badge">Core Lens: Structure → Tone → Elimination</div>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>1. The Tense Master Table</h2>
+                    <p>HPCL Paper I focuses heavily on Tense consistency in Error Spotting.</p>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Tense</th>
+                                <th>Structure</th>
+                                <th>Usage / Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Simple Present</td>
+                                <td>Subj + V1(s/es)</td>
+                                <td>Habits: "He drinks tea."</td>
+                            </tr>
+                            <tr>
+                                <td>Present Cont.</td>
+                                <td>Subj + am/is/are + V4</td>
+                                <td>Now: "He is drinking tea."</td>
+                            </tr>
+                            <tr>
+                                <td>Present Perfect</td>
+                                <td>Subj + has/have + V3</td>
+                                <td>Just finished: "He has drunk tea."</td>
+                            </tr>
+                            <tr>
+                                <td>Simple Past</td>
+                                <td>Subj + V2</td>
+                                <td>Completed: "He drank tea."</td>
+                            </tr>
+                            <tr>
+                                <td>Past Continuous</td>
+                                <td>Subj + was/were + V4</td>
+                                <td>Was ongoing: "He was drinking tea."</td>
+                            </tr>
+                            <tr>
+                                <td>Past Perfect</td>
+                                <td>Subj + had + V3</td>
+                                <td>Past of Past: "He had drunk tea."</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>2. Subject-Verb Agreement Rules</h2>
+                    <ul class="strategy-list">
+                        <li><b>Rule 1:</b> Singular Subject ➔ Singular Verb (He plays). Plural Subject ➔ Plural Verb (They play).</li>
+                        <li><b>Rule 2:</b> "Either...or" and "Neither...nor" ➔ Verb agrees with the <b>closest</b> subject. (Neither the boys nor the <u>man</u> <u>is</u> coming).</li>
+                        <li><b>Rule 3:</b> Collective Nouns (Team, Jury, Class) are singular if they act as one, plural if members disagree.</li>
+                        <li><b>Rule 4:</b> Words like "Each", "Every", "Someone" are <u>always</u> singular.</li>
+                    </ul>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>3. Grammar: Conditionals</h2>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>If Clause</th>
+                                <th>Main Clause</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Type 0</td><td>Simple Present</td><td>Simple Present</td></tr>
+                            <tr><td>Type 1</td><td>Simple Present</td><td>Will + V1</td></tr>
+                            <tr><td>Type 2</td><td>Simple Past</td><td>Would + V1</td></tr>
+                            <tr><td>Type 3</td><td>Past Perfect</td><td>Would have + V3</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="strategy-section">
+                    <h2>4. Vocabulary Roots</h2>
+                    <p>Mastering roots allows you to guess unknown words accurately.</p>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Root</th>
+                                <th>Meaning</th>
+                                <th>Examples</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><b>Bene</b></td><td>Good/Well</td><td>Beneficial, Benevolent</td></tr>
+                            <tr><td><b>Mal</b></td><td>Bad/Evil</td><td>Malice, Malignant</td></tr>
+                            <tr><td><b>Omni</b></td><td>All</td><td>Omnipresent, Omnipotent</td></tr>
+                            <tr><td><b>Phil</b></td><td>Love</td><td>Philanthropy, Philosophy</td></tr>
+                            <tr><td><b>Path</b></td><td>Feeling</td><td>Empathy, Apathy, Sympathy</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="footer-nav"></div>
+            `
+        };
+
+        function renderNotes() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const subject = urlParams.get('subject');
+            const container = document.getElementById('strategyContent');
+
+            const subjectList = ['Quantitative Aptitude', 'Reasoning', 'English Language'];
+            const currentIndex = subjectList.indexOf(subject);
+            const prevSub = subjectList[currentIndex - 1];
+            const nextSub = subjectList[currentIndex + 1];
+
+            if (notes[subject]) {
+                container.innerHTML = notes[subject];
+                
+                const footerNav = container.querySelector('.footer-nav');
+                if (footerNav) {
+                    footerNav.innerHTML = `
+                        <div style="display: flex; gap: 1rem; width: 100%; justify-content: center; flex-wrap: wrap;">
+                            ${prevSub ? `
+                                <a href="subject-notes.html?subject=${encodeURIComponent(prevSub)}" class="btn btn-outline" style="flex: 1; min-width: 200px;">
+                                    <i class="fas fa-chevron-left"></i> Previous Subject
+                                </a>
+                            ` : ''}
+                            
+                            <a href="learn.html" class="btn btn-outline" style="flex: 1; min-width: 150px;">
+                                <i class="fas fa-arrow-left"></i> Back to Guide
+                            </a>
+
+                            ${nextSub ? `
+                                <a href="subject-notes.html?subject=${encodeURIComponent(nextSub)}" class="btn btn-primary" style="flex: 1; min-width: 200px;">
+                                    Next Subject <i class="fas fa-chevron-right"></i>
+                                </a>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+            } else {
+                container.innerHTML = `
+                    <div class="strategy-hero">
+                        <h1>Notes Not Found</h1>
+                        <p>Please select a subject from the Guide.</p>
+                        <a href="learn.html" class="btn btn-primary">Go to Guide</a>
+                    </div>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderNotes);
+    </script>
+</body>
+
+</html>

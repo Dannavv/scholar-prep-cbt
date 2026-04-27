@@ -144,6 +144,13 @@
     function initAnalyzePage() {
         if (!document.getElementById('analyze')) return;
         const stats = ScholarStorage.getStats();
+        
+        // Safety check to prevent blank page on data inconsistency
+        if (!stats || !stats.dataQuality) {
+            console.error('ScholarStorage.getStats() returned incomplete data.');
+            return;
+        }
+
         renderOverview(stats);
         renderRecommendations(stats);
         renderComparison(stats);

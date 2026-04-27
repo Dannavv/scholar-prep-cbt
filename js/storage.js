@@ -100,6 +100,11 @@ const ScholarStorage = {
 
     getStats() {
         const history = this.getHistory();
+        const historyKey = `${history.length}-${history[0]?.date || 'none'}`;
+        if (this._cachedStats && this._lastHistoryKey === historyKey && this._cachedStats.dataQuality) {
+            return this._cachedStats;
+        }
+
         const seen = this.getSeen();
         const mastery = this.getMastery();
         const questionProgress = this.getQuestionProgress();
@@ -132,7 +137,6 @@ const ScholarStorage = {
 
         const orderedHistory = [...history].sort((a, b) => new Date(a.date) - new Date(b.date));
         const sessionSeries = [];
-        const sectionTrendSeries = Object.fromEntries(sectionNames.map((name) => [name, []]));
 
         let totalAttempted = 0;
         let totalCorrect = 0;
@@ -166,19 +170,6 @@ const ScholarStorage = {
                 accuracy,
                 avgTimeMs,
                 section: session.section
-            });
-
-            sectionNames.forEach((sectionName) => {
-                const items = sessionItems.filter((item) => item.section === sectionName);
-                const sectionAttempted = items.filter((item) => !item.isSkipped).length;
-                const sectionCorrect = items.filter((item) => item.isCorrect).length;
-                sectionTrendSeries[sectionName].push({
-                    date: session.date,
-                    label: HPCLCommon.formatDate(session.date),
-                    accuracy: sectionAttempted > 0 ? percent(sectionCorrect, sectionAttempted) : 0,
-                    sampleSize: items.length,
-                    section: session.section
-                });
             });
 
             sessionItems.forEach((item) => {
@@ -277,13 +268,15 @@ const ScholarStorage = {
 
         const hardBucket = difficultyArray.find((item) => item.name === 'Hard');
         const sectionBalanceScore = computeSectionBalance(sectionArray);
+        
+        const volumeMultiplier = Math.min(1, history.length / 5);
         const readiness = history.length === 0
             ? 0
             : Math.round(
-                (recentAccuracy * 0.45)
+                ((recentAccuracy * 0.45)
                 + (coverage * 0.25)
                 + (sectionBalanceScore * 0.15)
-                + ((hardBucket?.accuracy || 0) * 0.15)
+                + ((hardBucket?.accuracy || 0) * 0.15)) * volumeMultiplier
             );
 
         const focusSection = [...sectionArray]
@@ -324,9 +317,8 @@ const ScholarStorage = {
 
         const confidenceStats = {
             measured: confidenceCount,
-            averageLevel: confidenceCount > 0 ? round1(confidenceWeighted / confidenceCount) : 0,
-            highConfidenceWrong,
-            highConfidenceWrongRate: confidenceCount > 0 ? percent(highConfidenceWrong, confidenceCount) : 0
+            averageLevel: confidenceCount > 0 ? (confidenceWeighted / confidenceCount).toFixed(1) : '0.0',
+            highConfidenceWrong
         };
 
         const mistakeBreakdown = [
@@ -336,58 +328,43 @@ const ScholarStorage = {
             { label: 'Random Guess', count: guessedFastWrong }
         ];
 
-        const recommendations = buildRecommendations({
-            coverage,
-            sectionArray,
-            difficultyArray,
-            weakestTopics,
-            confidenceStats,
-            comparison,
-            leastPracticedSection
-        });
-
-        return {
-            history,
-            attempts: history.length,
-            coverage,
-            seenCount: seen.size,
-            accuracy: overallAccuracy,
-            totalQuestions,
-            totalAttempted,
-            totalCorrect,
-            totalSkipped,
-            averageTimePerQuestionMs,
-            firstTryAccuracy,
+        const finalStats = {
             readiness,
+            accuracy: overallAccuracy,
+            totalCorrect,
+            totalAttempted,
+            totalSkipped,
+            totalQuestions,
+            coverage,
+            avgTimeMs: averageTimePerQuestionMs,
+            firstTryAccuracy,
             trendDelta,
-            sections,
-            sectionArray,
-            difficulties,
-            difficultyArray,
-            topics,
-            topicArray,
-            topicMastery: mastery,
-            questionProgress,
-            coverageBySection,
-            strongestTopics,
-            weakestTopics,
-            focusSection,
-            leastPracticedSection,
-            sessionSeries,
-            recentSessions: [...recentSessions].reverse(),
-            sectionTrendSeries,
-            comparison,
             confidenceStats,
             mistakeBreakdown,
+            comparison,
+            sectionArray,
+            difficultyArray,
+            strongestTopics,
+            weakestTopics,
+            recentSessions: [...sessionSeries].reverse().slice(0, 5),
+            focusSection,
+            leastPracticedSection,
             repeatedWeakQuestions,
-            recommendations,
+            history,
+            attempts: history.length,
+            seenCount: seen.size,
             dataQuality: {
                 enoughHistory: history.length >= 3,
-                enoughCoverage: seen.size >= Math.max(4, Math.ceil(totalQuestions * 0.4)),
-                confidenceCoverage: confidenceCount >= 3,
                 note: buildDataQualityNote(history.length, seen.size, totalQuestions)
             }
         };
+
+        finalStats.recommendations = buildRecommendations(finalStats);
+
+        this._cachedStats = finalStats;
+        this._lastHistoryKey = historyKey;
+
+        return finalStats;
     },
 
     exportProgressReport() {
