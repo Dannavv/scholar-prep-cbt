@@ -22,22 +22,22 @@ else
   echo "Docker is already installed."
 fi
 
-# Check if Docker Compose is installed
-if ! [ -x "$(command -v docker-compose)" ]; then
-  echo "Docker Compose not found. Installing Docker Compose..."
-  sudo apt-get install -y docker-compose
-  echo "Docker Compose installed successfully."
+# Check if Docker Compose (V2 plugin) is installed
+if ! docker compose version >/dev/null 2>&1; then
+  echo "Docker Compose V2 not found. Installing..."
+  sudo apt-get install -y docker-compose-v2
+  echo "Docker Compose V2 installed successfully."
 else
-  echo "Docker Compose is already installed."
+  echo "Docker Compose V2 is already installed."
 fi
 
 # Build the docker image
-echo "Building HPCL Scholar Image..."
-docker-compose build
+echo "Building Scholar Prep Image..."
+sudo docker compose build
 
 # Start the container
 echo "Starting Scholar Prep on port 80..."
-docker-compose up -d
+sudo docker compose up -d
 
 # Detect Public IP
 echo "Detecting Public IP..."
