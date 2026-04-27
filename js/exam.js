@@ -5,6 +5,8 @@
         { value: 'high', label: 'High Confidence' }
     ];
 
+    const SESSION_SAVE_KEY = 'hpcl_active_session';
+
     const state = {
         filteredQuestions: [],
         currentIndex: 0,
@@ -12,12 +14,32 @@
         questionMeta: [],
         timerId: null,
         secondsRemaining: 0,
-        startedAtMs: 0,
+        totalAllocatedSeconds: 0,
+        examStartTimeMs: 0,
         currentQuestionEnteredAtMs: 0,
         activeSection: 'all',
         isActive: false,
         isSubmitted: false
     };
+
+    function saveActiveSession() {
+        if (!state.isActive || state.isSubmitted) return;
+        const snapshot = {
+            filteredQuestions: state.filteredQuestions,
+            currentIndex: state.currentIndex,
+            responses: state.responses,
+            questionMeta: state.questionMeta,
+            secondsRemaining: state.secondsRemaining,
+            totalAllocatedSeconds: state.totalAllocatedSeconds,
+            activeSection: state.activeSection,
+            lastSavedAt: Date.now()
+        };
+        sessionStorage.setItem(SESSION_SAVE_KEY, JSON.stringify(snapshot));
+    }
+
+    function clearActiveSession() {
+        sessionStorage.removeItem(SESSION_SAVE_KEY);
+    }
 
     function getRecommendedDurations(maxCount) {
         const base = [5, 10, 25, 50, 100];
@@ -38,7 +60,9 @@
             const label = index === counts.length - 1 ? `All available (${count})` : `${count} Questions`;
             return `<option value="${count}">${label}</option>`;
         }).join('');
-        lengthSelect.value = String(counts[counts.length - 1]);
+        
+        const defaultTarget = counts.includes(10) ? 10 : counts[0];
+        lengthSelect.value = String(defaultTarget);
 
         const sectionLabel = sectionSelect.value === 'all' ? 'all sections' : sectionSelect.value;
         summary.textContent = `${pool.length} questions currently available for ${sectionLabel}. Session lengths are capped to match the real bank.`;
@@ -145,6 +169,7 @@
         if (startButton) startButton.disabled = true;
         toggleScribblePad(false);
         showPanel('active');
+        saveActiveSession();
         renderQuestion(true);
         startTimer();
     }
@@ -200,6 +225,7 @@
             button.addEventListener('click', () => {
                 syncCurrentQuestionTiming();
                 meta.confidence = level.value;
+                saveActiveSession();
                 renderQuestion(false);
             });
             confidenceList.appendChild(button);
@@ -219,8 +245,10 @@
         }
 
         meta.answerChanges += current ? 1 : 0;
+        meta.confidence = 'none'; // Reset confidence on answer change to avoid misleading stats
         state.responses[state.currentIndex] = label;
         syncCurrentQuestionTiming();
+        saveActiveSession();
         renderQuestion(false);
     }
 
@@ -229,15 +257,16 @@
 
         if (direction === 1 && state.currentIndex === state.filteredQuestions.length - 1) {
             const unanswered = state.filteredQuestions.length - Object.keys(state.responses).length;
-            const message = unanswered > 0 
+            const message = unanswered > 0
                 ? `You have ${unanswered} unanswered questions. Are you sure you want to submit?`
                 : 'Finished! Submit your exam now?';
-            
+
             if (confirm(message)) submitExam();
             return;
         }
 
         state.currentIndex += direction;
+        saveActiveSession();
         renderQuestion(true);
     }
 
@@ -253,12 +282,15 @@
     function startTimer() {
         if (state.timerId) clearInterval(state.timerId);
         state.examStartTimeMs = Date.now();
-        
+
         state.timerId = window.setInterval(() => {
             const elapsedSeconds = Math.floor((Date.now() - state.examStartTimeMs) / 1000);
             state.secondsRemaining = Math.max(0, state.totalAllocatedSeconds - elapsedSeconds);
             updateTimer();
+            
             if (state.secondsRemaining <= 0) {
+                stopTimer();
+                alert("Time is up! Your responses will now be submitted.");
                 submitExam();
             }
         }, 1000);
@@ -327,6 +359,7 @@
     function submitExam() {
         if (!state.isActive || state.isSubmitted) return;
         state.isSubmitted = true;
+        clearActiveSession();
         const result = buildSessionResult();
         ScholarStorage.saveResult(result);
         renderResults(result);
@@ -451,6 +484,7 @@
             state.currentQuestionEnteredAtMs = 0;
             toggleScribblePad(false);
             if (startButton) startButton.disabled = false;
+            if (panel === 'home' || panel === 'result') clearActiveSession();
         }
     }
 
@@ -482,7 +516,14 @@
         });
         document.getElementById('backToSetupBtn')?.addEventListener('click', () => showPanel('home'));
         document.getElementById('exportResultBtn')?.addEventListener('click', exportCurrentProgress);
-        window.addEventListener('beforeunload', () => stopTimer());
+        
+        window.addEventListener('beforeunload', (e) => {
+            if (state.isActive && !state.isSubmitted) {
+                e.preventDefault();
+                e.returnValue = ''; // Standard way to trigger a confirmation dialog
+            }
+            stopTimer();
+        });
     }
 
     function initExamPage() {
@@ -491,6 +532,36 @@
         bindEvents();
         refreshExamLengthOptions();
         renderHistory();
+
+        // Resume session if available
+        const saved = sessionStorage.getItem(SESSION_SAVE_KEY);
+        if (saved) {
+            try {
+                const snapshot = JSON.parse(saved);
+                const timePassedSinceSave = Math.floor((Date.now() - snapshot.lastSavedAt) / 1000);
+                
+                state.filteredQuestions = snapshot.filteredQuestions;
+                state.currentIndex = snapshot.currentIndex;
+                state.responses = snapshot.responses;
+                state.questionMeta = snapshot.questionMeta;
+                state.totalAllocatedSeconds = snapshot.totalAllocatedSeconds;
+                state.secondsRemaining = Math.max(0, snapshot.secondsRemaining - timePassedSinceSave);
+                state.activeSection = snapshot.activeSection;
+                state.isActive = true;
+                state.examStartTimeMs = Date.now() - (state.totalAllocatedSeconds - state.secondsRemaining) * 1000;
+
+                if (state.secondsRemaining > 0) {
+                    showPanel('active');
+                    renderQuestion(false);
+                    startTimer();
+                } else {
+                    clearActiveSession();
+                }
+            } catch (e) {
+                console.error('Failed to resume session:', e);
+                clearActiveSession();
+            }
+        }
     }
 
     function confidenceValue(value) {

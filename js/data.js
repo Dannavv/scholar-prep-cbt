@@ -124,9 +124,9 @@ const allQuestions = [
     "section": "Reasoning",
     "topic": "Depiction & Interpretation",
     "question": "In the series '9 $ W # 7 @ 5 % 2 & 8 * 1', how many such numbers are there each of which is immediately preceded by a symbol?",
-    "options": ["None", "One", "Two", "Three"],
+    "options": ["Two", "Three", "Four", "Five"],
     "answer": "d",
-    "explanation": "Required: Symbol -> Number. Pairs: $ W (No), # 7 (Yes-1), @ 5 (Yes-2), % 2 (Yes-3), & 8 (Yes-4), * 1 (Yes-5). Wait, options say Three? Let me re-read. $ W is not number. # 7 is one. @ 5 is two. % 2 is three. & 8 is four. * 1 is five. If option 'Three' is highest, check string again. 9 (first) has no symbol. So 5 pairs. I'll provide 5 as an option in actual bank.",
+    "explanation": "Required pattern: Symbol -> Number. Scanning the series: # 7 (1), @ 5 (2), % 2 (3), & 8 (4), * 1 (5). Total = 5.",
     "difficulty": "Hard"
   },
   {
@@ -144,9 +144,9 @@ const allQuestions = [
     "section": "Quantitative Aptitude",
     "topic": "Ratio & Proportion",
     "question": "The ratio of ages of A and B is 4:5. Six years hence, the ratio will become 11:13. What is the present age of B?",
-    "options": ["24 years", "30 years", "36 years", "40 years"],
-    "answer": "d",
-    "explanation": "Let ages be 4x and 5x. (4x+6)/(5x+6) = 11/13 => 52x + 78 = 55x + 66 => 3x = 12 => x = 4. B's age = 5 * 4 = 20. Wait, check options. If B is 40, x=8. 32:40. In 6 years: 38:46 (19:23). No. Let's solve: (4x+6)*13 = (5x+6)*11 => 52x+78=55x+66 => 3x=12 => x=4. B is 20. I will fix options.",
+    "options": ["16 years", "20 years", "24 years", "28 years"],
+    "answer": "b",
+    "explanation": "Let ages be 4x and 5x. (4x+6)/(5x+6) = 11/13 => 52x + 78 = 55x + 66 => 3x = 12 => x = 4. B's present age = 5 * 4 = 20 years.",
     "difficulty": "Hard"
   },
   {
@@ -295,8 +295,8 @@ const allQuestions = [
     "topic": "Depiction & Interpretation",
     "question": "In the following alphanumeric series, how many numbers are preceded by a consonant and followed by a vowel?\nA 2 E B 7 I C 9 O D 5 U",
     "options": ["1", "2", "3", "4"],
-    "answer": "d",
-    "explanation": "Consonant-Number-Vowel. B 7 I (1), C 9 O (2), D 5 U (3). Wait, check 'A 2 E'. A is vowel. B 7 I is correct. C 9 O is correct. D 5 U is correct. Total 3.",
+    "answer": "c",
+    "explanation": "Consonant-Number-Vowel. B 7 I (1), C 9 O (2), D 5 U (3). 'A 2 E' does not count because A is a vowel. Total = 3.",
     "difficulty": "Hard"
   },
   {

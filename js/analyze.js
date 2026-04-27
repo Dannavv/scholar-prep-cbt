@@ -23,6 +23,21 @@
         `).join('');
     }
 
+    function renderMasterMeter(stats) {
+        const tick = document.getElementById('readinessTick');
+        const val = document.getElementById('readinessTickValue');
+        if (!tick) return;
+
+        const progress = stats.readiness;
+
+        if (val) val.textContent = `${progress}%`;
+
+        // Delay slightly for entry animation
+        setTimeout(() => {
+            tick.style.left = `${progress}%`;
+        }, 100);
+    }
+
     function renderComparison(stats) {
         const note = document.getElementById('dataQualityNote');
         const panel = document.getElementById('comparisonPanel');
@@ -112,16 +127,21 @@
         `).join('');
     }
 
-    function renderTopicList(targetId, topics, emptyMessage) {
-        const panel = document.getElementById(targetId);
-        if (!panel) return;
+    function renderTopicList(id, list, emptyMsg) {
+        const container = document.getElementById(id);
+        if (!container) return;
 
-        if (!topics.length) {
-            panel.innerHTML = `<p class="helper-text">${emptyMessage}</p>`;
+        if (list.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state-card">
+                    <i class="fas fa-satellite-dish"></i>
+                    <p>${emptyMsg}</p>
+                </div>
+            `;
             return;
         }
 
-        panel.innerHTML = topics.map((topic) => `
+        container.innerHTML = list.map((topic) => `
             <article class="topic-signal-card">
                 <div class="metric-row-head">
                     <strong>${topic.name}</strong>
@@ -142,23 +162,94 @@
     }
 
     function initAnalyzePage() {
-        if (!document.getElementById('analyze')) return;
         const stats = ScholarStorage.getStats();
-        
-        // Safety check to prevent blank page on data inconsistency
+
         if (!stats || !stats.dataQuality) {
-            console.error('ScholarStorage.getStats() returned incomplete data.');
             return;
         }
 
-        renderOverview(stats);
-        renderRecommendations(stats);
-        renderComparison(stats);
-        renderTopicSignals(stats);
-        renderCoverage(stats);
-        renderDifficulty(stats);
-        renderRecentSessions(stats);
-        bindExport();
+        // Handle Analytics View
+        if (document.getElementById('analyticsView')) {
+            renderOverview(stats);
+            renderMasterMeter(stats);
+            renderRecommendations(stats);
+            renderTopicSignals(stats);
+            renderCoverage(stats);
+            renderDifficulty(stats);
+            renderComparison(stats);
+            renderConfidenceStats(stats);
+            renderMistakeBreakdown(stats);
+            renderRecentSessions(stats);
+            bindExport();
+        }
+
+        // Handle Strategy/Vault View
+        if (document.getElementById('strategyView')) {
+            renderVault(stats);
+        }
+    }
+
+    function renderVault(stats) {
+        const container = document.getElementById('vaultContent');
+        if (!container) return;
+
+        const masteredTopics = stats.topicPerformance.filter(t => t.isMastered);
+
+        if (masteredTopics.length === 0) {
+            container.innerHTML = `
+                <div class="card history-empty" style="background: var(--bg-main); border: 1px dashed var(--border-subtle);">
+                    <i class="fas fa-lock history-empty-icon" style="opacity: 0.3;"></i>
+                    <p>Your vault is empty. Achieve a 3-question correct streak in any topic to archive it here.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = masteredTopics.map(topic => `
+            <div class="topic-signal-item">
+                <div class="topic-signal-info">
+                    <span class="topic-name">${topic.topic}</span>
+                    <span class="topic-meta">${topic.count} Attempts • ${topic.accuracy}% Accuracy</span>
+                </div>
+                <span class="signal-tag signal-tag-success">MASTERED</span>
+            </div>
+        `).join('');
+    }
+
+    function renderMistakeBreakdown(stats) {
+        const panel = document.getElementById('mistakePanel');
+        if (!panel) return;
+
+        panel.innerHTML = stats.mistakeBreakdown.map((m) => `
+            <article class="stat">
+                <div class="stat-head">
+                    <strong>${m.label}</strong>
+                    <span class="stat-accuracy">${m.count}</span>
+                </div>
+                <p>${getMistakeDetail(m.label)}</p>
+            </article>
+        `).join('');
+    }
+
+    function renderConfidenceStats(stats) {
+        const panel = document.getElementById('confidencePanel');
+        if (!panel) return;
+
+        panel.innerHTML = [
+            simpleMetricCard('Avg Confidence', stats.confidenceStats.averageLevel, 'Scaled 0.0 to 3.0'),
+            simpleMetricCard('Confident Errors', stats.confidenceStats.highConfidenceWrong, 'High-confidence wrong answers'),
+            simpleMetricCard('Signal Strength', `${stats.confidenceStats.measured} tags`, 'Total questions with confidence data')
+        ].join('');
+    }
+
+    function getMistakeDetail(label) {
+        switch (label) {
+            case 'Concept Confusion': return 'Questions where you spent enough time but still got it wrong.';
+            case 'Speed Pressure': return 'Questions answered in < 25s but were incorrect.';
+            case 'Careless Change': return 'You had the right answer but changed it to a wrong one.';
+            case 'Random Guess': return 'Extremely fast (< 10s) incorrect answers.';
+            default: return 'Needs more session history to categorize.';
+        }
     }
 
     function overviewCard(label, value, detail) {

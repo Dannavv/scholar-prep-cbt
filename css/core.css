@@ -179,7 +179,8 @@ body.mouse-motion::before {
 
 .nav-item.active {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
-  color: #5a3d2f; /* Dark Mahogany for laptop */
+  color: #5a3d2f;
+  /* Dark Mahogany for laptop */
   font-weight: 700;
 }
 
@@ -222,9 +223,10 @@ body.mouse-motion::before {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
     background: var(--sidebar-bg) !important;
     display: flex !important;
-    justify-content: center !important; /* Centered Logo */
+    justify-content: center !important;
+    /* Centered Logo */
     align-items: center !important;
-    box-shadow: inset 0 -1px 0 rgba(255,255,255,0.4);
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.4);
   }
 
   .logo {
@@ -266,12 +268,14 @@ body.mouse-motion::before {
   }
 
   .nav-item:active {
-    transform: scale(0.96); /* Haptic feel */
-    background: rgba(0,0,0,0.05);
+    transform: scale(0.96);
+    /* Haptic feel */
+    background: rgba(0, 0, 0, 0.05);
   }
 
   .nav-item.active {
-    background: transparent !important; /* Removed white faded overlay */
+    background: transparent !important;
+    /* Removed white faded overlay */
     color: var(--accent) !important;
   }
 
@@ -290,7 +294,8 @@ body.mouse-motion::before {
   .main {
     margin-left: 0 !important;
     margin-top: var(--mobile-header-height) !important;
-    padding: 2.5rem 1.25rem !important; /* More padding for zoom feel */
+    padding: 2.5rem 1.25rem !important;
+    /* More padding for zoom feel */
     z-index: 1 !important;
   }
 
@@ -301,11 +306,13 @@ body.mouse-motion::before {
   }
 
   header h1 {
-    font-size: 3.5rem !important; /* Massive headings */
+    font-size: 3.5rem !important;
+    /* Massive headings */
   }
 
   header p {
-    font-size: 1.6rem !important; /* Ultra-large descriptions */
+    font-size: 1.6rem !important;
+    /* Ultra-large descriptions */
     line-height: 1.4 !important;
   }
 }
@@ -328,11 +335,10 @@ body.mouse-motion::before {
   }
 }
 
-  .nav-item span {
-    font-size: 0.75rem !important;
-  }
+.nav-item span {
+  font-size: 0.75rem !important;
+}
 
-  .logo span {
-    font-size: 1.2rem !important;
-  }
+.logo span {
+  font-size: 1.2rem !important;
 }

@@ -1,142 +1,142 @@
+const HISTORY_LIMIT = 200;
+
 const STORAGE_KEYS = {
-    history: 'hpcl_history',
-    seen: 'hpcl_seen',
-    mastery: 'hpcl_mastery',
-    mastered: 'hpcl_mastered',
-    questionProgress: 'hpcl_question_progress'
+    history: 'hpcl_history_v1',
+    seen: 'hpcl_seen_questions_v1',
+    mastery: 'hpcl_topic_mastery_v1',
+    questionProgress: 'hpcl_q_progress_v1',
+    mastered: 'hpcl_mastered_questions_v1'
 };
 
 const ScholarStorage = {
     saveResult(result) {
+        if (!result || !result.allQData) {
+            console.error('Invalid result object passed to saveResult');
+            return;
+        }
+
         const existingHistory = this.getHistory();
         const history = [result, ...existingHistory];
-        localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(history.slice(0, 15)));
-
-        const seen = this.getSeen();
-        const mastery = this.getMastery();
-        const storedQuestionProgress = readParsedObject(STORAGE_KEYS.questionProgress);
-        const questionProgress = Object.keys(storedQuestionProgress).length > 0
-            ? storedQuestionProgress
-            : rebuildQuestionProgressFromHistory(existingHistory);
-
-        result.allQData.forEach((item) => {
-            seen.add(item.id);
-
-            if (!mastery[item.topic]) {
-                mastery[item.topic] = {
-                    correct: 0,
-                    total: 0,
-                    skipped: 0,
-                    totalTimeMs: 0
-                };
-            }
-
-            mastery[item.topic].total += 1;
-            mastery[item.topic].totalTimeMs += item.timeSpentMs || 0;
-
-            if (item.isSkipped) {
-                mastery[item.topic].skipped += 1;
-            }
-
-            if (item.isCorrect) {
-                mastery[item.topic].correct += 1;
-            }
-
-            updateQuestionProgressEntry(questionProgress, item);
-        });
-
-        localStorage.setItem(STORAGE_KEYS.seen, JSON.stringify([...seen]));
-        localStorage.setItem(STORAGE_KEYS.mastery, JSON.stringify(mastery));
-        localStorage.setItem(STORAGE_KEYS.questionProgress, JSON.stringify(questionProgress));
-        localStorage.setItem(STORAGE_KEYS.mastered, JSON.stringify([...this.deriveMasteredIds(questionProgress)]));
-    },
-
-    getMasteredIds() {
-        return this.deriveMasteredIds(this.getQuestionProgress());
-    },
-
-    deriveMasteredIds(questionProgress) {
-        return new Set(
-            Object.entries(questionProgress)
-                .filter(([, stats]) => {
-                    const attempts = stats.attempts || 0;
-                    const correct = stats.correct || 0;
-                    const streak = stats.correctStreak || 0;
-                    return attempts >= 2 && correct >= 2 && streak >= 2;
-                })
-                .map(([id]) => id)
-        );
-    },
-
-    clearHistory() {
-        if (confirm('Clear all attempt history and progress?')) {
-            Object.values(STORAGE_KEYS).forEach((key) => localStorage.removeItem(key));
-            location.reload();
-        }
-    },
-
-    getHistory() {
-        return readParsedArray(STORAGE_KEYS.history);
-    },
-
-    getSeen() {
-        return new Set(readParsedArray(STORAGE_KEYS.seen));
-    },
-
-    getMastery() {
-        return readParsedObject(STORAGE_KEYS.mastery);
-    },
-
-    getQuestionProgress() {
-        const stored = readParsedObject(STORAGE_KEYS.questionProgress);
-        if (Object.keys(stored).length > 0) return stored;
-
-        const rebuilt = rebuildQuestionProgressFromHistory(this.getHistory());
-        if (Object.keys(rebuilt).length > 0) {
-            localStorage.setItem(STORAGE_KEYS.questionProgress, JSON.stringify(rebuilt));
-        }
-        return rebuilt;
-    },
-
-    getStats() {
-        const history = this.getHistory();
-        const historyKey = `${history.length}-${history[0]?.date || 'none'}`;
-        if (this._cachedStats && this._lastHistoryKey === historyKey && this._cachedStats.dataQuality) {
-            return this._cachedStats;
+        try {
+            localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(history.slice(0, HISTORY_LIMIT)));
+        } catch (e) {
+            console.error('Failed to save history to localStorage:', e);
         }
 
         const seen = this.getSeen();
         const mastery = this.getMastery();
         const questionProgress = this.getQuestionProgress();
-        
-        const questions = allQuestions;
-        if (!this._questionMap || this._lastQuestionCount !== questions.length) {
-            this._questionMap = new Map(questions.map((q) => [q.id, q]));
-            this._sectionNames = [...new Set(questions.map((q) => q.section))];
-            this._difficultyNames = [...new Set(questions.map((q) => q.difficulty))];
-            this._topicNames = [...new Set(questions.map((q) => q.topic))];
-            this._lastQuestionCount = questions.length;
+
+        result.allQData.forEach((item) => {
+            if (!item) return;
+            seen.add(item.id);
+            updateTopicMastery(mastery, item);
+            updateQuestionProgressEntry(questionProgress, item);
+        });
+
+        try {
+            localStorage.setItem(STORAGE_KEYS.seen, JSON.stringify([...seen]));
+            localStorage.setItem(STORAGE_KEYS.mastery, JSON.stringify(mastery));
+            localStorage.setItem(STORAGE_KEYS.questionProgress, JSON.stringify(questionProgress));
+            localStorage.setItem(STORAGE_KEYS.mastered, JSON.stringify([...this.deriveMasteredIds(questionProgress)]));
+        } catch (e) {
+            console.error('Failed to save progress to localStorage:', e);
         }
+    },
 
-        const questionMap = this._questionMap;
-        const sectionNames = this._sectionNames;
-        const difficultyNames = this._difficultyNames;
-        const topicNames = this._topicNames;
+    getMasteredIds() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEYS.mastered);
+            return new Set(stored ? JSON.parse(stored) : []);
+        } catch (e) {
+            console.error('Failed to parse mastered IDs:', e);
+            return new Set();
+        }
+    },
 
-        const sections = Object.fromEntries(sectionNames.map((name) => [name, createBucket(name)]));
-        const difficulties = Object.fromEntries(difficultyNames.map((name) => [name, createBucket(name)]));
-        const topics = Object.fromEntries(topicNames.map((name) => [name, createBucket(name)]));
-        const coverageBySection = Object.fromEntries(sectionNames.map((name) => [name, { seen: 0, total: 0 }]));
-        const seenByDifficulty = Object.fromEntries(difficultyNames.map((name) => [name, new Set()]));
-        const seenByTopic = Object.fromEntries(topicNames.map((name) => [name, new Set()]));
+    getHistory() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEYS.history);
+            return stored ? JSON.parse(stored) : [];
+        } catch (e) {
+            console.error('Failed to parse history:', e);
+            return [];
+        }
+    },
+
+    getSeen() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEYS.seen);
+            return new Set(stored ? JSON.parse(stored) : []);
+        } catch (e) {
+            console.error('Failed to parse seen questions:', e);
+            return new Set();
+        }
+    },
+
+    getMastery() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEYS.mastery);
+            return stored ? JSON.parse(stored) : {};
+        } catch (e) {
+            console.error('Failed to parse mastery:', e);
+            return {};
+        }
+    },
+
+    getQuestionProgress() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEYS.questionProgress);
+            const existingHistory = this.getHistory();
+            const storedQuestionProgress = stored ? JSON.parse(stored) : {};
+
+            const questionProgress = Object.keys(storedQuestionProgress).length > 0
+                ? storedQuestionProgress
+                : rebuildQuestionProgressFromHistory(existingHistory);
+
+            return questionProgress;
+        } catch (e) {
+            console.error('Failed to parse question progress:', e);
+            return {};
+        }
+    },
+
+    getStats() {
+        const history = this.getHistory();
+        const seen = this.getSeen();
+        const questionMap = new Map(allQuestions.map((q) => [q.id, q]));
+
+        const sections = {};
+        const topics = {};
+        const difficulties = {};
+        const coverageBySection = {};
+        const totalByDifficulty = { 'Easy': 0, 'Medium': 0, 'Hard': 0 };
+        const seenByDifficulty = { 'Easy': new Set(), 'Medium': new Set(), 'Hard': new Set() };
+        const totalByTopic = {};
+        const seenByTopic = {};
         const questionSessionCounts = new Map();
 
         allQuestions.forEach((question) => {
+            if (!sections[question.section]) sections[question.section] = createBucket(question.section);
+            if (!topics[question.topic]) topics[question.topic] = createBucket(question.topic);
+            if (!difficulties[question.difficulty]) difficulties[question.difficulty] = createBucket(question.difficulty);
+
+            if (!coverageBySection[question.section]) {
+                coverageBySection[question.section] = { seen: 0, total: 0 };
+            }
             coverageBySection[question.section].total += 1;
+
+            if (!totalByTopic[question.topic]) totalByTopic[question.topic] = 0;
+            totalByTopic[question.topic] += 1;
+
+            if (!seenByTopic[question.topic]) seenByTopic[question.topic] = new Set();
+            
+            if (totalByDifficulty[question.difficulty] !== undefined) totalByDifficulty[question.difficulty] += 1;
         });
 
         const orderedHistory = [...history].sort((a, b) => new Date(a.date) - new Date(b.date));
         const sessionSeries = [];
+        const recentSessions = [];
 
         let totalAttempted = 0;
         let totalCorrect = 0;
@@ -151,65 +151,93 @@ const ScholarStorage = {
         let speedPressureWrong = 0;
         let conceptualWrong = 0;
 
+        let recentAttempts = 0;
+        let recentCorrect = 0;
+        let previousAttempts = 0;
+        let previousCorrect = 0;
+
         orderedHistory.forEach((session, index) => {
-            const sessionItems = normalizeSessionItems(session.allQData, questionMap);
-            const attempted = sessionItems.filter((item) => !item.isSkipped).length;
-            const correct = sessionItems.filter((item) => item.isCorrect).length;
-            const skipped = sessionItems.length - attempted;
-            const accuracy = attempted > 0 ? percent(correct, attempted) : 0;
-            const avgTimeMs = average(sessionItems.map((item) => item.timeSpentMs || 0));
+            try {
+                if (!session || !session.allQData || !Array.isArray(session.allQData)) return;
+                
+                const sessionItems = normalizeSessionItems(session.allQData, questionMap);
+                const attempted = sessionItems.filter((item) => !item.isSkipped).length;
+                const correct = sessionItems.filter((item) => item.isCorrect).length;
+                const skipped = sessionItems.length - attempted;
+                const accuracy = attempted > 0 ? percent(correct, attempted) : 0;
 
-            sessionSeries.push({
-                id: `${session.date}-${index}`,
-                date: session.date,
-                label: HPCLCommon.formatDate(session.date),
-                score: correct,
-                total: sessionItems.length,
-                attempted,
-                skipped,
-                accuracy,
-                avgTimeMs,
-                section: session.section
-            });
+                const isRecent = (orderedHistory.length - index) <= 15;
+                const isPrevious = (orderedHistory.length - index) === 2;
 
-            sessionItems.forEach((item) => {
-                if (item.confidenceLevel > 0) {
-                    confidenceCount += 1;
-                    confidenceWeighted += item.confidenceLevel;
+                sessionSeries.push({
+                    id: `${session.date}-${index}`,
+                    date: session.date,
+                    label: HPCLCommon.formatDate(session.date),
+                    score: correct,
+                    total: sessionItems.length,
+                    attempted,
+                    skipped,
+                    accuracy,
+                    avgTimeMs: session.totalDurationSeconds ? Math.round((session.totalDurationSeconds * 1000) / sessionItems.length) : 0,
+                    section: session.section
+                });
+
+                if (isRecent) {
+                    recentSessions.unshift(formatSessionSummary(session, accuracy, correct, skipped));
                 }
 
-                incrementBucket(sections[item.section], item);
-                incrementBucket(difficulties[item.difficulty], item);
-                incrementBucket(topics[item.topic], item);
-
-                if (!item.isSkipped) {
-                    totalAttempted += 1;
-                } else {
-                    totalSkipped += 1;
-                }
-
-                if (item.isCorrect) {
-                    totalCorrect += 1;
-                }
-
-                if (item.firstAnswer) {
-                    firstTryTotal += 1;
-                    if (item.firstAnswer === item.correctAnswer) {
-                        firstTryCorrect += 1;
+                sessionItems.forEach((item) => {
+                    const confidenceVal = confidenceValue(item.confidence);
+                    if (confidenceVal > 0) {
+                        confidenceCount += 1;
+                        confidenceWeighted += confidenceVal;
                     }
-                }
 
-                if (item.confidence === 'high' && !item.isCorrect) {
-                    highConfidenceWrong += 1;
-                }
+                    incrementBucket(sections[item.section], item);
+                    incrementBucket(difficulties[item.difficulty], item);
+                    incrementBucket(topics[item.topic], item);
 
-                if (item.mistakeType === 'Random Guess') guessedFastWrong += 1;
-                if (item.mistakeType === 'Careless Change') carelessWrong += 1;
-                if (item.mistakeType === 'Speed Pressure') speedPressureWrong += 1;
-                if (item.mistakeType === 'Concept Confusion') conceptualWrong += 1;
+                    if (!item.isSkipped) {
+                        totalAttempted += 1;
+                    } else {
+                        totalSkipped += 1;
+                    }
 
-                questionSessionCounts.set(item.id, (questionSessionCounts.get(item.id) || 0) + 1);
-            });
+                    if (item.isCorrect) {
+                        totalCorrect += 1;
+                    }
+
+                    if (item.firstAnswer) {
+                        firstTryTotal += 1;
+                        if (item.firstAnswer === item.correctAnswer) {
+                            firstTryCorrect += 1;
+                        }
+                    }
+
+                    if (item.confidence === 'high' && !item.isCorrect) {
+                        highConfidenceWrong += 1;
+                    }
+
+                    if (item.mistakeType === 'Random Guess') guessedFastWrong += 1;
+                    if (item.mistakeType === 'Careless Change') carelessWrong += 1;
+                    if (item.mistakeType === 'Speed Pressure') speedPressureWrong += 1;
+                    if (item.mistakeType === 'Concept Confusion') conceptualWrong += 1;
+
+                    if (isRecent) {
+                        recentAttempts++;
+                        if (item.isCorrect) recentCorrect++;
+                    }
+
+                    if (isPrevious) {
+                        previousAttempts++;
+                        if (item.isCorrect) previousCorrect++;
+                    }
+
+                    questionSessionCounts.set(item.id, (questionSessionCounts.get(item.id) || 0) + 1);
+                });
+            } catch (err) {
+                console.error(`Skipping corrupted session at index ${index}:`, err);
+            }
         });
 
         seen.forEach((id) => {
@@ -221,407 +249,236 @@ const ScholarStorage = {
         });
 
         const overallAccuracy = totalAttempted > 0 ? percent(totalCorrect, totalAttempted) : 0;
+        const recentAccuracy = recentAttempts > 0 ? percent(recentCorrect, recentAttempts) : 0;
+        const previousAccuracy = previousAttempts > 0 ? percent(previousCorrect, previousAttempts) : 0;
+        
         const totalQuestions = allQuestions.length;
         const coverage = totalQuestions > 0 ? percent(seen.size, totalQuestions) : 0;
-        const averageTimePerQuestionMs = average(
-            orderedHistory.flatMap((session) =>
-                normalizeSessionItems(session.allQData, questionMap).map((item) => item.timeSpentMs || 0)
-            )
-        );
         const firstTryAccuracy = firstTryTotal > 0 ? percent(firstTryCorrect, firstTryTotal) : 0;
 
         const sectionArray = finalizeBuckets(sections).map((section) => ({
             ...section,
-            coverage: coverageBySection[section.name].total > 0
-                ? percent(coverageBySection[section.name].seen, coverageBySection[section.name].total)
-                : 0
-        }));
-        const difficultyArray = finalizeBuckets(difficulties).map((difficulty) => ({
-            ...difficulty,
-            coverage: allQuestions.filter((question) => question.difficulty === difficulty.name).length > 0
-                ? percent(seenByDifficulty[difficulty.name].size, allQuestions.filter((question) => question.difficulty === difficulty.name).length)
-                : 0
-        }));
-        const topicArray = finalizeBuckets(topics).map((topic) => ({
-            ...topic,
-            coverage: allQuestions.filter((question) => question.topic === topic.name).length > 0
-                ? percent(seenByTopic[topic.name].size, allQuestions.filter((question) => question.topic === topic.name).length)
-                : 0
+            coverage: percent(coverageBySection[section.name].seen, coverageBySection[section.name].total)
         }));
 
-        const weakestTopics = [...topicArray]
-            .filter((topic) => topic.attempts > 0)
-            .sort((a, b) => a.accuracy - b.accuracy || b.wrong - a.wrong || a.attempts - b.attempts)
-            .slice(0, 3);
-        const strongestTopics = [...topicArray]
-            .filter((topic) => topic.attempts > 0)
-            .sort((a, b) => b.accuracy - a.accuracy || b.correct - a.correct)
-            .slice(0, 3);
+        const topicPerformance = finalizeBuckets(topics).map((topic) => {
+            const masteredIds = this.deriveMasteredIds(this.getQuestionProgress());
+            const topicQuestionIds = allQuestions.filter(q => q.topic === topic.name).map(q => q.id);
+            const isMastered = topicQuestionIds.length > 0 && topicQuestionIds.every(id => masteredIds.has(id));
+            
+            return {
+                topic: topic.name,
+                count: topic.attempts,
+                accuracy: topic.accuracy,
+                isMastered
+            };
+        });
 
-        const recentSessions = sessionSeries.slice(-5);
-        const recentAccuracy = average(recentSessions.map((session) => session.accuracy));
-        const previousSessions = sessionSeries.slice(-10, -5);
-        const previousAccuracy = average(previousSessions.map((session) => session.accuracy));
-        const trendDelta = recentSessions.length > 0
-            ? Math.round(recentAccuracy - (previousSessions.length > 0 ? previousAccuracy : overallAccuracy))
-            : 0;
-
-        const hardBucket = difficultyArray.find((item) => item.name === 'Hard');
         const sectionBalanceScore = computeSectionBalance(sectionArray);
-        
         const volumeMultiplier = Math.min(1, history.length / 5);
+
         const readiness = history.length === 0
             ? 0
             : Math.round(
                 ((recentAccuracy * 0.45)
-                + (coverage * 0.25)
-                + (sectionBalanceScore * 0.15)
-                + ((hardBucket?.accuracy || 0) * 0.15)) * volumeMultiplier
+                    + (coverage * 0.25)
+                    + (sectionBalanceScore * 0.15)
+                    + ((finalizeBuckets(difficulties).find(d => d.name === 'Hard')?.accuracy || 0) * 0.15)) * volumeMultiplier
             );
 
-        const focusSection = [...sectionArray]
-            .filter((section) => section.attempts > 0)
-            .sort((a, b) => a.accuracy - b.accuracy || a.coverage - b.coverage)[0] || null;
-
-        const leastPracticedSection = [...sectionArray]
-            .sort((a, b) => a.coverage - b.coverage || a.total - b.total)[0] || null;
-
-        const repeatedWeakQuestions = [...questionSessionCounts.entries()]
-            .filter(([, count]) => count > 1)
-            .map(([id, count]) => {
-                const question = questionMap.get(id);
-                return {
-                    id,
-                    count,
-                    topic: question?.topic || 'Unknown',
-                    section: question?.section || 'Unknown'
-                };
-            })
-            .sort((a, b) => b.count - a.count)
-            .slice(0, 3);
-
-        const latestSession = sessionSeries.at(-1) || null;
-        const previousComparableSession = latestSession
-            ? [...sessionSeries]
-                .slice(0, -1)
-                .reverse()
-                .find((session) => sessionsAreComparable(session, latestSession)) || null
-            : null;
-
-        const comparison = latestSession ? {
-            latest: latestSession,
-            previous: previousComparableSession,
-            deltaAccuracy: previousComparableSession ? latestSession.accuracy - previousComparableSession.accuracy : 0,
-            deltaAttempted: previousComparableSession ? latestSession.attempted - previousComparableSession.attempted : 0
-        } : null;
-
-        const confidenceStats = {
-            measured: confidenceCount,
-            averageLevel: confidenceCount > 0 ? (confidenceWeighted / confidenceCount).toFixed(1) : '0.0',
-            highConfidenceWrong
-        };
-
-        const mistakeBreakdown = [
-            { label: 'Concept Confusion', count: conceptualWrong },
-            { label: 'Speed Pressure', count: speedPressureWrong },
-            { label: 'Careless Change', count: carelessWrong },
-            { label: 'Random Guess', count: guessedFastWrong }
-        ];
-
-        const finalStats = {
+        return {
             readiness,
             accuracy: overallAccuracy,
-            totalCorrect,
-            totalAttempted,
-            totalSkipped,
-            totalQuestions,
             coverage,
-            avgTimeMs: averageTimePerQuestionMs,
-            firstTryAccuracy,
-            trendDelta,
-            confidenceStats,
-            mistakeBreakdown,
-            comparison,
-            sectionArray,
-            difficultyArray,
-            strongestTopics,
-            weakestTopics,
-            recentSessions: [...sessionSeries].reverse().slice(0, 5),
-            focusSection,
-            leastPracticedSection,
-            repeatedWeakQuestions,
             history,
             attempts: history.length,
-            seenCount: seen.size,
+            totalQuestions,
+            totalCorrect,
+            totalSkipped,
+            recentSessions: recentSessions.slice(0, 15),
+            trendDelta: recentAccuracy - previousAccuracy,
+            firstTryAccuracy,
+            focusSection: sectionArray.sort((a, b) => a.accuracy - b.accuracy)[0],
+            recommendations: buildRecommendations({
+                accuracy: overallAccuracy,
+                coverage,
+                sectionArray,
+                mistakes: {
+                    guessedFastWrong,
+                    carelessWrong,
+                    speedPressureWrong,
+                    conceptualWrong
+                }
+            }),
+            strongestTopics: finalizeBuckets(topics).sort((a, b) => b.accuracy - a.accuracy).slice(0, 3),
+            weakestTopics: finalizeBuckets(topics).filter(t => t.attempts >= 3).sort((a, b) => a.accuracy - b.accuracy).slice(0, 3),
+            sectionArray,
+            difficultyArray: finalizeBuckets(difficulties).map(d => ({
+                ...d,
+                coverage: percent(seenByDifficulty[d.name].size, totalByDifficulty[d.name])
+            })),
+            topicPerformance,
+            confidenceStats: {
+                averageLevel: (confidenceCount > 0 ? (confidenceWeighted / confidenceCount) : 0).toFixed(1),
+                highConfidenceWrong,
+                measured: confidenceCount
+            },
+            mistakeBreakdown: [
+                { label: 'Concept Confusion', count: conceptualWrong },
+                { label: 'Speed Pressure', count: speedPressureWrong },
+                { label: 'Careless Change', count: carelessWrong },
+                { label: 'Random Guess', count: guessedFastWrong }
+            ],
             dataQuality: {
                 enoughHistory: history.length >= 3,
-                note: buildDataQualityNote(history.length, seen.size, totalQuestions)
-            }
+                note: history.length < 3 ? 'Add more sessions for reliable trends.' : 'Trends are becoming stable.'
+            },
+            comparison: history.length >= 2 ? {
+                latest: recentSessions[0],
+                previous: recentSessions[1],
+                deltaAccuracy: recentAccuracy - previousAccuracy
+            } : null
         };
-
-        finalStats.recommendations = buildRecommendations(finalStats);
-
-        this._cachedStats = finalStats;
-        this._lastHistoryKey = historyKey;
-
-        return finalStats;
     },
 
-    exportProgressReport() {
-        const stats = this.getStats();
-        const weakest = stats.weakestTopics.map((topic) => `${topic.name} (${topic.accuracy}% accuracy)`).join(', ') || 'No weak-topic signal yet';
-        const strongest = stats.strongestTopics.map((topic) => `${topic.name} (${topic.accuracy}% accuracy)`).join(', ') || 'No strong-topic signal yet';
-        const recommendations = stats.recommendations.map((item, index) => `${index + 1}. ${item.title}: ${item.detail}`).join('\n');
+    clearHistory() {
+        if (confirm('Are you sure you want to clear all history and mastery data?')) {
+            localStorage.removeItem(STORAGE_KEYS.history);
+            localStorage.removeItem(STORAGE_KEYS.seen);
+            localStorage.removeItem(STORAGE_KEYS.mastery);
+            localStorage.removeItem(STORAGE_KEYS.questionProgress);
+            localStorage.removeItem(STORAGE_KEYS.mastered);
+            window.location.reload();
+        }
+    },
 
-        return [
-            'HPCL Scholar Progress Summary',
-            `Generated: ${new Date().toLocaleString()}`,
-            '',
-            `Readiness Score: ${stats.readiness}`,
-            `Overall Accuracy: ${stats.accuracy}%`,
-            `Coverage: ${stats.coverage}% (${stats.seenCount} of ${stats.totalQuestions} questions seen)`,
-            `Practice Sessions: ${stats.attempts}`,
-            `First-Try Accuracy: ${stats.firstTryAccuracy}%`,
-            `Average Time per Question: ${HPCLCommon.formatDurationMs(stats.averageTimePerQuestionMs)}`,
-            '',
-            `Strongest Topics: ${strongest}`,
-            `Weakest Topics: ${weakest}`,
-            '',
-            'Recommendations:',
-            recommendations || '1. Build more attempt history to unlock stronger recommendations.'
-        ].join('\n');
+    deriveMasteredIds(questionProgress) {
+        const mastered = new Set();
+        if (!questionProgress) return mastered;
+        Object.entries(questionProgress).forEach(([id, stats]) => {
+            if (stats && stats.streak >= 3) {
+                mastered.add(id);
+            }
+        });
+        return mastered;
     }
 };
 
-function readParsedArray(key) {
-    const parsed = safeParseStorage(key, []);
-    return Array.isArray(parsed) ? parsed : [];
+// Helper Functions
+function createBucket(name) {
+    return { name, attempts: 0, correct: 0, skipped: 0, totalTime: 0 };
 }
 
-function readParsedObject(key) {
-    const parsed = safeParseStorage(key, {});
-    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+function incrementBucket(bucket, item) {
+    if (!bucket) return;
+    bucket.attempts += 1;
+    if (item.isCorrect) bucket.correct += 1;
+    if (item.isSkipped) bucket.skipped += 1;
+    bucket.totalTime += (item.timeSpentMs || 0);
 }
 
-function safeParseStorage(key, fallback) {
-    const raw = localStorage.getItem(key);
-    if (!raw) return fallback;
+function finalizeBuckets(bucketMap) {
+    return Object.values(bucketMap).map((b) => ({
+        ...b,
+        accuracy: b.attempts > 0 ? Math.round((b.correct / b.attempts) * 100) : 0,
+        avgTimeMs: b.attempts > 0 ? Math.round(b.totalTime / b.attempts) : 0
+    }));
+}
 
-    try {
-        return JSON.parse(raw);
-    } catch {
-        localStorage.removeItem(key);
-        return fallback;
+function normalizeSessionItems(allQData, questionMap) {
+    if (!Array.isArray(allQData)) return [];
+    return allQData.map((item) => {
+        const q = questionMap.get(item.id);
+        return {
+            ...item,
+            section: q?.section || item.section,
+            topic: q?.topic || item.topic,
+            difficulty: q?.difficulty || item.difficulty
+        };
+    });
+}
+
+function updateTopicMastery(mastery, item) {
+    if (!item || !item.topic) return;
+    if (!mastery[item.topic]) mastery[item.topic] = { correct: 0, total: 0 };
+    mastery[item.topic].total += 1;
+    if (item.isCorrect) mastery[item.topic].correct += 1;
+}
+
+function updateQuestionProgressEntry(progress, item) {
+    if (!item || !item.id) return;
+    if (!progress[item.id]) progress[item.id] = { streak: 0, total: 0, correct: 0 };
+    const p = progress[item.id];
+    p.total += 1;
+    if (item.isCorrect) {
+        p.correct += 1;
+        p.streak += 1;
+    } else {
+        p.streak = 0;
     }
 }
 
 function rebuildQuestionProgressFromHistory(history) {
     const progress = {};
-    const questionMap = new Map(allQuestions.map((question) => [question.id, question]));
-    const orderedHistory = [...history].sort((a, b) => new Date(a.date) - new Date(b.date));
-
-    orderedHistory.forEach((session) => {
-        normalizeSessionItems(session.allQData, questionMap).forEach((item) => {
+    if (!Array.isArray(history)) return progress;
+    [...history].reverse().forEach((session) => {
+        if (!session || !Array.isArray(session.allQData)) return;
+        session.allQData.forEach((item) => {
             updateQuestionProgressEntry(progress, item);
         });
     });
-
     return progress;
 }
 
-function updateQuestionProgressEntry(progress, item) {
-    if (!progress[item.id]) {
-        progress[item.id] = {
-            attempts: 0,
-            correct: 0,
-            skipped: 0,
-            correctStreak: 0,
-            lastResult: 'unseen',
-            totalTimeMs: 0
-        };
-    }
-
-    const entry = progress[item.id];
-    entry.attempts += 1;
-    entry.totalTimeMs += item.timeSpentMs || 0;
-
-    if (item.isSkipped) {
-        entry.skipped += 1;
-        entry.correctStreak = 0;
-        entry.lastResult = 'skipped';
-        return;
-    }
-
-    if (item.isCorrect) {
-        entry.correct += 1;
-        entry.correctStreak += 1;
-        entry.lastResult = 'correct';
-    } else {
-        entry.correctStreak = 0;
-        entry.lastResult = 'wrong';
-    }
-}
-
-function createBucket(name) {
+function formatSessionSummary(session, accuracy, score, skipped) {
     return {
-        name,
-        total: 0,
-        attempts: 0,
-        correct: 0,
-        wrong: 0,
-        skipped: 0,
-        totalTimeMs: 0,
-        totalAnswerChanges: 0,
-        highConfidenceWrong: 0
+        label: HPCLCommon.formatDate(session.date),
+        accuracy,
+        score,
+        total: session.total,
+        skipped,
+        section: session.section,
+        avgTimeMs: session.totalDurationSeconds ? Math.round((session.totalDurationSeconds * 1000) / session.total) : 0
     };
 }
 
-function incrementBucket(bucket, item) {
-    if (!bucket) return;
-
-    bucket.total += 1;
-    bucket.totalTimeMs += item.timeSpentMs || 0;
-    bucket.totalAnswerChanges += item.answerChanges || 0;
-
-    if (item.isSkipped) {
-        bucket.skipped += 1;
-        return;
-    }
-
-    bucket.attempts += 1;
-    if (item.isCorrect) {
-        bucket.correct += 1;
-    } else {
-        bucket.wrong += 1;
-    }
-
-    if (item.confidence === 'high' && !item.isCorrect) {
-        bucket.highConfidenceWrong += 1;
-    }
-}
-
-function finalizeBuckets(collection) {
-    return Object.values(collection).map((bucket) => ({
-        ...bucket,
-        accuracy: bucket.attempts > 0 ? percent(bucket.correct, bucket.attempts) : 0,
-        coverage: bucket.total > 0 ? percent(bucket.attempts + bucket.skipped, bucket.total) : 0,
-        avgTimeMs: bucket.total > 0 ? Math.round(bucket.totalTimeMs / bucket.total) : 0,
-        avgAnswerChanges: bucket.total > 0 ? round1(bucket.totalAnswerChanges / bucket.total) : 0
-    }));
-}
-
-function normalizeSessionItems(items = [], questionMap) {
-    const safeItems = Array.isArray(items) ? items : [];
-
-    return safeItems.map((item) => {
-        const question = questionMap.get(item.id) || {};
-        const isSkipped = typeof item.isSkipped === 'boolean'
-            ? item.isSkipped
-            : !item.userAnswer;
-        const correctAnswer = item.correctAnswer || question.answer || '';
-        const confidence = item.confidence || 'none';
-        const confidenceLevel = confidence === 'high' ? 3 : confidence === 'medium' ? 2 : confidence === 'low' ? 1 : 0;
-
-        return {
-            ...item,
-            section: item.section || question.section || 'Unknown',
-            topic: item.topic || question.topic || 'Unknown',
-            difficulty: item.difficulty || question.difficulty || 'Unknown',
-            correctAnswer,
-            isSkipped,
-            confidence,
-            confidenceLevel,
-            timeSpentMs: item.timeSpentMs || 0,
-            answerChanges: item.answerChanges || 0,
-            firstAnswer: item.firstAnswer || null
-        };
-    });
-}
-
-function buildRecommendations(input) {
-    const recommendations = [];
-
-    if (input.weakestTopics[0]) {
-        recommendations.push({
-            title: `Revise ${input.weakestTopics[0].name}`,
-            detail: `${input.weakestTopics[0].accuracy}% accuracy across ${input.weakestTopics[0].attempts} attempted questions makes this your clearest revision target.`
-        });
-    }
-
-    if (input.leastPracticedSection && input.leastPracticedSection.coverage < 60) {
-        recommendations.push({
-            title: `Increase ${input.leastPracticedSection.name} coverage`,
-            detail: `Only ${input.leastPracticedSection.coverage}% of this section has been seen so far, so your signal is still shallow here.`
-        });
-    }
-
-    const hardBucket = input.difficultyArray.find((item) => item.name === 'Hard');
-    if (hardBucket && hardBucket.attempts > 0 && hardBucket.accuracy < 50) {
-        recommendations.push({
-            title: 'Strengthen hard-question conversion',
-            detail: `Hard-question accuracy is ${hardBucket.accuracy}%, which is the clearest advanced-area drag right now.`
-        });
-    }
-
-    if (input.confidenceStats.highConfidenceWrong > 0) {
-        recommendations.push({
-            title: 'Review confident mistakes',
-            detail: `${input.confidenceStats.highConfidenceWrong} wrong answers were marked high-confidence, so revisit concepts you felt sure about.`
-        });
-    }
-
-    if (input.comparison && input.comparison.previous && input.comparison.deltaAccuracy < 0) {
-        recommendations.push({
-            title: 'Stabilize recent form',
-            detail: `Your latest comparable session dropped ${Math.abs(input.comparison.deltaAccuracy)} points versus the previous one.`
-        });
-    }
-
-    if (input.coverage < 50) {
-        recommendations.push({
-            title: 'Broaden question exposure',
-            detail: `Only ${input.coverage}% of the bank has been seen so far, so topic rankings can still move around.`
-        });
-    }
-
-    if (recommendations.length === 0) {
-        recommendations.push({
-            title: 'Keep momentum steady',
-            detail: 'Current signals look balanced. Keep practicing mixed sessions and protect your accuracy on hard questions.'
-        });
-    }
-
-    return recommendations.slice(0, 4);
-}
-
-function buildDataQualityNote(attempts, seenCount, totalQuestions) {
-    if (attempts === 0) return 'No attempts yet. Complete one session to unlock analytics.';
-    if (attempts < 3) return 'Early signal only. Trends become more reliable after at least 3 sessions.';
-    if (seenCount < Math.ceil(totalQuestions * 0.5)) return 'Coverage is still limited, so topic rankings may shift as you attempt more unique questions.';
-    return 'Sample size is strong enough for directional coaching.';
-}
-
 function computeSectionBalance(sectionArray) {
-    if (sectionArray.every((section) => section.coverage === 0)) return 0;
-    const coverages = sectionArray.map((section) => section.coverage);
-    const spread = Math.max(...coverages, 0) - Math.min(...coverages, 0);
-    return Math.max(0, 100 - spread);
+    if (!Array.isArray(sectionArray) || sectionArray.length === 0) return 0;
+    const coverages = sectionArray.map((s) => s.coverage || 0);
+    const min = Math.min(...coverages);
+    const max = Math.max(...coverages);
+    return Math.max(0, 100 - (max - min));
 }
 
-function sessionsAreComparable(a, b) {
-    if (!a || !b) return false;
-    return a.section === b.section || a.section === 'all' || b.section === 'all';
+function buildRecommendations(data) {
+    const recs = [];
+    if (data.accuracy < 60) recs.push({ title: 'Focus on Fundamentals', detail: 'Your accuracy is below 60%. Try shorter, untimed sessions to build conceptual depth.' });
+    if (data.coverage < 30) recs.push({ title: 'Expand Syllabus Reach', detail: 'You have seen less than 30% of the bank. Take "Mixed Practice" sessions to discover new topics.' });
+    
+    if (Array.isArray(data.sectionArray)) {
+        data.sectionArray.filter(s => s.accuracy < 50 && s.attempts > 0).forEach(s => {
+            recs.push({ title: `Drill ${s.name}`, detail: `Accuracy in ${s.name} is low. Focused practice here will boost your readiness significantly.` });
+        });
+    }
+
+    if (data.mistakes && data.mistakes.guessedFastWrong > 5) recs.push({ title: 'Slow Down on Guesses', detail: 'You are making too many fast, incorrect guesses. Use the "Skip" feature instead of guessing.' });
+    
+    if (recs.length === 0) recs.push({ title: 'Maintain Momentum', detail: 'Consistency is key. Keep taking full-length mock exams to sharpen your competitive edge.' });
+    return recs.slice(0, 3);
 }
 
-function average(values) {
-    if (!values.length) return 0;
-    return values.reduce((sum, value) => sum + value, 0) / values.length;
+function percent(n, total) {
+    return total > 0 ? Math.round((n / total) * 100) : 0;
 }
 
-function percent(part, total) {
-    return total > 0 ? Math.round((part / total) * 100) : 0;
+function average(arr) {
+    if (!Array.isArray(arr) || arr.length === 0) return 0;
+    return Math.round(arr.reduce((a, b) => a + b, 0) / arr.length);
 }
 
-function round1(value) {
-    return Math.round(value * 10) / 10;
+function confidenceValue(value) {
+    if (value === 'high') return 3;
+    if (value === 'medium') return 2;
+    if (value === 'low') return 1;
+    return 0;
 }

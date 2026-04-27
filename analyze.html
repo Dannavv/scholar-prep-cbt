@@ -29,7 +29,7 @@
     </nav>
 
     <main class="main">
-        <section id="analyze" class="view active">
+        <section id="strategyView" class="view active">
             <header>
                 <span class="eyebrow">Strategic Breakdown</span>
                 <h1>Exam Insights & Heuristics</h1>
@@ -109,6 +109,17 @@
                 </div>
             </div>
 
+            <div class="card analytics-panel analytics-panel-wide" id="dynamicVault" style="margin-top: 3rem;">
+                <div class="panel-header-group">
+                    <span class="tiny-pill">Knowledge Mastery</span>
+                    <h2>Personalized Knowledge Vault</h2>
+                </div>
+                <p class="helper-text">Topics where you have achieved high accuracy streaks are archived here as "Mastered".</p>
+                <div id="vaultContent" class="topic-signal-list" style="margin-top: 1.5rem;">
+                    <p class="helper-text">Analyze your performance to unlock the vault.</p>
+                </div>
+            </div>
+
             <div class="topic-summary momentum-guide">
                 <h3>Final Momentum Guide</h3>
                 <p>
@@ -121,6 +132,7 @@
     <script src="js/data.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/common.js"></script>
+    <script src="js/analyze.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

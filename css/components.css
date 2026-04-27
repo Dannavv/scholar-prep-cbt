@@ -72,6 +72,11 @@ header {
   gap: 1rem;
 }
 
+.analytics-panel {
+  display: grid;
+  gap: 1rem;
+}
+
 .helper-text {
   margin-top: 1rem;
   color: var(--text-muted);
@@ -117,12 +122,24 @@ header {
 }
 
 .tiny-pill {
+  display: inline-flex;
+  width: fit-content;
   padding: 0.2rem 0.45rem;
   background: color-mix(in srgb, var(--primary) 9%, white);
   color: color-mix(in srgb, var(--primary) 90%, #1d4ed8);
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  justify-self: start;
+  align-self: start;
+  margin-bottom: 0.5rem;
+}
+
+.panel-header-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .badge {

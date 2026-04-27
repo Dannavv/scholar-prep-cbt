@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics - HPCL Scholar</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/core.css">
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/views.css">
 </head>
+
 <body class="mouse-motion theme-vintage">
 
     <nav class="sidebar">
@@ -23,19 +27,28 @@
         <ul class="nav-links">
             <li><a class="nav-item" href="learn.html"><i class="fas fa-book"></i><span>Guide</span></a></li>
             <li><a class="nav-item" href="analyze.html"><i class="fas fa-lightbulb"></i><span>Vault</span></a></li>
-            <li><a class="nav-item active" href="analytics.html"><i class="fas fa-chart-line"></i><span>Analytics</span></a></li>
+            <li><a class="nav-item active" href="analytics.html"><i
+                        class="fas fa-chart-line"></i><span>Analytics</span></a></li>
             <li><a class="nav-item" href="exam.html"><i class="fas fa-pen-nib"></i><span>Exam</span></a></li>
         </ul>
     </nav>
 
     <main class="main">
-        <section id="analyze" class="view active">
+        <section id="analyticsView" class="view active">
             <header>
                 <span class="eyebrow">Live Analytics</span>
                 <h1>Performance Dashboard</h1>
                 <p>Track readiness, weak areas, session trends, and confidence patterns from your HPCL practice history.</p>
-                
+
                 <div class="hero-panel hero-panel-spaced">
+                    <div class="readiness-progress-container">
+                        <div class="readiness-label">Overall Training Progress</div>
+                        <div class="readiness-bar">
+                            <div class="readiness-tick" id="readinessTick">
+                                <span id="readinessTickValue">0%</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="analytics-overview-grid" id="analyticsOverviewGrid"></div>
                 </div>
             </header>
@@ -54,19 +67,14 @@
                     </div>
                     <div id="recommendationsPanel" class="recommendations-stack"></div>
                 </div>
-
-                <div class="card analytics-panel">
-                    <span class="tiny-pill">Data Quality</span>
-                    <h2>How Much To Trust These Numbers</h2>
-                    <p id="dataQualityNote" class="helper-text"></p>
-                    <div id="comparisonPanel" class="metric-stack"></div>
-                </div>
             </div>
 
             <div class="grid analytics-dashboard-grid">
                 <div class="card analytics-panel">
-                    <span class="tiny-pill">Topic Radar</span>
-                    <h2>Strongest and Weakest Topics</h2>
+                    <div class="panel-header-group">
+                        <span class="tiny-pill">Topic Radar</span>
+                        <h2>Strongest and Weakest Topics</h2>
+                    </div>
                     <div class="dual-column-grid">
                         <div>
                             <h3 class="section-subtitle">Strongest</h3>
@@ -80,23 +88,74 @@
                 </div>
 
                 <div class="card analytics-panel">
-                    <span class="tiny-pill">Coverage</span>
-                    <h2>Section Balance and Syllabus Reach</h2>
-                    <div id="coveragePanel" class="metric-stack"></div>
+                    <div class="panel-header-group">
+                        <span class="tiny-pill">Coverage</span>
+                        <h2>Section Balance and Syllabus Reach</h2>
+                    </div>
+                    <div>
+                        <div id="coveragePanel" class="metric-stack"></div>
+                    </div>
                 </div>
             </div>
 
             <div class="grid analytics-dashboard-grid">
                 <div class="card analytics-panel">
-                    <span class="tiny-pill">Difficulty Mix</span>
-                    <h2>Performance by Difficulty</h2>
-                    <div id="difficultyPanel" class="metric-stack"></div>
+                    <div class="panel-header-group">
+                        <span class="tiny-pill">Difficulty Mix</span>
+                        <h2>Performance by Difficulty</h2>
+                    </div>
+                    <div>
+                        <div id="difficultyPanel" class="metric-stack"></div>
+                    </div>
+                </div>
+
+                <div class="card analytics-panel">
+                    <div class="panel-header-group">
+                        <span class="tiny-pill">Confidence</span>
+                        <h2>Confidence vs Reality</h2>
+                    </div>
+                    <p class="helper-text">Measures how accurately you estimate your own performance.</p>
+                    <div>
+                        <div id="confidencePanel" class="metric-stack"></div>
+                    </div>
                 </div>
             </div>
 
             <div class="card analytics-panel analytics-panel-wide">
-                <span class="tiny-pill">Session Trends</span>
-                <h2>Recent Sessions</h2>
+                <div class="panel-header-group">
+                    <span class="tiny-pill">Psychological Radar</span>
+                    <h2>Why You Are Losing Marks</h2>
+                </div>
+                <p class="helper-text">Automatic classification of mistakes based on time spent and answer patterns.</p>
+                <div id="mistakePanel" class="analytics-overview-grid" style="margin-top: 1.5rem;"></div>
+            </div>
+
+            <div class="grid analytics-dashboard-grid">
+                <div class="card analytics-panel">
+                    <div class="panel-header-group">
+                        <span class="tiny-pill">Comparison</span>
+                        <h2>Session vs Baseline</h2>
+                    </div>
+                    <div id="comparisonPanel" class="metric-stack"></div>
+                </div>
+
+                <div class="card analytics-panel">
+                    <div class="panel-header-group">
+                        <span class="tiny-pill">Data Quality</span>
+                        <h2>How Much To Trust These Numbers</h2>
+                    </div>
+                    <p id="dataQualityNote" class="helper-text">Analyzing your practice data...</p>
+                    <p class="helper-text" style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.7;">
+                        <i class="fas fa-info-circle"></i> Trends become more reliable after 3+ sessions and 50%+ bank coverage.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card analytics-panel analytics-panel-wide">
+                <div class="panel-header-group">
+                    <span class="tiny-pill">Session Trends</span>
+                    <h2>Recent Sessions</h2>
+                </div>
                 <div id="recentSessionsPanel" class="recent-session-list"></div>
             </div>
         </section>
@@ -108,4 +167,5 @@
     <script src="js/analyze.js"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>
