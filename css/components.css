@@ -72,6 +72,12 @@ header {
   gap: 1rem;
 }
 
+.helper-text {
+  margin-top: 1rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
 .card {
   border-radius: 20px;
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
@@ -142,9 +148,18 @@ header {
   transition: all 0.2s ease;
 }
 
+.btn:focus-visible,
+.nav-item:focus-visible,
+.form-select:focus-visible,
+.option-item:focus-visible,
+.close-modal:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 42%, white);
+  outline-offset: 2px;
+}
+
 .btn-primary {
   background: color-mix(in srgb, var(--accent) 2%, white); /* Highly Light / Near White */
-  /* color: var(--primary); */
+  color: var(--primary);
   border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   box-shadow: 0 2px 8px rgba(0,0,0,0.02);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -163,6 +178,17 @@ header {
   border: 1px solid var(--border);
 }
 
+.btn-icon {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0.15rem 0.5rem;
+}
+
+.btn-compact {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
 .btn:hover {
   transform: translateY(-1px);
 }
@@ -172,13 +198,46 @@ header {
   cursor: not-allowed;
   transform: none;
 }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.form-select {
+  width: 100%;
+  padding: 0.78rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card-bg) 96%, white);
+  color: var(--text-main);
+}
+
+.tone-success {
+  border-left-color: var(--success) !important;
+}
+
+.tone-warning {
+  border-left-color: var(--warning) !important;
+}
+
+.tone-danger {
+  border-left-color: var(--danger) !important;
+}
 /* Mobile Text Magnification: Maximum Visibility */
 @media (max-width: 980px) {
-  .card h2, .card h3 { font-size: 2.2rem !important; margin-bottom: 1rem !important; }
-  .card p { font-size: 1.4rem !important; line-height: 1.5 !important; }
-  .stat strong { font-size: 2.5rem !important; }
-  .stat span { font-size: 1.2rem !important; }
-  .btn { font-size: 1.3rem !important; padding: 1.2rem 2rem !important; }
-  .topic-pill { font-size: 1.1rem !important; padding: 0.6rem 1.2rem !important; }
-  .insight-box { font-size: 1.3rem !important; padding: 1.2rem !important; }
+  .card h2, .card h3 { font-size: 1.5rem !important; margin-bottom: 0.9rem !important; }
+  .card p { font-size: 1rem !important; line-height: 1.55 !important; }
+  .stat strong { font-size: 1.55rem !important; }
+  .stat span { font-size: 1rem !important; }
+  .btn { font-size: 1rem !important; padding: 0.95rem 1.35rem !important; }
+  .topic-pill { font-size: 0.85rem !important; padding: 0.45rem 0.9rem !important; }
+  .insight-box { font-size: 1rem !important; padding: 1rem !important; }
 }

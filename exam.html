@@ -18,9 +18,10 @@
             <div class="logo"><i class="fas fa-university"></i><span>HPCL Scholar</span></div>
         </div>
         <ul class="nav-links">
-            <li class="nav-item" onclick="location.href='learn.html'"><i class="fas fa-book"></i><span>Guide</span></li>
-            <li class="nav-item" onclick="location.href='analyze.html'"><i class="fas fa-lightbulb"></i><span>Vault</span></li>
-            <li class="nav-item active" onclick="location.href='exam.html'"><i class="fas fa-pen-nib"></i><span>Exam</span></li>
+            <li><a class="nav-item" href="learn.html"><i class="fas fa-book"></i><span>Guide</span></a></li>
+            <li><a class="nav-item" href="analyze.html"><i class="fas fa-lightbulb"></i><span>Vault</span></a></li>
+            <li><a class="nav-item" href="analytics.html"><i class="fas fa-chart-line"></i><span>Analytics</span></a></li>
+            <li><a class="nav-item active" href="exam.html"><i class="fas fa-pen-nib"></i><span>Exam</span></a></li>
         </ul>
     </nav>
 
@@ -32,79 +33,92 @@
                     <h1>Practice Session Builder</h1>
                     <p>Choose the length and section before starting.</p>
                 </header>
-                <div class="card" style="text-align: center; padding: 2rem;">
-                    <i class="fas fa-sliders-h" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                <div class="card exam-config-card">
+                    <i class="fas fa-sliders-h exam-config-icon"></i>
                     <h2>Configure a Session</h2>
-                    <div class="config-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
-                        <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem; text-align: left;">
-                            <label style="font-weight: 700; color: var(--primary);">Count</label>
-                            <select id="examLength" class="form-select" style="padding: 0.7rem; border-radius: 12px; border: 1px solid var(--border);">
-                                <option value="10">10 Qs</option>
-                                <option value="25">25 Qs</option>
-                                <option value="100" selected>Full Mock</option>
-                            </select>
+                    <div class="config-grid">
+                        <div class="form-group">
+                            <label for="examLength">Count</label>
+                            <select id="examLength" class="form-select"></select>
                         </div>
-                        <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem; text-align: left;">
-                            <label style="font-weight: 700; color: var(--primary);">Focus</label>
-                            <select id="examSection" class="form-select" style="padding: 0.7rem; border-radius: 12px; border: 1px solid var(--border);">
+                        <div class="form-group">
+                            <label for="examSection">Focus</label>
+                            <select id="examSection" class="form-select">
                                 <option value="all">All</option>
                                 <option value="Quantitative Aptitude">Quant</option>
                                 <option value="Reasoning">Reasoning</option>
+                                <option value="English Language">English</option>
                             </select>
                         </div>
                     </div>
-                    <button class="btn btn-primary" onclick="prepareExam()" style="margin-top: 2rem; padding: 1rem 2rem;">Start Session</button>
-                    <div id="historyList" style="margin-top: 2rem; text-align: left;"></div>
+                    <p class="helper-text" id="examPoolSummary"></p>
+                    <div class="exam-config-actions">
+                        <button class="btn btn-primary" id="startExamBtn" type="button">Start Session</button>
+                        <button class="btn btn-outline" id="resetProgressBtn" type="button">Reset Progress</button>
+                    </div>
+                    <div id="historyList" class="history-list"></div>
                 </div>
             </div>
 
-            <div id="examActive" class="view" style="display: none;">
+            <div id="examActive" class="view exam-active" hidden>
             <div class="exam-header">
                 <h2 id="examTitle">Mock Exam</h2>
-                <div style="display: flex; gap: 1rem; align-items: center;">
-                    <button class="btn btn-outline" onclick="toggleScribblePad()" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                <div class="exam-header-actions">
+                    <button class="btn btn-outline btn-compact" id="toggleScribbleBtn" type="button">
                         <i class="fas fa-pen-nib"></i> Scribble Pad
                     </button>
                     <div id="timer" class="timer">--:--</div>
                 </div>
             </div>
             
-            <!-- Floating Scribble Pad -->
-            <div id="scribblePad" class="card" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 300px; height: 350px; z-index: 1000; flex-direction: column; padding: 10px; background: #fffde7; border: 2px solid #fbc02d;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                    <strong style="font-size: 0.8rem; color: #fbc02d;">SCRIBBLE PAD</strong>
-                    <button class="btn" onclick="toggleScribblePad()" style="padding: 2px 8px; font-size: 0.8rem;">×</button>
+            <div id="scribblePad" class="card scribble-pad" hidden>
+                <div class="scribble-pad-header">
+                    <strong>SCRIBBLE PAD</strong>
+                    <button class="btn btn-icon" id="closeScribbleBtn" type="button" aria-label="Close scribble pad">×</button>
                 </div>
-                <textarea id="scribbleText" style="flex: 1; border: none; background: transparent; font-family: 'Courier New', Courier, monospace; font-size: 1rem; resize: none; outline: none;" placeholder="Scribble your notes here..."></textarea>
+                <textarea id="scribbleText" class="scribble-text" placeholder="Scribble your notes here..."></textarea>
             </div>
 
-            <div class="card" style="min-height: 300px;">
-                        <div id="progress" style="margin-bottom: 0.5rem; font-size: 0.9rem;">Q 1 / 10</div>
+            <div class="card exam-card">
+                        <div id="progress" class="progress-text">Q 1 / 10</div>
                         <div id="questionContainer">
-                            <h2 class="question-text" id="qText" style="font-size: 1.15rem;">Loading...</h2>
-                            <div class="options-list" id="optionsList"></div>
+                            <h2 class="question-text" id="qText">Loading...</h2>
+                            <div class="options-list" id="optionsList" role="list"></div>
+                            <div class="confidence-block">
+                                <div class="confidence-label">How confident are you in this answer?</div>
+                                <div id="confidenceControls" class="confidence-controls" role="group" aria-label="Confidence selection"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="cbt-footer">
-                        <button class="btn btn-outline" id="prevBtn" onclick="navigateQuestion(-1)">Prev</button>
-                        <button class="btn btn-primary" id="nextBtn" onclick="navigateQuestion(1)">Next</button>
+                        <button class="btn btn-outline" id="prevBtn" type="button">Prev</button>
+                        <button class="btn btn-primary" id="nextBtn" type="button">Next</button>
                     </div>
                 </div>
             </div>
             
-            <div id="examResult" style="display: none;">
-                <div style="text-align: center;">
+            <div id="examResult" class="exam-result" hidden>
+                <div class="result-summary">
                     <h1>Results</h1>
-                    <div id="finalScore" style="font-size: 3rem; font-weight: 800; color: var(--primary);">0 / 0</div>
-                    <button class="btn btn-primary" onclick="location.reload()" style="margin-top: 1rem;">Finish</button>
+                    <div id="finalScore" class="final-score">0 / 0</div>
+                    <p id="resultMeta" class="helper-text"></p>
+                    <div id="resultInsightGrid" class="grid result-insight-grid"></div>
+                    <div id="resultRecommendationList" class="result-recommendations"></div>
+                    <div class="exam-config-actions">
+                        <button class="btn btn-primary" id="startAnotherBtn" type="button">Start Another Session</button>
+                        <button class="btn btn-outline" id="backToSetupBtn" type="button">Back to Setup</button>
+                        <button class="btn btn-outline" id="exportResultBtn" type="button">Export Progress</button>
+                    </div>
                 </div>
-                <div id="analysisReport" style="margin-top: 2rem;"></div>
+                <div id="analysisReport" class="analysis-report"></div>
             </div>
         </section>
     </main>
 
     <script src="js/data.js"></script>
     <script src="js/storage.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/exam.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
