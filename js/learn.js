@@ -122,11 +122,7 @@
                 <div class="topic-pill topic-pill-tight" style="font-size: 0.85rem; width: fit-content;">
                     ${sub.detail}
                 </div>
-                <div class="topic-card-summary" style="margin-top: 0.5rem;">
-                    <p style="font-weight: 600; color: ${sub.color}; display: flex; align-items: center; gap: 0.5rem;">
-                        Concept Blueprint <i class="fas fa-arrow-right"></i>
-                    </p>
-                </div>
+        
             </div>
         `).join('');
 

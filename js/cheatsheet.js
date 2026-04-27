@@ -77,7 +77,7 @@
                 <div class="content-card">
                     <div class="worked-example">
                         <div class="example-text">
-                            ${notes.example ? notes.example.replace(/\n/g, '<br>') : 'Refer to practice questions for worked examples.'}
+                            ${notes.example ? notes.example.replace(/\.\s+/g, '.<br><br>').replace(/\n/g, '<br>') : 'Refer to practice questions for worked examples.'}
                         </div>
                     </div>
                 </div>
