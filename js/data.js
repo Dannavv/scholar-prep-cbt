@@ -988,6 +988,16 @@ const allQuestions = [
     "answer": "c",
     "explanation": "The text states they argue digital platforms 'diminish the depth of human interaction'.",
     "difficulty": "Medium"
+  },
+  {
+    "id": "QUANT_047",
+    "section": "Quantitative Aptitude",
+    "topic": "Ratio & Proportion",
+    "question": "A bag contains 50p, 25p and 10p coins in the ratio 5:9:4, amounting to Rs. 206. Find the number of coins of each type respectively.",
+    "options": ["200, 360, 160", "150, 300, 200", "250, 450, 200", "180, 320, 150"],
+    "answer": "a",
+    "explanation": "Ratio of values = (5*0.50):(9*0.25):(4*0.10) = 2.5:2.25:0.40 = 250:225:40 = 50:45:8. Total units = 103. 103 units = 206, so 1 unit = 2. Values are Rs. 100, 90, 16. Number of 50p coins = 100/0.5 = 200. 25p = 90/0.25 = 360. 10p = 16/0.1 = 160.",
+    "difficulty": "Hard"
   }
 ];
 
