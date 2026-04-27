@@ -64,10 +64,21 @@ function stripHtml(html) {
     return tmp.textContent || tmp.innerText || '';
 }
 
+function getOrderedTopics() {
+    const topics = [];
+    allQuestions.forEach((q) => {
+        if (!topics.includes(q.topic)) {
+            topics.push(q.topic);
+        }
+    });
+    return topics;
+}
+
 window.HPCLCommon = {
     downloadText,
     formatDate,
     formatDurationMs,
+    getOrderedTopics,
     getQuestionPool,
     setupMouseMotion,
     setupSidebarToggle,

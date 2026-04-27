@@ -14,7 +14,7 @@
   --shadow: 0 10px 30px -15px rgba(62, 39, 35, 0.2);
   --mx: 50vw;
   --my: 18vh;
-  --mobile-header-height: 120px;
+  --mobile-header-height: 70px;
 }
 
 * {
@@ -208,25 +208,19 @@ body.mouse-motion::before {
     width: 100% !important;
     height: var(--mobile-header-height) !important;
     position: fixed !important;
-    top: 0 !important;
+    top: auto !important;
+    bottom: 0 !important;
     left: 0 !important;
     padding: 0 !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
     z-index: 9999 !important;
     background: var(--sidebar-bg) !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .sidebar-header {
-    height: 52px !important;
-    padding: 0 1.5rem !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
-    background: var(--sidebar-bg) !important;
-    display: flex !important;
-    justify-content: center !important;
-    /* Centered Logo */
-    align-items: center !important;
-    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.4);
+    display: none !important;
   }
 
   .logo {
@@ -241,13 +235,14 @@ body.mouse-motion::before {
   }
 
   .nav-links {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    display: flex !important;
+    flex-direction: row !important;
     width: 100% !important;
-    height: calc(var(--mobile-header-height) - 52px) !important;
+    height: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
     background: var(--sidebar-bg) !important;
+    justify-content: space-around;
   }
 
   .nav-item {
@@ -274,8 +269,7 @@ body.mouse-motion::before {
   }
 
   .nav-item.active {
-    background: transparent !important;
-    /* Removed white faded overlay */
+    background: rgba(255, 255, 255, 0.05) !important;
     color: var(--accent) !important;
   }
 
@@ -293,9 +287,8 @@ body.mouse-motion::before {
 
   .main {
     margin-left: 0 !important;
-    margin-top: var(--mobile-header-height) !important;
-    padding: 2.5rem 1.25rem !important;
-    /* More padding for zoom feel */
+    margin-top: 0 !important;
+    padding: 1.5rem 1rem 80px !important; /* Bottom padding for nav */
     z-index: 1 !important;
   }
 
@@ -306,14 +299,13 @@ body.mouse-motion::before {
   }
 
   header h1 {
-    font-size: 1.1rem !important;
-    /* Massive headings */
+    font-size: 1.6rem !important;
+    margin-bottom: 0.5rem;
   }
 
   header p {
-    font-size: 1rem !important;
-    /* Ultra-large descriptions */
-    line-height: 1 !important;
+    font-size: 0.95rem !important;
+    opacity: 0.8;
   }
 }
 

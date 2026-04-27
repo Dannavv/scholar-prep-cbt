@@ -23,7 +23,7 @@
             .map((item) => `<li>${item}${item.endsWith('.') ? '' : '.'}</li>`)
             .join('');
 
-        const topics = [...new Set(allQuestions.map(q => q.topic))].sort();
+        const topics = HPCLCommon.getOrderedTopics();
         const currentIndex = topics.indexOf(topicId);
         const prevTopic = topics[currentIndex - 1];
         const nextTopic = topics[currentIndex + 1];

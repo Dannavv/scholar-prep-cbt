@@ -11,18 +11,15 @@
         if (!grid) return;
 
         const mastery = ScholarStorage.getMastery();
-        const topicGroups = Object.values(allQuestions.reduce((groups, question) => {
-            if (!groups[question.topic]) {
-                groups[question.topic] = {
-                    topic: question.topic,
-                    section: question.section,
-                    difficulties: new Set()
-                };
-            }
-
-            groups[question.topic].difficulties.add(question.difficulty);
-            return groups;
-        }, {}));
+        const topics = HPCLCommon.getOrderedTopics();
+        const topicGroups = topics.map(topicName => {
+            const topicQuestions = allQuestions.filter(q => q.topic === topicName);
+            return {
+                topic: topicName,
+                section: topicQuestions[0].section,
+                difficulties: new Set(topicQuestions.map(q => q.difficulty))
+            };
+        });
 
         grid.innerHTML = topicGroups.map((group, index) => {
             const notes = getTopicNote(group.topic, group.section);
