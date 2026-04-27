@@ -38,10 +38,31 @@ function downloadText(filename, content, mimeType = 'text/plain') {
     URL.revokeObjectURL(url);
 }
 
+function setupSidebarToggle() {
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const sidebar = document.querySelector('.sidebar');
+    const main = document.querySelector('.main');
+    if (!toggleBtn || !sidebar || !main) return;
+
+    // Load initial state
+    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (isCollapsed) {
+        sidebar.classList.add('collapsed');
+        main.classList.add('collapsed');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        const nowCollapsed = sidebar.classList.toggle('collapsed');
+        main.classList.toggle('collapsed');
+        localStorage.setItem('sidebarCollapsed', nowCollapsed);
+    });
+}
+
 window.HPCLCommon = {
     downloadText,
     formatDate,
     formatDurationMs,
     getQuestionPool,
-    setupMouseMotion
+    setupMouseMotion,
+    setupSidebarToggle
 };

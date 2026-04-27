@@ -16,6 +16,9 @@
     <nav class="sidebar">
         <div class="sidebar-header">
             <div class="logo"><i class="fas fa-university"></i><span>HPCL Scholar</span></div>
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-chevron-left"></i>
+            </button>
         </div>
         <ul class="nav-links">
             <li><a class="nav-item" href="learn.html"><i class="fas fa-book"></i><span>Guide</span></a></li>
@@ -44,16 +47,19 @@
                             <span class="tiny-pill">Next Moves</span>
                             <h2>Recommendations</h2>
                         </div>
-                        <button class="btn btn-outline btn-compact" id="exportAnalyticsBtn" type="button">Export Summary</button>
+                        <div class="exam-config-actions">
+                            <button class="btn btn-outline btn-compact" id="exportAnalyticsBtn" type="button">Export Summary</button>
+                            <button class="btn btn-outline btn-compact" id="resetAnalyticsBtn" type="button">Reset Progress</button>
+                        </div>
                     </div>
                     <div id="recommendationsPanel" class="recommendations-stack"></div>
                 </div>
 
                 <div class="card analytics-panel">
                     <span class="tiny-pill">Data Quality</span>
-                    <h2>Insight Confidence</h2>
+                    <h2>How Much To Trust These Numbers</h2>
                     <p id="dataQualityNote" class="helper-text"></p>
-                    <div id="comparisonPanel" class="comparison-grid"></div>
+                    <div id="comparisonPanel" class="metric-stack"></div>
                 </div>
             </div>
 
@@ -85,12 +91,6 @@
                     <span class="tiny-pill">Difficulty Mix</span>
                     <h2>Performance by Difficulty</h2>
                     <div id="difficultyPanel" class="metric-stack"></div>
-                </div>
-
-                <div class="card analytics-panel">
-                    <span class="tiny-pill">Mistake Signals</span>
-                    <h2>Confidence and Error Types</h2>
-                    <div id="mistakePanel" class="metric-stack"></div>
                 </div>
             </div>
 

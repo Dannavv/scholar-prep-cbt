@@ -14,7 +14,9 @@
         secondsRemaining: 0,
         startedAtMs: 0,
         currentQuestionEnteredAtMs: 0,
-        activeSection: 'all'
+        activeSection: 'all',
+        isActive: false,
+        isSubmitted: false
     };
 
     function getRecommendedDurations(maxCount) {
@@ -80,7 +82,17 @@
         const pool = HPCLCommon.getQuestionPool(section);
         const masteredIds = ScholarStorage.getMasteredIds();
         const freshQuestions = pool.filter((question) => !masteredIds.has(question.id));
-        return freshQuestions.length > 0 ? freshQuestions : pool;
+
+        if (freshQuestions.length >= Math.max(3, Math.ceil(pool.length * 0.6))) {
+            return freshQuestions;
+        }
+
+        const prioritizedPool = [
+            ...freshQuestions,
+            ...pool.filter((question) => masteredIds.has(question.id))
+        ];
+
+        return prioritizedPool.length > 0 ? prioritizedPool : pool;
     }
 
     function createQuestionSet(section, length) {
@@ -106,19 +118,30 @@
     function prepareExam() {
         const section = document.getElementById('examSection').value;
         const length = Number.parseInt(document.getElementById('examLength').value, 10);
+        const startButton = document.getElementById('startExamBtn');
 
         state.filteredQuestions = createQuestionSet(section, length);
+        if (state.filteredQuestions.length === 0) {
+            const summary = document.getElementById('examPoolSummary');
+            if (summary) summary.textContent = 'No questions are available for this selection right now.';
+            return;
+        }
+
         state.currentIndex = 0;
         state.responses = {};
         state.questionMeta = createQuestionMeta();
         state.secondsRemaining = state.filteredQuestions.length * 52;
         state.startedAtMs = performance.now();
+        state.currentQuestionEnteredAtMs = 0;
         state.activeSection = section;
+        state.isActive = true;
+        state.isSubmitted = false;
 
         document.getElementById('examTitle').textContent = section === 'all'
             ? 'Mixed Practice Session'
             : `${section} Practice Session`;
 
+        if (startButton) startButton.disabled = true;
         toggleScribblePad(false);
         showPanel('active');
         renderQuestion(true);
@@ -294,6 +317,8 @@
     }
 
     function submitExam() {
+        if (!state.isActive || state.isSubmitted) return;
+        state.isSubmitted = true;
         const result = buildSessionResult();
         ScholarStorage.saveResult(result);
         renderResults(result);
@@ -405,11 +430,20 @@
         const home = document.getElementById('examHome');
         const active = document.getElementById('examActive');
         const result = document.getElementById('examResult');
+        const startButton = document.getElementById('startExamBtn');
         if (!home || !active || !result) return;
 
         home.hidden = panel !== 'home';
         active.hidden = panel !== 'active';
         result.hidden = panel !== 'result';
+
+        if (panel !== 'active') {
+            stopTimer();
+            state.isActive = false;
+            state.currentQuestionEnteredAtMs = 0;
+            toggleScribblePad(false);
+            if (startButton) startButton.disabled = false;
+        }
     }
 
     function toggleScribblePad(forceOpen) {

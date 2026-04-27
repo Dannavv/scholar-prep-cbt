@@ -110,17 +110,17 @@ header {
 }
 
 .topic-pill {
-  padding: 0.32rem 0.72rem;
+  padding: 0.25rem 0.6rem;
   background: color-mix(in srgb, var(--accent) 12%, transparent);
   color: color-mix(in srgb, var(--accent) 95%, #0f766e);
-  font-size: 0.74rem;
+  font-size: 0.68rem;
 }
 
 .tiny-pill {
-  padding: 0.28rem 0.56rem;
+  padding: 0.2rem 0.45rem;
   background: color-mix(in srgb, var(--primary) 9%, white);
   color: color-mix(in srgb, var(--primary) 90%, #1d4ed8);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }

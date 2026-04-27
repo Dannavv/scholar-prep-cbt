@@ -1,5 +1,4 @@
 (function () {
-    let activeModalTrigger = null;
 
     function buildDifficultyPills(difficulties) {
         return [...difficulties]
@@ -25,7 +24,7 @@
             return groups;
         }, {}));
 
-        grid.innerHTML = topicGroups.map((group) => {
+        grid.innerHTML = topicGroups.map((group, index) => {
             const notes = getTopicNote(group.topic, group.section);
             const stats = mastery[group.topic] || { correct: 0, total: 0 };
             const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
@@ -47,10 +46,10 @@
                         <div class="topic-badges">${buildDifficultyPills(group.difficulties)}</div>
                     </div>
 
-                    <h3 class="topic-card-title">${group.topic}</h3>
+                    <h3 class="topic-card-title">${index + 1}. ${group.topic}</h3>
 
                     <div class="topic-card-summary">
-                        <p>${notes.summary.substring(0, 110)}...</p>
+                        <p>${notes.summary.length > 110 ? notes.summary.substring(0, 110) + '...' : notes.summary}</p>
                     </div>
 
                     <div class="mastery-card">
@@ -71,7 +70,10 @@
         }).join('');
 
         grid.querySelectorAll('[data-topic]').forEach((button) => {
-            button.addEventListener('click', () => openModal(button.dataset.topic, button));
+            button.addEventListener('click', () => {
+                sessionStorage.setItem('learnScrollPosition', window.scrollY);
+                window.location.href = `cheatsheet.html?topic=${encodeURIComponent(button.dataset.topic)}`;
+            });
         });
     }
 
@@ -91,92 +93,22 @@
         ].join('');
     }
 
-    function openModal(topicId, trigger) {
-        const notes = getTopicNote(topicId);
-
-        const modal = document.getElementById('explanationModal');
-        const title = document.getElementById('modalTitle');
-        const body = document.getElementById('modalBody');
-        if (!modal || !title || !body) return;
-
-        activeModalTrigger = trigger || document.activeElement;
-        title.textContent = `Cheat Sheet: ${topicId}`;
-
-        const formulaItems = notes.formula
-            .split(/\. (?=[A-Z0-9(])|\.\s*$/)
-            .map((item) => item.trim())
-            .filter(Boolean)
-            .map((item) => `<li>${item}${item.endsWith('.') ? '' : '.'}</li>`)
-            .join('');
-
-        body.innerHTML = `
-            <div class="topic-meta topic-meta-spaced">
-                <span class="badge">High Yield Topic</span>
-            </div>
-
-            <div class="modal-section-title"><i class="fas fa-bookmark"></i> Concept Summary</div>
-            <p>${notes.summary}</p>
-
-            <div class="modal-section-title"><i class="fas fa-scroll"></i> Standard Formula / Rule</div>
-            <div class="formula-box">
-                <ul class="formula-list">${formulaItems}</ul>
-            </div>
-
-            <div class="modal-section-title"><i class="fas fa-lightbulb"></i> Key Heuristics & Details</div>
-            <p>${notes.details}</p>
-
-            <div class="modal-section-title"><i class="fas fa-pencil-alt"></i> Worked Example</div>
-            <div class="worked-example">
-                <div class="example-text">${notes.example || 'Refer to practice questions for worked examples.'}</div>
-            </div>
-
-            <button class="btn btn-primary modal-dismiss-btn" type="button">
-                <i class="fas fa-check-circle"></i> Got it, Back to Mastery
-            </button>
-        `;
-
-        body.querySelector('.modal-dismiss-btn')?.addEventListener('click', closeModal);
-        modal.classList.add('active');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        modal.querySelector('.modal-content').scrollTop = 0;
-        modal.querySelector('.close-modal')?.focus();
-    }
-
-    function closeModal() {
-        const modal = document.getElementById('explanationModal');
-        if (!modal) return;
-
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-
-        if (activeModalTrigger && typeof activeModalTrigger.focus === 'function') {
-            activeModalTrigger.focus();
+    function restoreScrollPosition() {
+        const savedPosition = sessionStorage.getItem('learnScrollPosition');
+        if (savedPosition) {
+            window.scrollTo({
+                top: parseInt(savedPosition, 10),
+                behavior: 'instant'
+            });
+            sessionStorage.removeItem('learnScrollPosition');
         }
-    }
-
-    function bindModalInteractions() {
-        const modal = document.getElementById('explanationModal');
-        if (!modal) return;
-
-        modal.querySelector('.close-modal')?.addEventListener('click', closeModal);
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) closeModal();
-        });
-
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
-            }
-        });
     }
 
     function initLearnPage() {
         if (!document.getElementById('learn')) return;
         renderTopicGrid();
         updateDashboard();
-        bindModalInteractions();
+        restoreScrollPosition();
     }
 
     function summaryCard(label, value, detail) {

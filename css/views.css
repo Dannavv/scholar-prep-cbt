@@ -459,7 +459,16 @@
 .analytics-overview-grid,
 .comparison-grid,
 .result-insight-grid {
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+}
+
+@media (min-width: 600px) {
+  .analytics-overview-grid,
+  .comparison-grid,
+  .result-insight-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
 }
 
 .confidence-chip {
@@ -653,13 +662,45 @@
     flex: 1;
   }
 
-  .confidence-controls,
+  .confidence-controls {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .analytics-overview-grid,
   .comparison-grid,
-  .result-insight-grid,
+  .result-insight-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+
   .analytics-dashboard-grid,
   .dual-column-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet Optimizations: Better use of space on medium screens */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .analytics-dashboard-grid,
+  .dual-column-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .analytics-overview-grid,
+  .comparison-grid,
+  .result-insight-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  
+  .main {
+    padding: 2rem 1.5rem !important;
+  }
+  
+  .panel-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
 }
 

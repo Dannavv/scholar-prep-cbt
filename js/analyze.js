@@ -38,10 +38,14 @@
         }
 
         panel.innerHTML = [
-            comparisonCard('Latest Accuracy', `${latest.accuracy}%`, latest.label),
-            comparisonCard('Latest Pace', HPCLCommon.formatDurationMs(latest.avgTimeMs), `${latest.attempted} attempted`),
-            comparisonCard('Delta vs Previous', `${stats.comparison.deltaAccuracy >= 0 ? '+' : ''}${stats.comparison.deltaAccuracy} pts`, previous ? previous.label : 'No previous session'),
-            comparisonCard('First-Try Accuracy', `${stats.firstTryAccuracy}%`, 'Measures first instinct quality')
+            simpleMetricCard('Latest Accuracy', `${latest.accuracy}%`, latest.label),
+            simpleMetricCard('Latest Pace', HPCLCommon.formatDurationMs(latest.avgTimeMs), `${latest.attempted} attempted, ${latest.skipped} skipped`),
+            simpleMetricCard(
+                'Comparable Delta',
+                previous ? `${stats.comparison.deltaAccuracy >= 0 ? '+' : ''}${stats.comparison.deltaAccuracy} pts` : 'Not enough data',
+                previous ? `Compared with ${previous.label} in a similar session type` : 'Needs a comparable previous session'
+            ),
+            simpleMetricCard('First-Try Accuracy', `${stats.firstTryAccuracy}%`, 'Measures whether your first instinct is usually right')
         ].join('');
     }
 
@@ -81,33 +85,6 @@
                 <p>${difficulty.attempts} attempted, ${difficulty.skipped} skipped, ${HPCLCommon.formatDurationMs(difficulty.avgTimeMs)} average time</p>
             </article>
         `).join('');
-    }
-
-    function renderMistakes(stats) {
-        const panel = document.getElementById('mistakePanel');
-        if (!panel) return;
-
-        const confidenceCard = `
-            <article class="metric-row-card">
-                <div class="metric-row-head">
-                    <strong>Confidence Signal</strong>
-                    <span>${stats.confidenceStats.averageLevel}</span>
-                </div>
-                <p>${stats.confidenceStats.measured} answers carried confidence tags. ${stats.confidenceStats.highConfidenceWrong} were high-confidence misses.</p>
-            </article>
-        `;
-
-        const mistakeCards = stats.mistakeBreakdown.map((mistake) => `
-            <article class="metric-row-card">
-                <div class="metric-row-head">
-                    <strong>${mistake.label}</strong>
-                    <span>${mistake.count}</span>
-                </div>
-                <p>${mistake.count === 0 ? 'No signal yet.' : 'This pattern has appeared in your recent history.'}</p>
-            </article>
-        `).join('');
-
-        panel.innerHTML = confidenceCard + mistakeCards;
     }
 
     function renderRecentSessions(stats) {
@@ -159,6 +136,9 @@
         document.getElementById('exportAnalyticsBtn')?.addEventListener('click', () => {
             HPCLCommon.downloadText('hpcl-analytics-summary.txt', ScholarStorage.exportProgressReport());
         });
+        document.getElementById('resetAnalyticsBtn')?.addEventListener('click', () => {
+            ScholarStorage.clearHistory();
+        });
     }
 
     function initAnalyzePage() {
@@ -170,7 +150,6 @@
         renderTopicSignals(stats);
         renderCoverage(stats);
         renderDifficulty(stats);
-        renderMistakes(stats);
         renderRecentSessions(stats);
         bindExport();
     }
@@ -187,9 +166,9 @@
         `;
     }
 
-    function comparisonCard(label, value, detail) {
+    function simpleMetricCard(label, value, detail) {
         return `
-            <article class="card micro-stat-card">
+            <article class="metric-row-card">
                 <span class="tiny-pill">${label}</span>
                 <strong>${value}</strong>
                 <p>${detail}</p>

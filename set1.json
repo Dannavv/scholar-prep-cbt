@@ -35,8 +35,8 @@
     "topic": "Depiction & Interpretation",
     "question": "Given the set of numbers: 847, 296, 513, 702, 381. What will be the resultant if the second digit of the highest number is multiplied by the third digit of the lowest number?",
     "options": ["24", "18", "32", "4"],
-    "answer": "d",
-    "explanation": "Highest number: 847. Second digit = 4. Lowest number: 296. Third digit = 6. Wait, check Lowest: 296, 381, 513, 702, 847. Lowest is 296. Resultant = 4 * 6 = 24. Wait, the option d is 4? Let me re-calculate. Lowest is 296. Highest is 847. 4 * 6 = 24. Answer is a.",
+    "answer": "a",
+    "explanation": "Highest number: 847. Second digit = 4. Lowest number: 296. Third digit = 6. Resultant = 4 * 6 = 24.",
     "difficulty": "Medium"
   },
   {
