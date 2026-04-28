@@ -206,7 +206,7 @@ body.mouse-motion::before {
 
   .sidebar {
     width: 100% !important;
-    height: 72px !important; /* Fixed height for better control */
+    height: 60px !important; /* Fixed height for better control */
     position: fixed !important;
     top: auto !important;
     bottom: 0 !important;
@@ -264,12 +264,12 @@ body.mouse-motion::before {
   }
 
   .nav-item i {
-    font-size: 1.25rem !important;
+    font-size: 1.1rem !important;
     margin-bottom: 2px;
   }
 
   .nav-item span {
-    font-size: 0.75rem !important;
+    font-size: 0.65rem !important;
     font-weight: 600;
   }
 
@@ -281,18 +281,18 @@ body.mouse-motion::before {
   .nav-item.active::after {
     content: "";
     position: absolute;
-    top: 12px;
-    width: 32px;
-    height: 32px;
+    top: 6px;
+    width: 30px;
+    height: 30px;
     background: color-mix(in srgb, var(--accent) 12%, transparent);
-    border-radius: 12px;
+    border-radius: 10px;
     z-index: -1;
   }
 
   .main {
     margin-left: 0 !important;
     margin-top: 0 !important;
-    padding: 1.5rem 1rem 80px !important; /* Bottom padding for nav */
+    padding: 1.5rem 1rem 70px !important; /* Bottom padding for nav */
     z-index: 1 !important;
   }
 
