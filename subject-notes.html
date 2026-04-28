@@ -722,6 +722,93 @@
             margin-top: 0.15rem;
         }
 
+        /* ─── PYQ BOXES ─── */
+        .pyq-box {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pyq-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--blue);
+        }
+
+        .pyq-q {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .pyq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .pyq-option {
+            font-size: 0.85rem;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            transition: all 0.2s;
+            background: var(--surface);
+            user-select: none;
+            font-weight: 500;
+        }
+
+        .pyq-option:hover {
+            border-color: var(--blue);
+            color: var(--text);
+        }
+
+        .pyq-option.correct {
+            border-color: var(--green);
+            color: var(--green);
+            background: var(--green-dim);
+        }
+
+        .pyq-option.wrong {
+            border-color: var(--rose);
+            color: var(--rose);
+            background: var(--rose-dim);
+        }
+
+        .pyq-ans {
+            font-size: 0.88rem;
+            color: var(--muted);
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--green-dim);
+            border: 1px solid rgba(45, 122, 79, 0.2);
+            border-left: 4px solid var(--green);
+            display: none;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
+        .pyq-ans.visible {
+            display: block;
+        }
+
+        .pyq-ans strong {
+            color: var(--green);
+        }
+
         /* ─── MOBILE SCALING ─── */
         @media (max-width: 900px) {
             .sidenav {
@@ -797,6 +884,19 @@
             .card-title {
                 font-size: 0.8rem !important;
             }
+
+            .mobile-back-btn {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 1rem 1.5rem;
+                color: var(--muted);
+                text-decoration: none;
+                font-size: 0.9rem;
+                font-weight: 600;
+                background: #fff8e1;
+                border-bottom: 1px solid var(--border);
+            }
         }
 
         /* ─── ANIMATIONS ─── */
@@ -826,6 +926,10 @@
             z-index: 200;
             transition: width 0.1s;
             box-shadow: 0 0 8px rgba(196, 127, 0, 0.5);
+        }
+
+        .mobile-back-btn {
+            display: none;
         }
     </style>
 </head>
@@ -877,6 +981,9 @@
 
     <!-- MAIN -->
     <div class="main">
+        <a href="learn.html" class="mobile-back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Guide
+        </a>
 
         <!-- HERO -->
         <div class="hero">
@@ -1473,6 +1580,23 @@
                 </div>
             </div>
 
+            <!-- ===== PYQ ===== -->
+            <div class="pyq-box">
+                <div class="pyq-q">PYQ: A train 150m long is running at 72 km/hr. How much time will it take to cross a pole?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) 5 seconds</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) 6.5 seconds</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) 7.5 seconds</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) 8 seconds</div>
+                </div>
+                <div class="pyq-ans">
+                    <strong>Answer: C</strong><br><br>
+                    <strong>Explanation:</strong><br>
+                    Speed in m/s = 72 × (5/18) = 20 m/s.<br>
+                    Time = Distance / Speed = 150 / 20 = 7.5 seconds.
+                </div>
+            </div>
+
         </div><!-- /panel-q -->
 
 
@@ -1882,6 +2006,24 @@
                     <strong>Rule: When Chain Breaks, Conclusion Fails</strong>
                     A > B ≥ C → A > C ✓ (chain holds). But A > B and C > B → cannot compare A and C (no chain between
                     them). Always trace the chain from left to right.
+                </div>
+            </div>
+
+            <!-- ===== PYQ ===== -->
+            <div class="pyq-box">
+                <div class="pyq-q">PYQ: If 'A + B' means 'A is brother of B', 'A × B' means 'A is father of B'. What does 'P + Q × R' mean?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'correct')">A) P is the uncle of R</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) P is the father of R</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) P is the brother of R</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) R is the uncle of P</div>
+                </div>
+                <div class="pyq-ans">
+                    <strong>Answer: A</strong><br><br>
+                    <strong>Explanation:</strong><br>
+                    Q × R → Q is father of R.<br>
+                    P + Q → P is brother of Q.<br>
+                    So, P is the brother of R's father, making P the uncle of R.
                 </div>
             </div>
 
@@ -2373,6 +2515,22 @@
                 </div>
             </div>
 
+            <!-- ===== PYQ ===== -->
+            <div class="pyq-box">
+                <div class="pyq-q">PYQ: Spot the error: "Neither the manager nor the employees was aware of the new policy."</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Neither the manager</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) nor the employees</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) was aware of</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) the new policy.</div>
+                </div>
+                <div class="pyq-ans">
+                    <strong>Answer: C</strong><br><br>
+                    <strong>Explanation:</strong><br>
+                    When subjects are joined by "neither...nor", the verb agrees with the subject closest to it. "Employees" is plural, so it should be "were aware of".
+                </div>
+            </div>
+
         </div><!-- /panel-e -->
 
     </div><!-- /main -->
@@ -2408,6 +2566,17 @@
             });
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function markOption(el, result) {
+            const group = el.closest('.pyq-options');
+            group.querySelectorAll('.pyq-option').forEach(o => {
+                o.classList.remove('correct', 'wrong');
+                o.style.pointerEvents = 'none';
+            });
+            el.classList.add(result);
+            const ans = el.closest('.pyq-box').querySelector('.pyq-ans');
+            if (ans) ans.classList.add('visible');
         }
 
         function initURLSwitch() {

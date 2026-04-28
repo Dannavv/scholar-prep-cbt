@@ -1159,6 +1159,34 @@
             font-size: 0.8rem;
             color: var(--gold);
         }
+        .back-to-app {
+            padding: 0 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+        }
+
+        .nav-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            margin: 0 0 0.4rem 0.75rem;
+            font-weight: 800;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -1172,6 +1200,12 @@
         <div class="sidenav-logo">
             <h2>HPCL Scholar</h2>
             <p>Paper 2 — Complete Notes</p>
+        </div>
+
+        <div class="back-to-app">
+            <a href="paper2-learn.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Guide
+            </a>
         </div>
 
         <span class="nav-label">Subjects</span>
@@ -1220,6 +1254,9 @@
 
     <!-- MOBILE NAV -->
     <div class="mobile-nav">
+        <a class="mob-btn" href="paper2-learn.html" style="color: var(--muted); text-decoration: none;">
+            <i class="fas fa-arrow-left"></i>Back
+        </a>
         <button class="mob-btn active" onclick="switchTab('toc')" data-tab="toc"><i class="fas fa-cogs"></i>TOC</button>
         <button class="mob-btn" onclick="switchTab('dbms')" data-tab="dbms"><i class="fas fa-database"></i>DBMS</button>
         <button class="mob-btn" onclick="switchTab('os')" data-tab="os"><i class="fas fa-server"></i>OS</button>
@@ -2284,6 +2321,23 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+
+            <div class="section-title">Master Theorem</div>
+            <div class="formula-box">
+                <div class="formula-name">Recurrence Relation</div>
+                <div class="formula-text">
+                    T(n) = <span class="var">a</span>T(n/<span class="var">b</span>) + Θ(n<sup class="var">k</sup> log<sup class="var">p</sup> n)
+                </div>
+                <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.6;">
+                    Compare <span class="var">a</span> with <span class="var">b^k</span>:<br>
+                    <strong>Case 1:</strong> a > b^k → T(n) = Θ(n<sup>log<sub>b</sub>a</sup>)<br>
+                    <strong>Case 2:</strong> a = b^k<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;If p > -1 → T(n) = Θ(n<sup>k</sup> log<sup>p+1</sup> n)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;If p = -1 → T(n) = Θ(n<sup>k</sup> log log n)<br>
+                    <strong>Case 3:</strong> a < b^k<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;If p ≥ 0 → T(n) = Θ(n<sup>k</sup> log<sup>p</sup> n)
+                </p>
             </div>
 
             <div class="section-title">Tree Traversals — BST Properties</div>
