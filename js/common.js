@@ -80,6 +80,43 @@ function getOrderedTopics(pool) {
     return topics;
 }
 
+function logActivity(action, details = {}) {
+    try {
+        const data = {
+            action: action,
+            url: window.location.pathname,
+            time: new Date().toISOString(),
+            ...details
+        };
+        fetch('/api/log?data=' + encodeURIComponent(JSON.stringify(data)), {
+            method: 'GET',
+            keepalive: true
+        }).catch(() => {});
+    } catch (e) {
+        // Ignore tracking errors
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    logActivity('page_view', { title: document.title });
+});
+
+document.addEventListener('click', (e) => {
+    const el = e.target.closest('button, a, .card, .nav-item');
+    if (!el) return;
+    
+    let label = el.innerText || el.value || el.id || '';
+    label = label.replace(/[\r\n]+/g, ' ').trim().substring(0, 50);
+    
+    if (el.tagName === 'A') {
+        logActivity('click_link', { href: el.getAttribute('href'), label: label });
+    } else if (el.tagName === 'BUTTON') {
+        logActivity('click_button', { id: el.id, label: label });
+    } else {
+        logActivity('click_element', { classes: el.className, label: label });
+    }
+}, { passive: true });
+
 window.HPCLCommon = {
     downloadText,
     formatDate,
@@ -88,5 +125,6 @@ window.HPCLCommon = {
     getQuestionPool,
     setupMouseMotion,
     setupSidebarToggle,
-    stripHtml
+    stripHtml,
+    logActivity
 };

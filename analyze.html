@@ -131,7 +131,38 @@
                 </div>
             </div>
 
-            <div class="card analytics-panel analytics-panel-wide" id="dynamicVault" style="margin-top: 3rem;">
+            <div class="card analytics-panel analytics-panel-wide" style="margin-top: 3rem;">
+                <div class="panel-header-group">
+                    <span class="tiny-pill">Mastery Decks</span>
+                    <h2>Presentation Render Engine</h2>
+                </div>
+                <p class="helper-text">Review and interact with the official presentation decks directly within the Vault. No local PowerPoint installation required.</p>
+                
+                <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; align-items: center;">
+                    <button class="btn-outline" style="padding: 0.5rem 1.5rem; border-radius: 8px; cursor: pointer; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main);" onclick="renderPaper(1)">
+                        <i class="fas fa-play-circle"></i> Render Paper 1
+                    </button>
+                    <button class="btn-outline" style="padding: 0.5rem 1.5rem; border-radius: 8px; cursor: pointer; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main);" onclick="renderPaper(2)">
+                        <i class="fas fa-play-circle"></i> Render Paper 2
+                    </button>
+                    
+                    <div style="margin-left: auto; display: flex; gap: 0.5rem;">
+                        <a href="paper1.pptx" download class="btn-outline" style="text-decoration:none; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main);"><i class="fas fa-download"></i> Paper 1</a>
+                        <a href="paper2.pptx" download class="btn-outline" style="text-decoration:none; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main);"><i class="fas fa-download"></i> Paper 2</a>
+                    </div>
+                </div>
+
+                <div class="deck-viewer-wrapper" style="border: 1px solid var(--border); border-radius: 12px; background: #000; overflow: hidden; position: relative;">
+                    <img id="deck-slide" src="assets/paper1/slide-01.png" style="width: 100%; height: auto; display: block; min-height: 300px; background: #222;" />
+                    <div style="position: absolute; bottom: 15px; left: 0; right: 0; display: flex; justify-content: center; gap: 1rem;">
+                        <button onclick="prevSlide()" class="btn-outline" style="background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 20px; padding: 0.5rem 1rem; cursor: pointer; backdrop-filter: blur(4px);"><i class="fas fa-chevron-left"></i> Prev</button>
+                        <span id="slide-counter" style="background: rgba(0,0,0,0.7); color: #fff; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem; backdrop-filter: blur(4px);">1 / 12</span>
+                        <button onclick="nextSlide()" class="btn-outline" style="background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 20px; padding: 0.5rem 1rem; cursor: pointer; backdrop-filter: blur(4px);">Next <i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card analytics-panel analytics-panel-wide" id="dynamicVault" style="margin-top: 2rem;">
                 <div class="panel-header-group">
                     <span class="tiny-pill">Knowledge Mastery</span>
                     <h2>Personalized Knowledge Vault</h2>
@@ -160,6 +191,38 @@
     <script src="js/common.js"></script>
     <script src="js/analyze.js"></script>
     <script src="js/app.js"></script>
-</body>
+    
+    <script>
+        let currentPaper = 1;
+        let currentSlide = 1;
+        const maxSlides = 12;
 
+        function renderPaper(paperNum) {
+            currentPaper = paperNum;
+            currentSlide = 1;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < maxSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function updateSlide() {
+            const slideNumStr = currentSlide.toString().padStart(2, '0');
+            const slidePath = `assets/paper${currentPaper}/slide-${slideNumStr}.png`;
+            document.getElementById('deck-slide').src = slidePath;
+            document.getElementById('slide-counter').innerText = `${currentSlide} / ${maxSlides}`;
+        }
+    </script>
+</body>
 </html>

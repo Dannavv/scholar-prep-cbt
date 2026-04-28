@@ -7,3 +7,4 @@ services:
     container_name: hpcl-scholar-app
     volumes:
       - .:/usr/share/nginx/html
+      - ./logs:/var/log/nginx
