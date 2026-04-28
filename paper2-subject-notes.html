@@ -3722,6 +3722,132 @@
                 display: block;
             }
 
+            .legacy-pyq,
+            .legacy-pyq-title {
+                display: none !important;
+            }
+
+            .interactive-concept-block,
+            .dynamic-mcq-block {
+                margin: 2rem 0 2.5rem;
+            }
+
+            .topic-chip-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.65rem;
+                margin-bottom: 1rem;
+            }
+
+            .topic-chip {
+                border: 1px solid var(--border);
+                background: var(--surface);
+                color: var(--muted);
+                border-radius: 999px;
+                padding: 0.45rem 0.85rem;
+                font-size: 0.8rem;
+                font-weight: 800;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .topic-chip:hover,
+            .topic-chip.active {
+                color: var(--text);
+                background: var(--surface2);
+                border-color: rgba(176, 106, 0, 0.28);
+            }
+
+            .concept-note-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1rem;
+            }
+
+            .concept-note-card {
+                background: var(--surface2);
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                padding: 1.1rem 1.2rem;
+            }
+
+            .concept-note-card h3 {
+                font-size: 1rem;
+                margin-bottom: 0.45rem;
+            }
+
+            .concept-note-label {
+                font-size: 0.68rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--gold);
+                margin-bottom: 0.4rem;
+            }
+
+            .concept-note-card p,
+            .concept-note-card div {
+                font-size: 0.88rem;
+                line-height: 1.7;
+                color: var(--muted);
+            }
+
+            .concept-note-card code {
+                font-family: 'IBM Plex Mono', monospace;
+            }
+
+            .dynamic-mcq-toolbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1rem;
+                flex-wrap: wrap;
+                margin-bottom: 1rem;
+            }
+
+            .dynamic-mcq-note {
+                font-size: 0.86rem;
+                color: var(--muted);
+            }
+
+            .refresh-mcq-btn {
+                border: 1px solid var(--border);
+                background: var(--surface);
+                color: var(--text);
+                border-radius: 999px;
+                padding: 0.5rem 0.95rem;
+                font-size: 0.8rem;
+                font-weight: 800;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .refresh-mcq-btn:hover {
+                background: var(--surface2);
+            }
+
+            .dynamic-mcq-stack {
+                display: grid;
+                gap: 1rem;
+            }
+
+            .pyq-meta-line {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                padding: 0 16px 12px;
+            }
+
+            .pyq-mini-chip {
+                font-size: 0.72rem;
+                font-weight: 800;
+                padding: 0.2rem 0.55rem;
+                border-radius: 999px;
+                background: var(--surface3);
+                color: var(--muted);
+                border: 1px solid var(--border);
+            }
+
             @media (max-width:600px) {
                 .osi-row {
                     grid-template-columns: 30px 100px 60px 1fr;
@@ -4355,6 +4481,8 @@ int main() {
 
     </main>
 
+    <script src="js/paper2-data.js"></script>
+    <script src="js/paper2-notes.js"></script>
     <script>
         function switchTab(tabId) {
             document.querySelectorAll('.sidenav .nav-item').forEach(el => el.classList.remove('active'));
@@ -4397,6 +4525,10 @@ int main() {
                 if (subject.includes('software') || subject.includes('se')) tabId = 'se';
                 if (subject.includes('program') || subject.includes('prog')) tabId = 'prog';
                 switchTab(tabId);
+            }
+
+            if (typeof window.initPaper2InteractiveNotes === 'function') {
+                window.initPaper2InteractiveNotes();
             }
 
             window.addEventListener('scroll', () => {
