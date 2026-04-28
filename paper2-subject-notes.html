@@ -3728,6 +3728,7 @@
             }
 
             .interactive-concept-block,
+            .dynamic-knowledge-block,
             .dynamic-mcq-block {
                 margin: 2rem 0 2.5rem;
             }
@@ -3785,12 +3786,17 @@
                 margin-bottom: 0.4rem;
             }
 
-            .concept-note-card p,
-            .concept-note-card div {
-                font-size: 0.88rem;
-                line-height: 1.7;
-                color: var(--muted);
-            }
+        .concept-note-card p,
+        .concept-note-card div,
+        .concept-note-card li {
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        .concept-note-card ul {
+            padding-left: 1rem;
+        }
 
             .concept-note-card code {
                 font-family: 'IBM Plex Mono', monospace;

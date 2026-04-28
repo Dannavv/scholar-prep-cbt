@@ -690,6 +690,71 @@
             margin-top: 0.25rem;
         }
 
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .knowledge-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.2rem 1.3rem;
+        }
+
+        .knowledge-card .k-label {
+            font-size: 0.68rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            margin-bottom: 0.45rem;
+        }
+
+        .knowledge-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .knowledge-card p,
+        .knowledge-card li {
+            font-size: 0.86rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .knowledge-card ul {
+            padding-left: 1rem;
+        }
+
+        .recall-strip {
+            background: linear-gradient(135deg, rgba(196, 127, 0, 0.12), rgba(255, 251, 240, 0.9));
+            border: 1px solid rgba(196, 127, 0, 0.22);
+            border-radius: 16px;
+            padding: 1.4rem 1.5rem;
+            margin: 1.75rem 0 0;
+        }
+
+        .recall-strip h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .recall-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.55rem 1rem;
+        }
+
+        .recall-item {
+            font-size: 0.84rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
         /* ─── EJOTY ─── */
         .ejoty-row {
             display: flex;
@@ -1025,6 +1090,31 @@
        PANEL 1 — QUANTITATIVE APTITUDE
   ═══════════════════════════════════════════ -->
         <div class="subject-panel active" id="panel-q">
+
+            <div class="knowledge-grid">
+                <div class="knowledge-card">
+                    <div class="k-label">Must Know</div>
+                    <h3>Quant High-Return Areas</h3>
+                    <ul>
+                        <li>Percentages, ratio-proportion, time-work, time-speed-distance, SI-CI</li>
+                        <li>Mensuration formulas, profit-loss, mixture-alligation</li>
+                        <li>P&C and probability basics for direct objective questions</li>
+                    </ul>
+                </div>
+                <div class="knowledge-card">
+                    <div class="k-label">Do Not Confuse</div>
+                    <h3>Common Quant Traps</h3>
+                    <p><b>Ratio</b> compares quantities; <b>proportion</b> equates two ratios. <b>Permutation</b> cares
+                        about order; <b>combination</b> does not. <b>Average speed</b> is total distance divided by
+                        total time, not the arithmetic mean of speeds.</p>
+                </div>
+                <div class="knowledge-card">
+                    <div class="k-label">Memory Hooks</div>
+                    <h3>Revision Lines</h3>
+                    <p>33.33% = 1/3, 12.5% = 1/8, train problems start with unit conversion, and mensuration answers
+                        usually fail because one dimension or unit is missed.</p>
+                </div>
+            </div>
 
             <!-- SECTION 1 -->
             <div class="section-header">
@@ -1598,6 +1688,18 @@
                 </div>
             </div>
 
+            <div class="recall-strip">
+                <h3>Quant Rapid Recall</h3>
+                <div class="recall-list">
+                    <div class="recall-item">1. Fraction-to-percentage memory is a speed multiplier in HPCL aptitude.</div>
+                    <div class="recall-item">2. Average speed = total distance / total time; equal-distance shortcut = 2xy/(x+y).</div>
+                    <div class="recall-item">3. SI is linear; CI compounds on accumulated amount.</div>
+                    <div class="recall-item">4. Time-work is easiest in LCM work units, not raw fractions.</div>
+                    <div class="recall-item">5. Mensuration errors usually come from wrong dimension or wrong unit.</div>
+                    <div class="recall-item">6. P&C asks arrangement count; probability asks favourable/total.</div>
+                </div>
+            </div>
+
         </div><!-- /panel-q -->
 
 
@@ -1605,6 +1707,30 @@
        PANEL 2 — REASONING ABILITY
   ═══════════════════════════════════════════ -->
         <div class="subject-panel" id="panel-r">
+
+            <div class="knowledge-grid">
+                <div class="knowledge-card">
+                    <div class="k-label">Must Know</div>
+                    <h3>Reasoning High-Return Areas</h3>
+                    <ul>
+                        <li>Syllogism, coding-decoding, blood relations, direction sense</li>
+                        <li>Seating arrangement and inequalities for direct pattern-based marks</li>
+                        <li>Standard diagrams save more time than raw thinking</li>
+                    </ul>
+                </div>
+                <div class="knowledge-card">
+                    <div class="k-label">Do Not Confuse</div>
+                    <h3>Logic Traps</h3>
+                    <p><b>Some A are B</b> does not mean all A are B. <b>All A are B</b> does not imply all B are A.
+                        In coded relations, decode each symbol first; do not jump to final family relation.</p>
+                </div>
+                <div class="knowledge-card">
+                    <div class="k-label">Memory Hooks</div>
+                    <h3>Revision Lines</h3>
+                    <p>EJOTY anchors the alphabet, opposite pairs sum to 27, and every relation/direction question
+                        becomes easier once converted into a diagram or chain.</p>
+                </div>
+            </div>
 
             <div class="section-header">
                 <div class="section-number">01</div>
@@ -2028,6 +2154,18 @@
                 </div>
             </div>
 
+            <div class="recall-strip">
+                <h3>Reasoning Rapid Recall</h3>
+                <div class="recall-list">
+                    <div class="recall-item">1. Syllogism is diagram logic, not real-world logic.</div>
+                    <div class="recall-item">2. All + All can chain; Some + Some usually gives no definite conclusion.</div>
+                    <div class="recall-item">3. Coding-decoding starts with letter positions or reverse positions.</div>
+                    <div class="recall-item">4. Blood relations become simple once gender and generation are marked.</div>
+                    <div class="recall-item">5. Direction sense fails mostly from skipped diagrams, not from hard math.</div>
+                    <div class="recall-item">6. Inequality conclusions depend on chain continuity from left to right.</div>
+                </div>
+            </div>
+
         </div><!-- /panel-r -->
 
 
@@ -2035,6 +2173,31 @@
        PANEL 3 — ENGLISH LANGUAGE
   ═══════════════════════════════════════════ -->
         <div class="subject-panel" id="panel-e">
+
+            <div class="knowledge-grid">
+                <div class="knowledge-card">
+                    <div class="k-label">Must Know</div>
+                    <h3>English High-Return Areas</h3>
+                    <ul>
+                        <li>Tenses, subject-verb agreement, conditionals, articles</li>
+                        <li>Error spotting, vocabulary roots, reading comprehension</li>
+                        <li>Parallelism and preposition usage for hidden grammar errors</li>
+                    </ul>
+                </div>
+                <div class="knowledge-card">
+                    <div class="k-label">Do Not Confuse</div>
+                    <h3>Grammar Traps</h3>
+                    <p><b>Since</b> marks starting point; <b>for</b> marks duration. <b>A number of</b> takes a plural
+                        verb, while <b>the number of</b> takes a singular verb. <b>Neither...nor</b> agrees with the
+                        nearer subject.</p>
+                </div>
+                <div class="knowledge-card">
+                    <div class="k-label">Memory Hooks</div>
+                    <h3>Revision Lines</h3>
+                    <p>Past perfect marks the earlier of two past actions, article errors often signal generic vs
+                        specific reference, and vocabulary roots reduce blind guessing in RC and cloze tests.</p>
+                </div>
+            </div>
 
             <div class="section-header">
                 <div class="section-number">01</div>
@@ -2529,6 +2692,18 @@
                     <strong>Answer: C</strong><br><br>
                     <strong>Explanation:</strong><br>
                     When subjects are joined by "neither...nor", the verb agrees with the subject closest to it. "Employees" is plural, so it should be "were aware of".
+                </div>
+            </div>
+
+            <div class="recall-strip">
+                <h3>English Rapid Recall</h3>
+                <div class="recall-list">
+                    <div class="recall-item">1. Tense questions are solved by timeline, not by keyword memory alone.</div>
+                    <div class="recall-item">2. Subject-verb agreement is the first checkpoint in error spotting.</div>
+                    <div class="recall-item">3. Since = point of time; for = period of time.</div>
+                    <div class="recall-item">4. Conditionals use fixed tense pairings; mixing them usually creates the error.</div>
+                    <div class="recall-item">5. Article choice changes with specificity, pronunciation, and uniqueness.</div>
+                    <div class="recall-item">6. Parallel structure means grammatically equal forms must stay equal.</div>
                 </div>
             </div>
 

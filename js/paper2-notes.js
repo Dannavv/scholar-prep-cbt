@@ -14,6 +14,145 @@
         conceptsByTab: {}
     };
 
+    const KNOWLEDGE_BOOSTERS = {
+        toc: {
+            mustKnow: [
+                'Hierarchy order and machine mapping',
+                'Closure properties of Regular and CFL',
+                'Regular grammar, CNF, PDA acceptance rules'
+            ],
+            confuse: [
+                ['Regular vs CFL', 'Regular languages need only finite memory; CFLs need stack-based memory.'],
+                ['CFL vs DCFL', 'DCFL is a strict subset of CFL and cannot handle all midpoint-guess problems.'],
+                ['Recursive vs RE', 'Recursive always halts; RE may accept and loop forever on non-members.']
+            ],
+            recall: [
+                'Regular ⊂ DCFL ⊂ CFL ⊂ CSL ⊂ Recursive ⊂ RE',
+                'NFA, DFA, and regular expressions are equivalent in power',
+                'Pumping lemma is usually used to prove a language is not regular'
+            ]
+        },
+        dbms: {
+            mustKnow: [
+                'ER notation, key types, integrity constraints',
+                'Normalization path from 1NF to BCNF',
+                'SQL clause order, joins, ACID properties'
+            ],
+            confuse: [
+                ['Primary Key vs Candidate Key', 'Primary key is chosen from candidate keys; every candidate key is minimal.'],
+                ['WHERE vs HAVING', 'WHERE filters rows before grouping; HAVING filters groups after GROUP BY.'],
+                ['2NF vs 3NF vs BCNF', '2NF removes partial dependency, 3NF removes transitive dependency, BCNF demands determinant as superkey.']
+            ],
+            recall: [
+                'Entity integrity means primary key cannot be NULL',
+                'Projection selects columns; Selection filters rows',
+                'Atomicity = all or nothing, Durability = committed means permanent'
+            ]
+        },
+        os: {
+            mustKnow: [
+                'Process states, scheduler roles, PCB, system calls',
+                'Paging formulas, TAT/WT formulas, deadlock conditions',
+                'Semaphores, page replacement, fragmentation'
+            ],
+            confuse: [
+                ['Paging vs Segmentation', 'Paging uses fixed-size blocks; segmentation uses variable logical blocks.'],
+                ['Long-term vs Short-term scheduler', 'Long-term admits jobs; short-term selects the next running process.'],
+                ['Deadlock prevention vs avoidance', 'Prevention breaks a condition; avoidance checks safe allocation states.']
+            ],
+            recall: [
+                'Ready, Running, Waiting stay in RAM',
+                'FIFO can show Belady anomaly; Optimal is theoretical best',
+                'Deadlock needs all four Coffman conditions'
+            ]
+        },
+        coa: {
+            mustKnow: [
+                'Memory hierarchy, addressing modes, instruction cycle',
+                'Pipelining, hazards, opcode/address fields',
+                'Binary complements and digital logic basics'
+            ],
+            confuse: [
+                ['Register vs Cache', 'Registers are inside CPU core; cache sits between CPU and main memory.'],
+                ['Immediate vs Direct addressing', 'Immediate stores operand in instruction; Direct stores memory address in instruction.'],
+                ['Throughput vs Latency', 'Pipelining improves throughput, not single-instruction latency.']
+            ],
+            recall: [
+                '2’s complement = 1’s complement + 1',
+                'MUX with n select lines supports 2^n inputs',
+                'A filled pipeline ideally completes one instruction per cycle'
+            ]
+        },
+        algo: {
+            mustKnow: [
+                'BFS/DFS, BST traversal, MST, shortest paths',
+                'Greedy vs DP identification',
+                'Sorting complexity, binary search, hashing collisions'
+            ],
+            confuse: [
+                ['BFS vs DFS', 'BFS uses queue and is best for unweighted shortest path; DFS uses stack/recursion.'],
+                ['Greedy vs Dynamic Programming', 'Greedy commits locally; DP stores and reuses overlapping subproblems.'],
+                ['O vs Ω vs Θ', 'O is upper bound, Ω is lower bound, Θ is tight bound.']
+            ],
+            recall: [
+                'In-order traversal of BST gives sorted order',
+                '0/1 knapsack is DP, fractional knapsack is Greedy',
+                'Primary clustering is associated with linear probing'
+            ]
+        },
+        cn: {
+            mustKnow: [
+                'OSI layers, IP classes, subnetting, TCP vs UDP',
+                'Routing protocols and common port numbers',
+                'Device-layer mapping: hub, switch, router'
+            ],
+            confuse: [
+                ['Switch vs Router', 'Switch works with MAC at Layer 2; router works with IP at Layer 3.'],
+                ['TCP vs UDP', 'TCP is reliable and connection-oriented; UDP is connectionless and lighter.'],
+                ['Network vs Broadcast domain', 'Switch separates collision domains; router separates broadcast domains.']
+            ],
+            recall: [
+                'IPv4 has 32 bits',
+                'Usable hosts = 2^(host bits) - 2',
+                'Transport layer is where TCP and UDP operate'
+            ]
+        },
+        se: {
+            mustKnow: [
+                'Process models, testing hierarchy, cohesion/coupling',
+                'SRS properties, maintenance types, COCOMO',
+                'Verification, validation, reliability terms'
+            ],
+            confuse: [
+                ['Verification vs Validation', 'Verification asks building right; validation asks building the right thing.'],
+                ['Error vs Fault vs Failure', 'Error is human mistake, fault is defect, failure is wrong behavior.'],
+                ['Unit vs Integration vs System testing', 'They differ by test scope, not just execution order.']
+            ],
+            recall: [
+                'Best design = high cohesion + low coupling',
+                'Spiral model is risk-driven',
+                'Cyclomatic complexity estimates independent execution paths'
+            ]
+        },
+        prog: {
+            mustKnow: [
+                'OOP pillars, memory model, pointers, parameter passing',
+                'Static behavior, output tracing, storage understanding',
+                'Core data structures facts used in MCQ-style questions'
+            ],
+            confuse: [
+                ['Abstraction vs Encapsulation', 'Abstraction hides complexity; encapsulation binds data with methods and access control.'],
+                ['Stack vs Heap', 'Stack is automatic call/local storage; heap is dynamic allocation space.'],
+                ['Pass by value vs reference', 'Value copies data; reference/pointer updates original storage.']
+            ],
+            recall: [
+                'Array name points to first element in most C contexts',
+                'Static variable is initialized once and retains value',
+                'Stack uses LIFO, queue uses FIFO'
+            ]
+        }
+    };
+
     function escapeHtml(value) {
         return String(value ?? '')
             .replace(/&/g, '&amp;')
@@ -173,6 +312,52 @@
         mount.innerHTML = `<div class="concept-note-grid">${cards.join('')}</div>`;
     };
 
+    function renderKnowledgeBooster(tabId) {
+        const pane = document.getElementById(`content-${tabId}`);
+        const booster = KNOWLEDGE_BOOSTERS[tabId];
+        if (!pane || !booster) return;
+
+        const existing = pane.querySelector(`.dynamic-knowledge-block[data-tab="${tabId}"]`);
+        if (existing) existing.remove();
+
+        const block = document.createElement('section');
+        block.className = 'dynamic-knowledge-block interactive-concept-block';
+        block.dataset.tab = tabId;
+
+        const confuseRows = booster.confuse.map(([left, right]) => `
+            <div class="concept-note-card">
+                <div class="concept-note-label">Do Not Confuse</div>
+                <h3>${escapeHtml(left)}</h3>
+                <div>${escapeHtml(right)}</div>
+            </div>
+        `).join('');
+
+        const mustKnowList = booster.mustKnow.map((item) => `<li>${escapeHtml(item)}</li>`).join('');
+        const recallList = booster.recall.map((item) => `<li>${escapeHtml(item)}</li>`).join('');
+
+        block.innerHTML = `
+            <div class="section-title">Subject Knowledge Booster</div>
+            <div class="concept-note-grid">
+                <div class="concept-note-card">
+                    <div class="concept-note-label">Must Know</div>
+                    <h3>High-Yield Areas</h3>
+                    <ul>${mustKnowList}</ul>
+                </div>
+                <div class="concept-note-card">
+                    <div class="concept-note-label">Rapid Recall</div>
+                    <h3>Memory Hooks</h3>
+                    <ul>${recallList}</ul>
+                </div>
+                ${confuseRows}
+            </div>
+        `;
+
+        const conceptBlock = pane.querySelector('.interactive-concept-block');
+        if (conceptBlock) {
+            conceptBlock.insertAdjacentElement('afterend', block);
+        }
+    }
+
     function renderMcqCard(question, index) {
         const correct = answerIndex(question.answer);
         const options = question.options.map((option, optionIndex) => {
@@ -259,6 +444,7 @@
         hideLegacyPyqs();
         Object.entries(SUBJECT_CONFIG).forEach(([tabId, config]) => {
             renderConceptExplorer(tabId, config);
+            renderKnowledgeBooster(tabId);
             renderDynamicMcqs(tabId);
         });
     };
