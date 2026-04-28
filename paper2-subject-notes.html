@@ -2440,102 +2440,584 @@
 
         <!-- ===== COMPUTER NETWORKS ===== -->
         <div id="content-cn" class="tab-pane cn-accent">
-            <div class="subject-header">
-                <span class="subject-eyebrow"><i class="fas fa-network-wired"></i> Computer Networks</span>
-                <h1>Computer Networks</h1>
-                <div class="subject-meta">
-                    <span class="meta-chip"><i class="fas fa-fire"></i> Medium Weightage</span>
-                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~8 Questions</span>
-                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: MEDIUM</span>
-                </div>
-                <p class="subject-desc">Computer Networks covers the OSI model, IP addressing, routing protocols, and network topologies.</p>
-            </div>
 
-            <div class="alert-box info">
-                <i class="fas fa-info-circle"></i>
-                <span><strong>Exam Tip:</strong> IP addressing and the 7 OSI layers are the most commonly tested concepts. Numerical questions often focus on subnetting or delay calculations.</span>
-            </div>
+  <!-- Header -->
+  <div class="subject-header">
+    <span class="subject-eyebrow"><i class="fas fa-network-wired"></i> Computer Networks</span>
+    <h1>Computer Networks</h1>
+    <div class="subject-meta">
+      <span class="meta-chip"><i class="fas fa-fire"></i> Medium Weightage</span>
+      <span class="meta-chip"><i class="fas fa-question-circle"></i> ~8 Questions</span>
+      <span class="meta-chip"><i class="fas fa-clock"></i> Priority: MEDIUM</span>
+    </div>
+    <p class="subject-desc">Computer Networks covers the OSI model, IP addressing, routing protocols, and network topologies.</p>
+  </div>
 
-            <div class="section-title">Key Concepts</div>
-            <div class="card-grid">
-                <div class="card blue">
-                    <span class="card-tag">OSI Model</span>
-                    <h3>The 7 Layers</h3>
-                    <p>Physical (Bits), Data Link (Frames), Network (Packets), Transport (Segments), Session, Presentation, Application (Data).</p>
-                </div>
-                <div class="card blue">
-                    <span class="card-tag">IP Addressing</span>
-                    <h3>IPv4 Classes & CIDR</h3>
-                    <p>Class A: 0-127, Class B: 128-191, Class C: 192-223. Subnetting borrows host bits for network. CIDR (Classless Inter-Domain Routing) uses `/n` prefix for flexible allocation.</p>
-                </div>
-                <div class="card blue">
-                    <span class="card-tag">Transport Protocols</span>
-                    <h3>TCP vs UDP</h3>
-                    <p>TCP is connection-oriented, reliable (3-way handshake), provides flow and error control. UDP is connectionless, fast, unreliable (used in streaming, DNS).</p>
-                </div>
-                <div class="card blue">
-                    <span class="card-tag">Routing Algorithms</span>
-                    <h3>Link State vs Distance Vector</h3>
-                    <p>Distance Vector (RIP): Uses Bellman-Ford, shares routing table with neighbors, prone to count-to-infinity. Link State (OSPF): Uses Dijkstra, full topology knowledge.</p>
-                </div>
-                <div class="card blue">
-                    <span class="card-tag">Application Layer</span>
-                    <h3>Common Protocols & Ports</h3>
-                    <p>HTTP (80), HTTPS (443), FTP (20/21), SMTP (25), DNS (53 TCP/UDP), Telnet (23).</p>
-                </div>
-                <div class="card blue">
-                    <span class="card-tag">Data Link Layer</span>
-                    <h3>MAC & CSMA/CD</h3>
-                    <p>MAC addresses are 48-bit physical addresses. CSMA/CD handles collision detection in wired Ethernet (802.3). CSMA/CA avoids collisions in wireless (802.11).</p>
-                </div>
-            </div>
+  <!-- Exam Tip -->
+  <div class="alert-box info">
+    <i class="fas fa-info-circle"></i>
+    <span><strong>Exam Tip:</strong> IP addressing and the 7 OSI layers are the most commonly tested concepts. Numerical questions focus on subnetting (usable hosts = 2<sup>n</sup> − 2) and delay calculations. Know the TCP 3-way handshake cold.</span>
+  </div>
 
-            <div class="section-title">Formulas & Metrics</div>
-            <div class="formula-box">
-                <div class="f-grid">
-                    <div class="f-item">
-                        <div class="f-name">Transmission Delay</div>
-                        <div class="f-math">\( T_t = \frac{L}{B} \)</div>
-                        <div class="f-desc">L = Packet length (bits), B = Bandwidth (bps)</div>
-                    </div>
-                    <div class="f-item">
-                        <div class="f-name">Propagation Delay</div>
-                        <div class="f-math">\( T_p = \frac{d}{v} \)</div>
-                        <div class="f-desc">d = Distance, v = Propagation speed</div>
-                    </div>
-                    <div class="f-item">
-                        <div class="f-name">Total Round Trip Time (RTT)</div>
-                        <div class="f-math">\( RTT \approx 2 \times T_p \)</div>
-                        <div class="f-desc">Assuming processing and queuing delays are 0</div>
-                    </div>
-                </div>
-            </div>
+  <!-- Tabs Navigation -->
+  <div class="cn-tabs">
+    <button class="cn-tab active" onclick="cnSwitchTab('osi', this)">OSI Model</button>
+    <button class="cn-tab" onclick="cnSwitchTab('ip', this)">IP &amp; Subnetting</button>
+    <button class="cn-tab" onclick="cnSwitchTab('transport', this)">TCP vs UDP</button>
+    <button class="cn-tab" onclick="cnSwitchTab('routing', this)">Routing</button>
+    <button class="cn-tab" onclick="cnSwitchTab('ports', this)">Ports &amp; Protocols</button>
+    <button class="cn-tab" onclick="cnSwitchTab('formulas', this)">Formulas</button>
+    <button class="cn-tab" onclick="cnSwitchTab('pyq', this)">Practice MCQs</button>
+  </div>
 
-            <div class="section-title">Past Year Questions — Interactive</div>
-            <div class="pyq-box">
-                <div class="pyq-year">⭐ Direct PYQ</div>
-                <div class="pyq-q">Q1. Which layer of the OSI model is responsible for routing?</div>
-                <div class="pyq-options">
-                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Data Link Layer</div>
-                    <div class="pyq-option" onclick="markOption(this,'correct')">B) Network Layer</div>
-                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) Transport Layer</div>
-                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Physical Layer</div>
-                </div>
-                <div class="pyq-ans"><strong>Answer: B — Network Layer.</strong> The Network Layer handles logical addressing (IP) and routing packets across multiple networks.</div>
-            </div>
-            
-            <div class="pyq-box">
-                <div class="pyq-year">🔥 Frequent Concept</div>
-                <div class="pyq-q">Q2. What is the maximum number of hosts per subnet for an IP address with a `/26` prefix?</div>
-                <div class="pyq-options">
-                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) 126</div>
-                    <div class="pyq-option" onclick="markOption(this,'correct')">B) 62</div>
-                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) 64</div>
-                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) 254</div>
-                </div>
-                <div class="pyq-ans"><strong>Answer: B — 62.</strong> Prefix /26 leaves 32 - 26 = 6 bits for the host ID. Number of total hosts = 2⁶ = 64. Usable hosts = 64 - 2 (network and broadcast addresses) = 62.</div>
-            </div>
+  <!-- TAB: OSI Model -->
+  <div id="cn-osi" class="cn-panel active">
+    <div class="section-title">The 7 OSI Layers</div>
+    <p style="font-size:13px;color:#666;margin-bottom:12px;">Mnemonic (top→down): <em>All People Seem To Need Data Processing</em></p>
+    <div class="osi-stack">
+      <div class="osi-row" style="--osi-color:#534AB7;--osi-bg:#EEEDFE;">
+        <div class="osi-num">7</div>
+        <div class="osi-name">Application</div>
+        <div class="osi-pdu">Data</div>
+        <div class="osi-desc">HTTP, FTP, SMTP, DNS — user-facing services</div>
+        <div class="osi-device">Gateway</div>
+      </div>
+      <div class="osi-row" style="--osi-color:#534AB7;--osi-bg:#F3F2FE;">
+        <div class="osi-num">6</div>
+        <div class="osi-name">Presentation</div>
+        <div class="osi-pdu">Data</div>
+        <div class="osi-desc">Encryption, compression, format translation (SSL, JPEG)</div>
+        <div class="osi-device">—</div>
+      </div>
+      <div class="osi-row" style="--osi-color:#534AB7;--osi-bg:#F8F7FF;">
+        <div class="osi-num">5</div>
+        <div class="osi-name">Session</div>
+        <div class="osi-pdu">Data</div>
+        <div class="osi-desc">Session setup, maintenance &amp; teardown</div>
+        <div class="osi-device">—</div>
+      </div>
+      <div class="osi-row" style="--osi-color:#0F6E56;--osi-bg:#E1F5EE;">
+        <div class="osi-num">4</div>
+        <div class="osi-name">Transport</div>
+        <div class="osi-pdu">Segments</div>
+        <div class="osi-desc">TCP / UDP — end-to-end delivery, flow &amp; error control</div>
+        <div class="osi-device">Firewall</div>
+      </div>
+      <div class="osi-row" style="--osi-color:#185FA5;--osi-bg:#E6F1FB;">
+        <div class="osi-num">3</div>
+        <div class="osi-name">Network</div>
+        <div class="osi-pdu">Packets</div>
+        <div class="osi-desc">IP addressing, logical routing across networks</div>
+        <div class="osi-device">Router</div>
+      </div>
+      <div class="osi-row" style="--osi-color:#854F0B;--osi-bg:#FAEEDA;">
+        <div class="osi-num">2</div>
+        <div class="osi-name">Data Link</div>
+        <div class="osi-pdu">Frames</div>
+        <div class="osi-desc">MAC addresses, CSMA/CD, error detection (CRC)</div>
+        <div class="osi-device">Switch / Bridge</div>
+      </div>
+      <div class="osi-row" style="--osi-color:#993C1D;--osi-bg:#FAECE7;">
+        <div class="osi-num">1</div>
+        <div class="osi-name">Physical</div>
+        <div class="osi-pdu">Bits</div>
+        <div class="osi-desc">Electrical signals, cables, hubs, NIC cards</div>
+        <div class="osi-device">Hub / Cable</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: IP & Subnetting -->
+  <div id="cn-ip" class="cn-panel">
+    <div class="section-title">IPv4 Address Classes</div>
+    <div class="card-grid">
+      <div class="card blue">
+        <span class="card-tag">Class A</span>
+        <h3>0.0.0.0 – 127.x.x.x</h3>
+        <p>First bit: <strong>0</strong>. Default mask <strong>/8</strong>. 126 networks, ~16 million hosts each. 127.x.x.x reserved for loopback.</p>
+      </div>
+      <div class="card blue">
+        <span class="card-tag">Class B</span>
+        <h3>128.x.x.x – 191.x.x.x</h3>
+        <p>First bits: <strong>10</strong>. Default mask <strong>/16</strong>. 16,384 networks, ~65,534 hosts each.</p>
+      </div>
+      <div class="card blue">
+        <span class="card-tag">Class C</span>
+        <h3>192.x.x.x – 223.x.x.x</h3>
+        <p>First bits: <strong>110</strong>. Default mask <strong>/24</strong>. ~2M networks, 254 usable hosts each.</p>
+      </div>
+      <div class="card blue">
+        <span class="card-tag">CIDR</span>
+        <h3>Classless Inter-Domain Routing</h3>
+        <p>Uses <strong>/n</strong> prefix notation. Host bits = 32 − n. Usable hosts = <strong>2<sup>(32−n)</sup> − 2</strong> (subtract network &amp; broadcast).</p>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">Interactive Subnet Calculator</div>
+    <div class="subnet-calc-box">
+      <div class="subnet-slider-row">
+        <label for="cidr-range">CIDR Prefix</label>
+        <input type="range" id="cidr-range" min="8" max="30" value="26" oninput="cnCalcSubnet(this.value)">
+        <span class="cidr-display" id="cidr-display">/26</span>
+      </div>
+      <div class="subnet-results" id="subnet-results"></div>
+    </div>
+
+    <div class="alert-box info" style="margin-top:16px;">
+      <i class="fas fa-lightbulb"></i>
+      <span><strong>Key trick:</strong> For /26 → host bits = 32−26 = 6 → total = 2<sup>6</sup> = 64 → usable = 64−2 = <strong>62</strong></span>
+    </div>
+  </div>
+
+  <!-- TAB: TCP vs UDP -->
+  <div id="cn-transport" class="cn-panel">
+    <div class="section-title">TCP vs UDP Comparison</div>
+    <div class="tcp-udp-grid">
+      <div class="proto-col tcp-col">
+        <div class="proto-header tcp-header"><i class="fas fa-handshake"></i> TCP</div>
+        <div class="proto-row-item"><span class="proto-dot tcp-dot"></span> Connection-oriented (3-way handshake)</div>
+        <div class="proto-row-item"><span class="proto-dot tcp-dot"></span> Reliable, ordered delivery</div>
+        <div class="proto-row-item"><span class="proto-dot tcp-dot"></span> Flow control (sliding window)</div>
+        <div class="proto-row-item"><span class="proto-dot tcp-dot"></span> Error detection &amp; retransmission</div>
+        <div class="proto-row-item"><span class="proto-dot tcp-dot"></span> Higher latency, more overhead</div>
+        <div class="proto-badge tcp-badge">HTTP · FTP · SMTP · SSH</div>
+      </div>
+      <div class="proto-col udp-col">
+        <div class="proto-header udp-header"><i class="fas fa-bolt"></i> UDP</div>
+        <div class="proto-row-item"><span class="proto-dot udp-dot"></span> Connectionless — no handshake</div>
+        <div class="proto-row-item"><span class="proto-dot udp-dot"></span> Unreliable, no ordering guarantee</div>
+        <div class="proto-row-item"><span class="proto-dot udp-dot"></span> No flow or congestion control</div>
+        <div class="proto-row-item"><span class="proto-dot udp-dot"></span> Low latency, minimal overhead</div>
+        <div class="proto-row-item"><span class="proto-dot udp-dot"></span> Best-effort delivery</div>
+        <div class="proto-badge udp-badge">DNS · DHCP · VoIP · Streaming</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">TCP 3-Way Handshake</div>
+    <div class="handshake-box">
+      <div class="hs-col hs-left"><strong>Client</strong></div>
+      <div class="hs-steps">
+        <div class="hs-step">
+          <div class="hs-flag hs-syn">SYN</div>
+          <div class="hs-arrow hs-arrow-right">——————————→</div>
+          <div class="hs-label">Step 1: Client initiates connection (seq=x)</div>
         </div>
+        <div class="hs-step">
+          <div class="hs-flag hs-synack">SYN-ACK</div>
+          <div class="hs-arrow hs-arrow-left">←——————————</div>
+          <div class="hs-label">Step 2: Server acknowledges (seq=y, ack=x+1)</div>
+        </div>
+        <div class="hs-step">
+          <div class="hs-flag hs-ack">ACK</div>
+          <div class="hs-arrow hs-arrow-right">——————————→</div>
+          <div class="hs-label">Step 3: Client confirms (ack=y+1) — connection established</div>
+        </div>
+      </div>
+      <div class="hs-col hs-right"><strong>Server</strong></div>
+    </div>
+  </div>
+
+  <!-- TAB: Routing -->
+  <div id="cn-routing" class="cn-panel">
+    <div class="section-title">Routing Algorithm Comparison</div>
+    <div class="card-grid">
+      <div class="card" style="border-top:3px solid #BA7517;background:#FAEEDA;">
+        <span class="card-tag" style="color:#854F0B;">Distance Vector</span>
+        <h3>RIP — Routing Information Protocol</h3>
+        <p>Uses <strong>Bellman-Ford</strong> algorithm. Shares full routing table with neighbors. Prone to <strong>count-to-infinity</strong> problem. Max hop count = 15.</p>
+      </div>
+      <div class="card" style="border-top:3px solid #1D9E75;background:#E1F5EE;">
+        <span class="card-tag" style="color:#0F6E56;">Link State</span>
+        <h3>OSPF — Open Shortest Path First</h3>
+        <p>Uses <strong>Dijkstra's</strong> algorithm. Each router holds a full topology map. Faster convergence, more scalable. Sends link-state advertisements (LSAs).</p>
+      </div>
+      <div class="card" style="border-top:3px solid #185FA5;background:#E6F1FB;">
+        <span class="card-tag" style="color:#0C447C;">Path Vector</span>
+        <h3>BGP — Border Gateway Protocol</h3>
+        <p>Used for inter-AS (internet-level) routing. Shares full path to avoid loops. Policy-based, highly scalable but slow convergence.</p>
+      </div>
+      <div class="card" style="border-top:3px solid #534AB7;background:#EEEDFE;">
+        <span class="card-tag" style="color:#3C3489;">Quick Comparison</span>
+        <h3>RIP vs OSPF</h3>
+        <table style="width:100%;font-size:12px;border-collapse:collapse;">
+          <tr style="border-bottom:1px solid #ccc;">
+            <th style="text-align:left;padding:4px 0;color:#555;font-weight:600;">Feature</th>
+            <th style="color:#555;padding:4px;font-weight:600;">RIP</th>
+            <th style="color:#555;padding:4px;font-weight:600;">OSPF</th>
+          </tr>
+          <tr><td style="padding:3px 0;">Algorithm</td><td style="text-align:center;padding:3px;">Bellman-Ford</td><td style="text-align:center;padding:3px;">Dijkstra</td></tr>
+          <tr><td style="padding:3px 0;">Metric</td><td style="text-align:center;padding:3px;">Hop count</td><td style="text-align:center;padding:3px;">Cost (bandwidth)</td></tr>
+          <tr><td style="padding:3px 0;">Convergence</td><td style="text-align:center;padding:3px;">Slow</td><td style="text-align:center;padding:3px;">Fast</td></tr>
+          <tr><td style="padding:3px 0;">Max hops</td><td style="text-align:center;padding:3px;">15</td><td style="text-align:center;padding:3px;">Unlimited</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Ports & Protocols -->
+  <div id="cn-ports" class="cn-panel">
+    <div class="section-title">Common Protocols &amp; Port Numbers</div>
+    <table class="ports-table">
+      <thead>
+        <tr>
+          <th>Protocol</th>
+          <th>Port</th>
+          <th>Transport</th>
+          <th>Layer</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>HTTP</strong></td><td><span class="port-badge">80</span></td><td>TCP</td><td>Application</td><td>Web browsing (unencrypted)</td></tr>
+        <tr><td><strong>HTTPS</strong></td><td><span class="port-badge">443</span></td><td>TCP</td><td>Application</td><td>Secure web browsing (TLS)</td></tr>
+        <tr><td><strong>FTP</strong></td><td><span class="port-badge">20/21</span></td><td>TCP</td><td>Application</td><td>File transfer (data/control)</td></tr>
+        <tr><td><strong>SMTP</strong></td><td><span class="port-badge">25</span></td><td>TCP</td><td>Application</td><td>Sending email</td></tr>
+        <tr><td><strong>POP3</strong></td><td><span class="port-badge">110</span></td><td>TCP</td><td>Application</td><td>Receiving email (download &amp; delete)</td></tr>
+        <tr><td><strong>IMAP</strong></td><td><span class="port-badge">143</span></td><td>TCP</td><td>Application</td><td>Receiving email (sync, server-side)</td></tr>
+        <tr><td><strong>DNS</strong></td><td><span class="port-badge">53</span></td><td>TCP/UDP</td><td>Application</td><td>Domain name resolution</td></tr>
+        <tr><td><strong>DHCP</strong></td><td><span class="port-badge">67/68</span></td><td>UDP</td><td>Application</td><td>Dynamic IP address assignment</td></tr>
+        <tr><td><strong>Telnet</strong></td><td><span class="port-badge">23</span></td><td>TCP</td><td>Application</td><td>Remote login (unencrypted)</td></tr>
+        <tr><td><strong>SSH</strong></td><td><span class="port-badge">22</span></td><td>TCP</td><td>Application</td><td>Secure remote login</td></tr>
+        <tr><td><strong>SNMP</strong></td><td><span class="port-badge">161</span></td><td>UDP</td><td>Application</td><td>Network device management</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TAB: Formulas -->
+  <div id="cn-formulas" class="cn-panel">
+    <div class="section-title">Key Formulas &amp; Delay Metrics</div>
+    <div class="formula-box">
+      <div class="f-grid">
+        <div class="f-item">
+          <div class="f-name">Transmission Delay</div>
+          <div class="f-math">T<sub>t</sub> = L / B</div>
+          <div class="f-desc">L = Packet length (bits), B = Bandwidth (bps)</div>
+          <div class="f-example"><strong>Example:</strong> 1000-bit packet over 1 Mbps → T<sub>t</sub> = 1 ms</div>
+        </div>
+        <div class="f-item">
+          <div class="f-name">Propagation Delay</div>
+          <div class="f-math">T<sub>p</sub> = d / v</div>
+          <div class="f-desc">d = Distance (m), v = Signal speed (~2×10<sup>8</sup> m/s in copper)</div>
+          <div class="f-example"><strong>Example:</strong> 200 km → T<sub>p</sub> = 200,000 / 2×10<sup>8</sup> = 1 ms</div>
+        </div>
+        <div class="f-item">
+          <div class="f-name">Round Trip Time</div>
+          <div class="f-math">RTT ≈ 2 × T<sub>p</sub></div>
+          <div class="f-desc">Assumes processing and queuing delays are negligible</div>
+          <div class="f-example"><strong>Note:</strong> Used to calculate TCP timeout and window size</div>
+        </div>
+        <div class="f-item">
+          <div class="f-name">Stop &amp; Wait Efficiency</div>
+          <div class="f-math">η = T<sub>t</sub> / (T<sub>t</sub> + 2T<sub>p</sub>)</div>
+          <div class="f-desc">Efficiency of stop-and-wait ARQ protocol</div>
+          <div class="f-example"><strong>Tip:</strong> Higher propagation → lower efficiency</div>
+        </div>
+        <div class="f-item">
+          <div class="f-name">Usable Hosts / Subnet</div>
+          <div class="f-math">2<sup>(32−n)</sup> − 2</div>
+          <div class="f-desc">n = CIDR prefix length. Subtract network + broadcast addresses.</div>
+          <div class="f-example"><strong>Example:</strong> /26 → 2<sup>6</sup> − 2 = <strong>62 hosts</strong></div>
+        </div>
+        <div class="f-item">
+          <div class="f-name">Bandwidth-Delay Product</div>
+          <div class="f-math">BDP = B × T<sub>p</sub></div>
+          <div class="f-desc">Maximum data "in flight" in the network at once (bits)</div>
+          <div class="f-example"><strong>Example:</strong> 1 Mbps × 10 ms = 10,000 bits in transit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Practice MCQs -->
+  <div id="cn-pyq" class="cn-panel">
+    <div class="section-title">Past Year Questions — Interactive</div>
+
+    <div class="pyq-score-bar">
+      <span class="pyq-score-label">Score</span>
+      <span class="pyq-score-val" id="cn-score">0 / 0</span>
+      <div class="pyq-score-track"><div class="pyq-score-fill" id="cn-score-fill" style="width:0%"></div></div>
+      <button class="pyq-reset-btn" onclick="cnResetQuiz()">Reset</button>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-year">⭐ Direct PYQ</div>
+      <div class="pyq-q">Q1. Which layer of the OSI model is responsible for routing?</div>
+      <div class="pyq-options" data-qid="1" data-answer="B">
+        <div class="pyq-option" data-val="A" onclick="cnMarkOption(this)">A) Data Link Layer</div>
+        <div class="pyq-option" data-val="B" onclick="cnMarkOption(this)">B) Network Layer</div>
+        <div class="pyq-option" data-val="C" onclick="cnMarkOption(this)">C) Transport Layer</div>
+        <div class="pyq-option" data-val="D" onclick="cnMarkOption(this)">D) Physical Layer</div>
+      </div>
+      <div class="pyq-ans" id="pyq-ans-1">
+        <strong>Answer: B — Network Layer.</strong> Layer 3 handles logical IP addressing and routes packets across multiple networks using routers. The Data Link Layer (L2) handles MAC-level delivery only within a single segment.
+      </div>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-year">🔥 Numerical</div>
+      <div class="pyq-q">Q2. What is the maximum number of usable hosts per subnet for a /26 prefix?</div>
+      <div class="pyq-options" data-qid="2" data-answer="B">
+        <div class="pyq-option" data-val="A" onclick="cnMarkOption(this)">A) 126</div>
+        <div class="pyq-option" data-val="B" onclick="cnMarkOption(this)">B) 62</div>
+        <div class="pyq-option" data-val="C" onclick="cnMarkOption(this)">C) 64</div>
+        <div class="pyq-option" data-val="D" onclick="cnMarkOption(this)">D) 254</div>
+      </div>
+      <div class="pyq-ans" id="pyq-ans-2">
+        <strong>Answer: B — 62.</strong> /26 → host bits = 32−26 = 6. Total addresses = 2<sup>6</sup> = 64. Subtract 1 (network) + 1 (broadcast) = <strong>62 usable hosts</strong>.
+      </div>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-year">🔥 Frequent Concept</div>
+      <div class="pyq-q">Q3. Which routing protocol uses the Bellman-Ford algorithm and is prone to count-to-infinity?</div>
+      <div class="pyq-options" data-qid="3" data-answer="C">
+        <div class="pyq-option" data-val="A" onclick="cnMarkOption(this)">A) OSPF</div>
+        <div class="pyq-option" data-val="B" onclick="cnMarkOption(this)">B) BGP</div>
+        <div class="pyq-option" data-val="C" onclick="cnMarkOption(this)">C) RIP</div>
+        <div class="pyq-option" data-val="D" onclick="cnMarkOption(this)">D) EIGRP</div>
+      </div>
+      <div class="pyq-ans" id="pyq-ans-3">
+        <strong>Answer: C — RIP.</strong> RIP uses Bellman-Ford and shares routing tables with neighbors. The count-to-infinity problem occurs when a link fails and routers keep incrementing the hop count. Max hops = 15; 16 = infinity (unreachable).
+      </div>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-year">⭐ Direct PYQ</div>
+      <div class="pyq-q">Q4. TCP uses a ___-way handshake to establish a connection.</div>
+      <div class="pyq-options" data-qid="4" data-answer="B">
+        <div class="pyq-option" data-val="A" onclick="cnMarkOption(this)">A) 2-way</div>
+        <div class="pyq-option" data-val="B" onclick="cnMarkOption(this)">B) 3-way</div>
+        <div class="pyq-option" data-val="C" onclick="cnMarkOption(this)">C) 4-way</div>
+        <div class="pyq-option" data-val="D" onclick="cnMarkOption(this)">D) 5-way</div>
+      </div>
+      <div class="pyq-ans" id="pyq-ans-4">
+        <strong>Answer: B — 3-way handshake.</strong> TCP establishes a connection with SYN → SYN-ACK → ACK. Note: TCP uses a separate 4-way handshake to <em>close</em> a connection (FIN → ACK → FIN → ACK).
+      </div>
+    </div>
+
+    <div class="pyq-box">
+      <div class="pyq-year">🔥 Numerical</div>
+      <div class="pyq-q">Q5. A packet of 5000 bits is sent over a 1 Mbps link. Propagation delay = 10 ms. Total end-to-end delay?</div>
+      <div class="pyq-options" data-qid="5" data-answer="A">
+        <div class="pyq-option" data-val="A" onclick="cnMarkOption(this)">A) 15 ms</div>
+        <div class="pyq-option" data-val="B" onclick="cnMarkOption(this)">B) 10 ms</div>
+        <div class="pyq-option" data-val="C" onclick="cnMarkOption(this)">C) 5 ms</div>
+        <div class="pyq-option" data-val="D" onclick="cnMarkOption(this)">D) 20 ms</div>
+      </div>
+      <div class="pyq-ans" id="pyq-ans-5">
+        <strong>Answer: A — 15 ms.</strong> T<sub>t</sub> = L/B = 5000 / 10<sup>6</sup> = 5 ms. T<sub>p</sub> = 10 ms. Total = 5 + 10 = <strong>15 ms</strong>.
+      </div>
+    </div>
+
+  </div><!-- end pyq panel -->
+
+</div><!-- end #content-cn -->
+
+
+<!-- ===== STYLES (scoped to #content-cn) ===== -->
+<style>
+#content-cn { font-family: inherit; }
+
+.cn-tabs { display:flex; flex-wrap:wrap; gap:6px; margin:20px 0 16px; }
+.cn-tab {
+  padding:7px 16px; font-size:13px; border:1px solid #d0d5dd;
+  border-radius:20px; background:#fff; color:#555; cursor:pointer; transition:all .15s;
+}
+.cn-tab:hover { background:#f4f6f8; }
+.cn-tab.active { background:#0C447C; color:#fff; border-color:#0C447C; }
+
+.cn-panel { display:none; }
+.cn-panel.active { display:block; }
+
+/* OSI Stack */
+.osi-stack { display:flex; flex-direction:column; gap:4px; margin-bottom:16px; }
+.osi-row {
+  display:grid;
+  grid-template-columns:36px 130px 80px 1fr 110px;
+  align-items:center;
+  background:var(--osi-bg,#f9f9f9);
+  border:1px solid rgba(0,0,0,0.07);
+  border-left:4px solid var(--osi-color,#aaa);
+  border-radius:6px; padding:8px 12px;
+  transition:transform .15s; cursor:default;
+}
+.osi-row:hover { transform:translateX(5px); }
+.osi-num { font-size:13px; font-weight:700; color:var(--osi-color); }
+.osi-name { font-size:13px; font-weight:600; color:var(--osi-color); }
+.osi-pdu { font-size:11px; font-weight:600; color:var(--osi-color); opacity:.75; text-transform:uppercase; letter-spacing:.04em; }
+.osi-desc { font-size:12px; color:#555; padding:0 8px; }
+.osi-device { font-size:11px; color:#888; text-align:right; }
+
+/* Subnet Calculator */
+.subnet-calc-box { background:#f4f6f8; border:1px solid #e0e4ea; border-radius:10px; padding:16px; margin:12px 0; }
+.subnet-slider-row { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.subnet-slider-row label { font-size:13px; color:#555; width:90px; flex-shrink:0; }
+.subnet-slider-row input[type=range] { flex:1; }
+.cidr-display { font-size:18px; font-weight:700; color:#0C447C; min-width:40px; font-family:monospace; }
+.subnet-results { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; }
+.sresult { background:#fff; border:1px solid #e0e4ea; border-radius:8px; padding:10px 12px; }
+.sresult-label { font-size:11px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:.06em; }
+.sresult-val { font-size:17px; font-weight:700; color:#0C447C; font-family:monospace; }
+
+/* TCP/UDP */
+.tcp-udp-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.proto-col { border-radius:10px; padding:16px; }
+.tcp-col { background:#E6F1FB; border:1px solid #85B7EB; }
+.udp-col { background:#FAEEDA; border:1px solid #EF9F27; }
+.proto-header { font-size:15px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.tcp-header { color:#0C447C; }
+.udp-header { color:#633806; }
+.proto-row-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; margin-bottom:6px; }
+.tcp-col .proto-row-item { color:#0C447C; }
+.udp-col .proto-row-item { color:#633806; }
+.proto-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+.tcp-dot { background:#378ADD; }
+.udp-dot { background:#BA7517; }
+.proto-badge { margin-top:12px; font-size:11px; font-weight:600; padding:5px 10px; border-radius:20px; display:inline-block; letter-spacing:.04em; }
+.tcp-badge { background:#0C447C; color:#B5D4F4; }
+.udp-badge { background:#633806; color:#FAC775; }
+
+/* Handshake */
+.handshake-box {
+  display:flex; align-items:flex-start; gap:0;
+  background:#f4f6f8; border:1px solid #e0e4ea;
+  border-radius:10px; padding:16px; margin:12px 0;
+}
+.hs-col { font-size:13px; font-weight:700; color:#0C447C; width:60px; flex-shrink:0; padding-top:6px; }
+.hs-right { text-align:right; }
+.hs-steps { flex:1; display:flex; flex-direction:column; gap:12px; }
+.hs-step { display:flex; flex-direction:column; gap:3px; }
+.hs-flag { font-size:11px; font-weight:700; padding:3px 10px; border-radius:10px; display:inline-block; align-self:flex-start; letter-spacing:.06em; }
+.hs-syn { background:#0C447C; color:#B5D4F4; }
+.hs-synack { background:#0F6E56; color:#9FE1CB; }
+.hs-ack { background:#534AB7; color:#CECBF6; }
+.hs-arrow { font-size:13px; color:#555; letter-spacing:2px; }
+.hs-arrow-right { color:#185FA5; }
+.hs-arrow-left { color:#0F6E56; }
+.hs-label { font-size:11.5px; color:#666; }
+
+/* Ports Table */
+.ports-table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:8px; }
+.ports-table th { font-size:11px; text-transform:uppercase; letter-spacing:.07em; font-weight:600; color:#888; text-align:left; padding:8px 12px; border-bottom:2px solid #e0e4ea; background:#f8f9fa; }
+.ports-table td { padding:9px 12px; border-bottom:1px solid #f0f0f0; color:#333; }
+.ports-table tbody tr:hover { background:#f4f6f8; }
+.port-badge { display:inline-block; background:#E6F1FB; color:#0C447C; border:1px solid #85B7EB; padding:2px 8px; border-radius:10px; font-family:monospace; font-size:12px; font-weight:700; }
+
+/* Formulas */
+.f-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; }
+.f-item { background:#fff; border:1px solid #e0e4ea; border-radius:10px; padding:14px 16px; border-top:3px solid #378ADD; }
+.f-name { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:#888; margin-bottom:8px; font-weight:600; }
+.f-math { font-size:20px; font-family:monospace; font-weight:700; color:#0C447C; margin-bottom:6px; }
+.f-desc { font-size:12px; color:#666; line-height:1.6; margin-bottom:8px; }
+.f-example { font-size:12px; color:#0F6E56; background:#E1F5EE; border-radius:6px; padding:6px 10px; line-height:1.5; }
+
+/* MCQ Score Bar */
+.pyq-score-bar { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #eee; margin-bottom:16px; }
+.pyq-score-label { font-size:13px; color:#888; }
+.pyq-score-val { font-size:18px; font-weight:700; color:#0C447C; min-width:50px; }
+.pyq-score-track { flex:1; height:6px; background:#e0e4ea; border-radius:3px; overflow:hidden; }
+.pyq-score-fill { height:100%; background:#1D9E75; border-radius:3px; transition:width .4s ease; }
+.pyq-reset-btn { font-size:12px; padding:5px 14px; border:1px solid #d0d5dd; border-radius:20px; background:transparent; cursor:pointer; color:#666; }
+.pyq-reset-btn:hover { background:#f4f6f8; }
+
+/* MCQ Cards */
+.pyq-box { background:#fff; border:1px solid #e0e4ea; border-radius:10px; overflow:hidden; margin-bottom:14px; }
+.pyq-year { font-size:12px; font-weight:600; padding:8px 16px; background:#f8f9fa; border-bottom:1px solid #eee; color:#555; }
+.pyq-q { padding:14px 16px; font-size:14px; font-weight:600; color:#1a1a1a; line-height:1.5; }
+.pyq-options { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 16px 14px; }
+.pyq-option { padding:9px 14px; border:1px solid #d0d5dd; border-radius:8px; font-size:13px; cursor:pointer; background:#fff; color:#333; transition:all .15s; user-select:none; }
+.pyq-option:hover:not(.correct):not(.wrong):not(.dimmed) { background:#f4f6f8; border-color:#378ADD; }
+.pyq-option.correct { background:#EAF3DE; border-color:#639922; color:#27500A; font-weight:600; }
+.pyq-option.wrong { background:#FAECE7; border-color:#D85A30; color:#712B13; }
+.pyq-option.dimmed { opacity:.4; pointer-events:none; }
+.pyq-ans { display:none; padding:12px 16px; background:#f8f9fa; border-top:1px solid #eee; font-size:13px; color:#555; line-height:1.7; }
+.pyq-ans.show { display:block; }
+
+@media (max-width:600px) {
+  .osi-row { grid-template-columns:30px 100px 60px 1fr; }
+  .osi-device { display:none; }
+  .tcp-udp-grid { grid-template-columns:1fr; }
+  .pyq-options { grid-template-columns:1fr; }
+  .handshake-box { flex-direction:column; }
+  .hs-col { width:auto; }
+}
+</style>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+(function(){
+  window.cnSwitchTab = function(id, btn) {
+    document.querySelectorAll('.cn-panel').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.cn-tab').forEach(function(b){ b.classList.remove('active'); });
+    document.getElementById('cn-'+id).classList.add('active');
+    btn.classList.add('active');
+  };
+
+  window.cnCalcSubnet = function(val) {
+    val = parseInt(val);
+    document.getElementById('cidr-display').textContent = '/'+val;
+    var hostBits = 32 - val;
+    var total = Math.pow(2, hostBits);
+    var usable = total - 2;
+    var mask = [];
+    for(var i=0;i<4;i++){
+      var bits = Math.min(8, Math.max(0, val - i*8));
+      mask.push(256 - Math.pow(2, 8-bits));
+    }
+    document.getElementById('subnet-results').innerHTML =
+      sr('Host bits', hostBits) +
+      sr('Total addresses', total.toLocaleString()) +
+      sr('Usable hosts', usable.toLocaleString()) +
+      sr('Subnet mask', mask.join('.'));
+  };
+
+  function sr(label, val){
+    return '<div class="sresult"><div class="sresult-label">'+label+'</div><div class="sresult-val">'+val+'</div></div>';
+  }
+
+  cnCalcSubnet(26);
+
+  var answered={}, correct=0, total=0;
+
+  window.cnMarkOption = function(el){
+    var container = el.closest('.pyq-options');
+    var qid = container.dataset.qid;
+    var answer = container.dataset.answer;
+    if(answered[qid]) return;
+    answered[qid]=true; total++;
+    var chosen = el.dataset.val;
+    if(chosen===answer){
+      el.classList.add('correct'); correct++;
+    } else {
+      el.classList.add('wrong');
+      container.querySelectorAll('.pyq-option').forEach(function(opt){
+        if(opt.dataset.val===answer) opt.classList.add('correct');
+        else if(opt!==el) opt.classList.add('dimmed');
+      });
+    }
+    var ans = document.getElementById('pyq-ans-'+qid);
+    if(ans) ans.classList.add('show');
+    updateScore();
+  };
+
+  function updateScore(){
+    document.getElementById('cn-score').textContent = correct+' / '+total;
+    var pct = total>0 ? Math.round((correct/total)*100) : 0;
+    document.getElementById('cn-score-fill').style.width = pct+'%';
+  }
+
+  window.cnResetQuiz = function(){
+    answered={}; correct=0; total=0;
+    document.querySelectorAll('.pyq-option').forEach(function(el){
+      el.classList.remove('correct','wrong','dimmed');
+    });
+    document.querySelectorAll('.pyq-ans').forEach(function(el){
+      el.classList.remove('show');
+    });
+    updateScore();
+  };
+})();
+</script>
 
         <!-- ===== SOFTWARE ENGINEERING ===== -->
         <div id="content-se" class="tab-pane se-accent">
