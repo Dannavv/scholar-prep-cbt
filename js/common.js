@@ -88,10 +88,12 @@ function logActivity(action, details = {}) {
             time: new Date().toISOString(),
             ...details
         };
-        fetch('/api/sync?data=' + encodeURIComponent(JSON.stringify(data)), {
-            method: 'GET',
-            keepalive: true
-        }).catch(() => {});
+        const url = '/api/sync?data=' + encodeURIComponent(JSON.stringify(data));
+        if (navigator.sendBeacon) {
+            navigator.sendBeacon(url);
+        } else {
+            fetch(url, { method: 'GET', keepalive: true }).catch(() => {});
+        }
     } catch (e) {
         // Ignore tracking errors
     }
