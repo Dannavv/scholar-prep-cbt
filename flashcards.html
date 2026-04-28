@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards - HPCL Scholar</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/views.css">
+    <style>
+        .flashcard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 600px;
+            margin: 2rem auto;
+            perspective: 1000px;
+        }
+
+        .fc-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .fc-select {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+        }
+
+        .flashcard.flipped {
+            transform: rotateX(180deg);
+        }
+
+        .fc-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .fc-front {
+            z-index: 2;
+        }
+
+        .fc-back {
+            transform: rotateX(180deg);
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .fc-meta {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .fc-back .fc-meta {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .fc-content {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .fc-back .fc-content {
+            font-weight: 400;
+            font-size: 1.15rem;
+        }
+
+        .fc-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .fc-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-main);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fc-btn:hover:not(:disabled) {
+            background: color-mix(in srgb, var(--primary) 10%, transparent);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .fc-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .fc-progress {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body class="mouse-motion theme-vintage">
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo"><i class="fas fa-university"></i><span>HPCL Scholar</span></div>
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+        <ul class="nav-links">
+            <li><a class="nav-item" href="learn.html"><i class="fas fa-book"></i><span>Paper 1</span></a></li>
+            <li><a class="nav-item" href="paper2-learn.html"><i class="fas fa-laptop-code"></i><span>Paper 2</span></a></li>
+            <li><a class="nav-item" href="analyze.html"><i class="fas fa-lightbulb"></i><span>Vault</span></a></li>
+            <li><a class="nav-item" href="analytics.html"><i class="fas fa-chart-line"></i><span>Analytics</span></a></li>
+            <li><a class="nav-item active" href="flashcards.html"><i class="fas fa-layer-group"></i><span>Flashcards</span></a></li>
+            <li><a class="nav-item" href="exam.html"><i class="fas fa-pen-nib"></i><span>Exam</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="main">
+        <header class="view-header">
+            <div class="header-info">
+                <h1 class="view-title">Active Recall Flashcards</h1>
+                <p class="view-subtitle">Review key concepts, formulas, and tricky facts for Paper 1 & 2.</p>
+            </div>
+        </header>
+
+        <section id="flashcards-view" class="view active">
+            <div class="flashcard-container">
+                <div class="fc-controls">
+                    <select id="fc-paper-filter" class="fc-select">
+                        <option value="all">All Papers</option>
+                        <option value="Paper 1">Paper 1 (Aptitude & English)</option>
+                        <option value="Paper 2">Paper 2 (Technical)</option>
+                    </select>
+                    <select id="fc-subject-filter" class="fc-select">
+                        <option value="all">All Subjects</option>
+                    </select>
+                </div>
+
+                <div id="flashcard-wrapper" style="width: 100%;">
+                    <!-- Card injected via JS -->
+                </div>
+
+                <div class="fc-nav">
+                    <button class="fc-btn" id="fc-prev"><i class="fas fa-arrow-left"></i> Prev</button>
+                    <div class="fc-progress" id="fc-progress">0 / 0</div>
+                    <button class="fc-btn" id="fc-next">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/flashcards-data.js"></script>
+    <script src="js/flashcards.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
