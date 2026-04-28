@@ -88,7 +88,7 @@ function logActivity(action, details = {}) {
             time: new Date().toISOString(),
             ...details
         };
-        fetch('/api/log?data=' + encodeURIComponent(JSON.stringify(data)), {
+        fetch('/api/sync?data=' + encodeURIComponent(JSON.stringify(data)), {
             method: 'GET',
             keepalive: true
         }).catch(() => {});
