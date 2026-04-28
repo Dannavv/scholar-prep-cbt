@@ -1421,6 +1421,29 @@
                     (Regular, A → aB or A → a)</span>
             </div>
 
+            <div class="section-title">Regular Expression & Automata Facts</div>
+            <div class="card-grid">
+                <div class="card rose">
+                    <span class="card-tag">Equivalence</span>
+                    <h3>RE, NFA, DFA Are Equivalent</h3>
+                    <p>Regular Expressions, NFA, ε-NFA, and DFA have the <strong>same expressive power</strong>. They
+                        all define exactly the set of <strong>Regular Languages</strong>.</p>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Conversion</span>
+                    <h3>NFA to DFA</h3>
+                    <p>Subset construction may produce up to <strong>2<sup>n</sup></strong> DFA states from an NFA
+                        with n states. This upper-bound fact is a standard theory MCQ.</p>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Minimization</span>
+                    <h3>Minimal DFA</h3>
+                    <p>Equivalent states are merged during minimization. The minimized DFA is
+                        <strong>unique up to renaming</strong> and has the smallest number of states for the language.
+                    </p>
+                </div>
+            </div>
+
             <div class="section-title">Quick-Fire Flashcards (click to reveal)</div>
             <div class="flashcard-section">
                 <div class="flashcard-title"><i class="fas fa-bolt"></i> Tap each card to see the answer</div>
@@ -1699,6 +1722,31 @@
                     × S))</span>
             </div>
 
+            <div class="section-title">Keys & Functional Dependencies</div>
+            <div class="card-grid">
+                <div class="card blue">
+                    <span class="card-tag">Keys</span>
+                    <h3>Primary, Candidate, Super, Foreign</h3>
+                    <p><strong>Super Key:</strong> any attribute set that uniquely identifies a tuple.<br><strong>Candidate
+                            Key:</strong> minimal super key.<br><strong>Primary Key:</strong> selected candidate
+                        key.<br><strong>Foreign Key:</strong> references a key in another relation.</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">FD</span>
+                    <h3>Functional Dependency</h3>
+                    <p>X → Y means tuples equal on X must be equal on Y. Normalization questions usually revolve around
+                        whether the determinant is a key, part of a key, or a non-key attribute.</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">Transactions</span>
+                    <h3>Schedule Anomalies</h3>
+                    <p>Remember <strong>lost update</strong>, <strong>dirty read</strong>, and
+                        <strong>unrepeatable read</strong>. Serializable schedules preserve correctness of concurrent
+                        execution.
+                    </p>
+                </div>
+            </div>
+
             <div class="section-title">Quick-Fire Flashcards</div>
             <div class="flashcard-section">
                 <div class="flashcard-title"><i class="fas fa-bolt"></i> Tap each card to see the answer</div>
@@ -1931,6 +1979,33 @@
                         class="highlight">Burst Time</span></span>
             </div>
 
+            <div class="section-title">Memory Management & Synchronization</div>
+            <div class="card-grid">
+                <div class="card gold">
+                    <span class="card-tag">Fragmentation</span>
+                    <h3>Paging vs Segmentation</h3>
+                    <p><strong>Paging</strong> removes external fragmentation but may cause internal fragmentation.
+                        <strong>Segmentation</strong> can suffer from external fragmentation because segment sizes are
+                        variable.
+                    </p>
+                </div>
+                <div class="card gold">
+                    <span class="card-tag">Semaphore</span>
+                    <h3>Binary vs Counting Semaphore</h3>
+                    <p><strong>Binary semaphore</strong> behaves like a lock with values 0/1.
+                        <strong>Counting semaphore</strong> manages multiple instances of a resource using an integer
+                        value.
+                    </p>
+                </div>
+                <div class="card gold">
+                    <span class="card-tag">Replacement</span>
+                    <h3>Page Replacement Policies</h3>
+                    <p><strong>FIFO</strong>, <strong>LRU</strong>, and <strong>Optimal</strong> are the most important
+                        policies. FIFO can show <strong>Belady's anomaly</strong>; Optimal gives the theoretical minimum
+                        page faults.</p>
+                </div>
+            </div>
+
             <div class="section-title">Quick-Fire Flashcards</div>
             <div class="flashcard-section">
                 <div class="flashcard-title"><i class="fas fa-bolt"></i> Tap each card to see the answer</div>
@@ -2140,6 +2215,29 @@
                 <span class="formula-text">For 2 inputs of k bits each: max sum = (2<sup>k</sup>−1) + (2<sup>k</sup>−1)
                     = 2<sup>(k+1)</sup>−2<br>Output bits needed = <span class="highlight">k + 1</span> bits<br>E.g.,
                     3-bit + 3-bit: max = 7+7 = 14 → needs <span class="result">4 bits</span></span>
+            </div>
+
+            <div class="section-title">CPU & Number System Essentials</div>
+            <div class="card-grid">
+                <div class="card violet">
+                    <span class="card-tag">Instruction Cycle</span>
+                    <h3>Fetch → Decode → Execute</h3>
+                    <p>The CPU fetches an instruction, decodes the opcode, and then executes the operation. Questions
+                        often ask the correct order or the role of the Program Counter and Instruction Register.</p>
+                </div>
+                <div class="card violet">
+                    <span class="card-tag">Signed Binary</span>
+                    <h3>1's and 2's Complement</h3>
+                    <p><strong>1's complement</strong> flips all bits. <strong>2's complement</strong> is 1's
+                        complement plus 1, and it is the standard representation used in signed binary arithmetic.</p>
+                </div>
+                <div class="card violet">
+                    <span class="card-tag">Architecture</span>
+                    <h3>RISC vs CISC</h3>
+                    <p><strong>RISC</strong> favors simple instructions and many registers. <strong>CISC</strong>
+                        supports more complex instructions and addressing modes. This comparison is a frequent direct
+                        concept question.</p>
+                </div>
             </div>
 
             <div class="section-title">Quick-Fire Flashcards</div>
@@ -2421,6 +2519,33 @@
                         class="highlight">V - 1</span> edges</span>
             </div>
 
+            <div class="section-title">Search, Hashing & Core Analysis</div>
+            <div class="card-grid">
+                <div class="card green">
+                    <span class="card-tag">Searching</span>
+                    <h3>Binary Search Requirement</h3>
+                    <p>Binary Search requires a <strong>sorted</strong> array or search space. Its time complexity is
+                        <strong>O(log n)</strong> because each step halves the remaining search interval.
+                    </p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Hashing</span>
+                    <h3>Collision Resolution</h3>
+                    <p>Important techniques are <strong>chaining</strong>, <strong>linear probing</strong>,
+                        <strong>quadratic probing</strong>, and <strong>double hashing</strong>. Primary clustering is
+                        strongly associated with linear probing.
+                    </p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Asymptotic</span>
+                    <h3>O, Ω, Θ</h3>
+                    <p><strong>O</strong> gives an upper bound, <strong>Ω</strong> gives a lower bound, and
+                        <strong>Θ</strong> gives a tight bound. These notations are regularly tested in one-line theory
+                        questions.
+                    </p>
+                </div>
+            </div>
+
             <div class="section-title">Quick-Fire Flashcards</div>
             <div class="flashcard-section">
                 <div class="flashcard-title"><i class="fas fa-bolt"></i> Tap each card to see the answer</div>
@@ -2527,12 +2652,11 @@
                     layers, addressing rules, protocol behavior, and port mapping.</p>
             </div>
 
-            <!-- Exam Tip -->
+            <!-- Important Note -->
             <div class="alert-box info">
                 <i class="fas fa-info-circle"></i>
-                <span><strong>Exam Tip:</strong> IP addressing and the 7 OSI layers are the most commonly tested
-                    concepts. Numerical questions focus on subnetting (usable hosts = 2<sup>n</sup> − 2) and delay
-                    calculations. Know the TCP 3-way handshake cold.</span>
+                <span><strong>Important:</strong> OSI layers, subnetting, TCP vs UDP, routing algorithms, and common
+                    port numbers are the most repeatedly tested concept areas in computer networks.</span>
             </div>
 
             <!-- Tabs Navigation -->
@@ -2541,6 +2665,7 @@
                 <button class="cn-tab" onclick="cnSwitchTab('ip', this)">IP &amp; Subnetting</button>
                 <button class="cn-tab" onclick="cnSwitchTab('transport', this)">TCP vs UDP</button>
                 <button class="cn-tab" onclick="cnSwitchTab('routing', this)">Routing</button>
+                <button class="cn-tab" onclick="cnSwitchTab('devices', this)">Devices</button>
                 <button class="cn-tab" onclick="cnSwitchTab('ports', this)">Ports &amp; Protocols</button>
                 <button class="cn-tab" onclick="cnSwitchTab('formulas', this)">Formulas</button>
                 <button class="cn-tab" onclick="cnSwitchTab('pyq', this)">Practice MCQs</button>
@@ -2761,6 +2886,32 @@
                                 <td style="text-align:center;padding:3px;">Unlimited</td>
                             </tr>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Devices -->
+            <div id="cn-devices" class="cn-panel">
+                <div class="section-title">Network Devices & Domain Facts</div>
+                <div class="card-grid">
+                    <div class="card blue">
+                        <span class="card-tag">Layer 1</span>
+                        <h3>Hub</h3>
+                        <p>Works at the <strong>Physical Layer</strong>. It broadcasts incoming bits to all ports and
+                            does not filter traffic intelligently.</p>
+                    </div>
+                    <div class="card blue">
+                        <span class="card-tag">Layer 2</span>
+                        <h3>Switch / Bridge</h3>
+                        <p>Works at the <strong>Data Link Layer</strong> using <strong>MAC addresses</strong>. Each
+                            switch port creates a separate collision domain, improving LAN performance.</p>
+                    </div>
+                    <div class="card blue">
+                        <span class="card-tag">Layer 3</span>
+                        <h3>Router</h3>
+                        <p>Works at the <strong>Network Layer</strong> using IP addresses. Routers separate
+                            <strong>broadcast domains</strong> and forward packets between networks.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -3686,12 +3837,13 @@
                     cohesion/coupling, maintenance, SRS, and COCOMO-style comparison questions.</p>
             </div>
 
-            <!-- ===== STRATEGY ===== -->
+            <!-- ===== CORE NOTE ===== -->
             <div class="alert-box info">
                 <i class="fas fa-info-circle"></i>
                 <span>
-                    <strong>Strategy:</strong> Focus on <strong>comparisons</strong> (models, testing levels),
-                    <strong>design principles</strong> (cohesion/coupling), and <strong>standard formulas</strong>.
+                    <strong>Important:</strong> Software Engineering questions are usually definition-based and
+                    comparison-heavy. Process models, testing levels, cohesion/coupling, maintenance, and SRS are the
+                    most dependable scoring concepts.
                 </span>
             </div>
 
@@ -3847,8 +3999,39 @@
 
             </div>
 
+            <div class="section-title">7. Verification, Validation & Reliability</div>
+            <div class="card-grid">
+
+                <div class="card green">
+                    <h3>Verification vs Validation</h3>
+                    <p>
+                        <strong>Verification:</strong> Are we building the product right?<br>
+                        <strong>Validation:</strong> Are we building the right product?<br><br>
+                        Verification is process-oriented; validation is user-need oriented.
+                    </p>
+                </div>
+
+                <div class="card green">
+                    <h3>Error, Fault, Failure</h3>
+                    <p>
+                        <strong>Error:</strong> human mistake.<br>
+                        <strong>Fault:</strong> defect in software.<br>
+                        <strong>Failure:</strong> incorrect external behavior during execution.
+                    </p>
+                </div>
+
+                <div class="card green">
+                    <h3>Software Reliability</h3>
+                    <p>
+                        Reliability is the probability that software performs without failure for a specified time under
+                        stated conditions. It is different from correctness and maintainability.
+                    </p>
+                </div>
+
+            </div>
+
             <!-- ===== FORMULA ===== -->
-            <div class="section-title">7. Important Formula</div>
+            <div class="section-title">8. Important Formula</div>
             <div class="formula-box">
                 <div class="f-grid">
                     <div class="f-item">
@@ -3894,12 +4077,12 @@
             this section into some of the quickest marks in Paper 2.</p>
     </div>
 
-    <!-- ===== STRATEGY ===== -->
+    <!-- ===== CORE NOTE ===== -->
     <div class="alert-box info">
         <i class="fas fa-info-circle"></i>
         <span>
-            <strong>Strategy:</strong> Practice <strong>dry run</strong>, understand <strong>memory behavior</strong>, 
-            and focus on <strong>edge cases</strong> (static, pointers, references).
+            <strong>Important:</strong> Programming questions in HPCL Paper 2 are usually built around OOP basics,
+            memory behavior, pointer interpretation, parameter passing, and short output-tracing code snippets.
         </span>
     </div>
 
@@ -4079,6 +4262,38 @@
             <p>
                 Modifying via pointer changes original value.<br>
                 Common in swap problems.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="section-title">7. Core Data Structures Facts</div>
+    <div class="card-grid">
+
+        <div class="card rose">
+            <h3>Stack vs Queue</h3>
+            <p>
+                <strong>Stack:</strong> LIFO, used in recursion and function calls.<br>
+                <strong>Queue:</strong> FIFO, used in scheduling and BFS.<br><br>
+                Push/Pop belong to stack, Enqueue/Dequeue belong to queue.
+            </p>
+        </div>
+
+        <div class="card rose">
+            <h3>Linked List Basics</h3>
+            <p>
+                Each node stores <strong>data + link</strong>.<br>
+                Dynamic size, non-contiguous memory allocation.<br><br>
+                Insertion/deletion is easy after locating a node, but random access is slow.
+            </p>
+        </div>
+
+        <div class="card rose">
+            <h3>Tree and Graph Facts</h3>
+            <p>
+                A tree with <strong>n</strong> nodes has <strong>n-1</strong> edges.<br>
+                Binary tree node degree is at most 2.<br><br>
+                Queue and stack concepts frequently connect with traversal questions.
             </p>
         </div>
 
