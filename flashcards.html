@@ -75,6 +75,7 @@
 
         .fc-front {
             z-index: 2;
+            transform: rotateX(0deg);
         }
 
         .fc-back {
@@ -82,6 +83,13 @@
             background: var(--primary);
             color: #fff;
             border-color: var(--primary);
+            z-index: 1;
+        }
+
+        /* Prevent text from bleeding through in WebKit/Safari */
+        .fc-face * {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
         .fc-meta {
