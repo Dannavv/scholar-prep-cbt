@@ -23,10 +23,19 @@
             .map((item) => `<li>${item}${item.endsWith('.') ? '' : '.'}</li>`)
             .join('');
 
-        const topics = HPCLCommon.getOrderedTopics();
+        const isPaper2 = typeof paper2Questions !== 'undefined' && paper2Questions.some(q => q.topic === topicId);
+        const pool = isPaper2 ? paper2Questions : allQuestions;
+        const topics = HPCLCommon.getOrderedTopics(pool);
         const currentIndex = topics.indexOf(topicId);
         const prevTopic = topics[currentIndex - 1];
         const nextTopic = topics[currentIndex + 1];
+        
+        const backLink = isPaper2 ? 'paper2-learn.html' : 'learn.html';
+
+        const topBackBtn = document.getElementById('topBackBtn');
+        if (topBackBtn) {
+            topBackBtn.href = backLink;
+        }
 
         container.innerHTML = `
             <div class="cheatsheet-header">
@@ -90,7 +99,7 @@
                     </a>
                 ` : ''}
                 
-                <a href="learn.html" class="btn btn-outline">
+                <a href="${backLink}" class="btn btn-outline">
                     <i class="fas fa-arrow-left"></i> Back to Guide
                 </a>
 

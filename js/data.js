@@ -1216,10 +1216,14 @@ const topicNotes = {
 
 function getTopicNote(topic, section) {
   if (topicNotes[topic]) return topicNotes[topic];
+  if (typeof paper2TopicNotes !== 'undefined' && paper2TopicNotes[topic]) return paper2TopicNotes[topic];
+  
+  const isPaper2 = typeof paper2Questions !== 'undefined' && paper2Questions.some(q => q.topic === topic);
+  
   return {
-    summary: `Detailed study of ${topic} for HPCL Paper I.`,
+    summary: `Detailed study of ${topic} for HPCL ${isPaper2 ? 'Paper 2' : 'Paper 1'}.`,
     formula: 'Standard thematic formula applies.',
-    details: 'Focus on speed and pattern recognition.',
-    example: 'Refer to mock questions for worked examples.'
+    details: isPaper2 ? 'Focus on core technical rules and system behaviors.' : 'Focus on speed and pattern recognition.',
+    example: 'Refer to practice questions for worked examples.'
   };
 }

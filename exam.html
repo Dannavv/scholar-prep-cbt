@@ -25,7 +25,8 @@
             </button>
         </div>
         <ul class="nav-links">
-            <li><a class="nav-item" href="learn.html"><i class="fas fa-book"></i><span>Guide</span></a></li>
+            <li><a class="nav-item" href="learn.html"><i class="fas fa-book"></i><span>Guide (Paper 1)</span></a></li>
+            <li><a class="nav-item" href="paper2-learn.html"><i class="fas fa-laptop-code"></i><span>Guide (Paper 2)</span></a></li>
             <li><a class="nav-item" href="analyze.html"><i class="fas fa-lightbulb"></i><span>Vault</span></a></li>
             <li><a class="nav-item" href="analytics.html"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
             </li>
@@ -50,13 +51,35 @@
                             <select id="examLength" class="form-select"></select>
                         </div>
                         <div class="form-group">
-                            <label for="examSection">Focus</label>
-                            <select id="examSection" class="form-select">
-                                <option value="all">All</option>
-                                <option value="Quantitative Aptitude">Quant</option>
-                                <option value="Reasoning">Reasoning</option>
-                                <option value="English Language">English</option>
-                            </select>
+                            <label>Focus</label>
+                            <div class="custom-multiselect" id="focusMultiselect">
+                                <div class="multiselect-header" id="msHeader">
+                                    <span class="multiselect-label" id="msLabel">Mixed (Paper 1 & 2)</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="multiselect-dropdown" id="msDropdown" hidden>
+                                    <label class="ms-option ms-all"><input type="checkbox" value="all" id="msCheckAll" checked> Everything (Both Papers)</label>
+                                    
+                                    <div class="ms-group">
+                                        <label class="ms-option ms-group-label"><input type="checkbox" value="paper1" class="ms-group-check" data-target="p1" checked> All Paper 1</label>
+                                        <label class="ms-option"><input type="checkbox" value="Quantitative Aptitude" class="ms-topic p1" checked> Quant</label>
+                                        <label class="ms-option"><input type="checkbox" value="Reasoning" class="ms-topic p1" checked> Reasoning</label>
+                                        <label class="ms-option"><input type="checkbox" value="English Language" class="ms-topic p1" checked> English</label>
+                                    </div>
+                                    
+                                    <div class="ms-group">
+                                        <label class="ms-option ms-group-label"><input type="checkbox" value="paper2" class="ms-group-check" data-target="p2" checked> All Paper 2</label>
+                                        <label class="ms-option"><input type="checkbox" value="Theory of Computation" class="ms-topic p2" checked> Theory of Computation</label>
+                                        <label class="ms-option"><input type="checkbox" value="DBMS" class="ms-topic p2" checked> DBMS</label>
+                                        <label class="ms-option"><input type="checkbox" value="Operating Systems" class="ms-topic p2" checked> Operating Systems</label>
+                                        <label class="ms-option"><input type="checkbox" value="COA" class="ms-topic p2" checked> COA</label>
+                                        <label class="ms-option"><input type="checkbox" value="Algorithms" class="ms-topic p2" checked> Algorithms</label>
+                                        <label class="ms-option"><input type="checkbox" value="Computer Networks" class="ms-topic p2" checked> Computer Networks</label>
+                                        <label class="ms-option"><input type="checkbox" value="Software Engineering" class="ms-topic p2" checked> Software Engineering</label>
+                                        <label class="ms-option"><input type="checkbox" value="Programming" class="ms-topic p2" checked> Programming</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <p class="helper-text" id="examPoolSummary"></p>
@@ -128,6 +151,7 @@
     </main>
 
     <script src="js/data.js"></script>
+    <script src="js/paper2-data.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/common.js"></script>
     <script src="js/exam.js"></script>

@@ -18,7 +18,12 @@ function formatDate(dateString) {
 }
 
 function getQuestionPool(section = 'all') {
-    return allQuestions.filter((question) => section === 'all' || question.section === section);
+    const combined = (typeof paper2Questions !== 'undefined') ? [...allQuestions, ...paper2Questions] : allQuestions;
+    return combined.filter((question) => {
+        if (section === 'all') return true;
+        if (Array.isArray(section)) return section.includes(question.section);
+        return question.section === section;
+    });
 }
 
 function formatDurationMs(ms) {
@@ -64,9 +69,10 @@ function stripHtml(html) {
     return tmp.textContent || tmp.innerText || '';
 }
 
-function getOrderedTopics() {
+function getOrderedTopics(pool) {
     const topics = [];
-    allQuestions.forEach((q) => {
+    const source = pool || ((typeof paper2Questions !== 'undefined') ? [...allQuestions, ...paper2Questions] : allQuestions);
+    source.forEach((q) => {
         if (!topics.includes(q.topic)) {
             topics.push(q.topic);
         }

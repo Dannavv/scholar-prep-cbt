@@ -104,7 +104,8 @@ const ScholarStorage = {
     getStats() {
         const history = this.getHistory();
         const seen = this.getSeen();
-        const questionMap = new Map(allQuestions.map((q) => [q.id, q]));
+        const combinedQuestions = (typeof paper2Questions !== 'undefined') ? [...allQuestions, ...paper2Questions] : allQuestions;
+        const questionMap = new Map(combinedQuestions.map((q) => [q.id, q]));
 
         const sections = {};
         const topics = {};
@@ -116,7 +117,7 @@ const ScholarStorage = {
         const seenByTopic = {};
         const questionSessionCounts = new Map();
 
-        allQuestions.forEach((question) => {
+        combinedQuestions.forEach((question) => {
             if (!sections[question.section]) sections[question.section] = createBucket(question.section);
             if (!topics[question.topic]) topics[question.topic] = createBucket(question.topic);
             if (!difficulties[question.difficulty]) difficulties[question.difficulty] = createBucket(question.difficulty);
@@ -256,7 +257,7 @@ const ScholarStorage = {
         const recentAccuracy = recentAttempts > 0 ? percent(recentCorrect, recentAttempts) : 0;
         const previousAccuracy = previousAttempts > 0 ? percent(previousCorrect, previousAttempts) : 0;
         
-        const totalQuestions = allQuestions.length;
+        const totalQuestions = combinedQuestions.length;
         const coverage = totalQuestions > 0 ? percent(seen.size, totalQuestions) : 0;
         const firstTryAccuracy = firstTryTotal > 0 ? percent(firstTryCorrect, firstTryTotal) : 0;
 
@@ -266,7 +267,7 @@ const ScholarStorage = {
         }));
 
         const masteredIds = this.deriveMasteredIds(this.getQuestionProgress());
-        const questionsByTopic = allQuestions.reduce((acc, q) => {
+        const questionsByTopic = combinedQuestions.reduce((acc, q) => {
             if (!acc[q.topic]) acc[q.topic] = [];
             acc[q.topic].push(q.id);
             return acc;
@@ -274,8 +275,7 @@ const ScholarStorage = {
 
         const finalizedTopics = finalizeBuckets(topics);
         const topicPerformance = finalizedTopics.map((topic) => {
-            const topicQuestionIds = questionsByTopic[topic.name] || [];
-            const isMastered = topicQuestionIds.length > 0 && topicQuestionIds.every(id => masteredIds.has(id));
+            const isMastered = topic.attempts >= 10 && topic.accuracy >= 80;
             
             return {
                 topic: topic.name,
@@ -285,8 +285,33 @@ const ScholarStorage = {
             };
         });
 
-        const sectionBalanceScore = computeSectionBalance(sectionArray);
+        const p1SectionsList = ['Quantitative Aptitude', 'Reasoning', 'English Language'];
+        const p2SectionsList = ['Theory of Computation', 'DBMS', 'Operating Systems', 'COA', 'Algorithms', 'Computer Networks', 'Software Engineering', 'Programming'];
+
+        const p1SectionArray = sectionArray.filter(s => p1SectionsList.includes(s.name));
+        const p2SectionArray = sectionArray.filter(s => p2SectionsList.includes(s.name));
+
+        const p1Balance = computeSectionBalance(p1SectionArray);
+        const p2Balance = computeSectionBalance(p2SectionArray);
+        
+        const sectionBalanceScore = Math.round((p1Balance + p2Balance) / 2) || 0;
         const volumeMultiplier = Math.min(1, history.length / 5);
+
+        const calcPaperReadiness = (paperSecArr, paperBalance) => {
+            if (paperSecArr.length === 0) return 0;
+            const attempts = paperSecArr.reduce((sum, s) => sum + s.attempts, 0);
+            const correct = paperSecArr.reduce((sum, s) => sum + s.correct, 0);
+            const accuracy = attempts > 0 ? percent(correct, attempts) : 0;
+            const cov = Math.round(paperSecArr.reduce((sum, s) => sum + s.coverage, 0) / paperSecArr.length);
+            const hardAcc = finalizeBuckets(difficulties).find(d => d.name === 'Hard')?.accuracy || 0;
+            
+            return Math.round(
+                ((accuracy * 0.45) + (cov * 0.25) + (paperBalance * 0.15) + (hardAcc * 0.15)) * Math.min(1, attempts / 30)
+            );
+        };
+
+        const p1Readiness = calcPaperReadiness(p1SectionArray, p1Balance);
+        const p2Readiness = calcPaperReadiness(p2SectionArray, p2Balance);
 
         const readiness = history.length === 0
             ? 0
@@ -299,6 +324,8 @@ const ScholarStorage = {
 
         return {
             readiness,
+            p1Readiness,
+            p2Readiness,
             accuracy: overallAccuracy,
             coverage,
             history,
@@ -321,7 +348,7 @@ const ScholarStorage = {
                     conceptualWrong
                 }
             }),
-            strongestTopics: [...finalizedTopics].sort((a, b) => b.accuracy - a.accuracy).slice(0, 3),
+            strongestTopics: [...finalizedTopics].filter(t => t.attempts >= 3).sort((a, b) => b.accuracy - a.accuracy).slice(0, 3),
             weakestTopics: [...finalizedTopics].filter(t => t.attempts >= 3).sort((a, b) => a.accuracy - b.accuracy).slice(0, 3),
             sectionArray,
             difficultyArray: finalizeBuckets(difficulties).map(d => ({

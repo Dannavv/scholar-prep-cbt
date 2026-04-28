@@ -4,7 +4,9 @@
         if (!grid) return;
 
         grid.innerHTML = [
-            overviewCard('Readiness', `${stats.readiness}`, stats.dataQuality.enoughHistory ? 'Composite readiness score' : 'Readiness is still stabilizing'),
+            overviewCard('Overall Readiness', `${stats.readiness}`, stats.dataQuality.enoughHistory ? 'Composite readiness score' : 'Readiness is still stabilizing'),
+            overviewCard('Paper 1 (Aptitude)', `${stats.p1Readiness}`, 'Focuses on Speed & Logic'),
+            overviewCard('Paper 2 (Tech)', `${stats.p2Readiness}`, 'Focuses on Concept Depth'),
             overviewCard('Overall Accuracy', `${stats.accuracy}%`, `${stats.totalCorrect} correct, ${stats.totalSkipped} skipped overall`),
             overviewCard('Coverage', `${stats.coverage}%`, `${stats.totalQuestions} total questions in the current bank`),
             overviewCard('Trend', `${stats.trendDelta >= 0 ? '+' : ''}${stats.trendDelta} pts`, 'Recent sessions vs previous baseline')
@@ -114,7 +116,7 @@
         panel.innerHTML = stats.recentSessions.map((session) => `
             <article class="session-trend-card">
                 <div class="session-trend-top">
-                    <strong>${session.section === 'all' ? 'Mixed Practice Session' : session.section}</strong>
+                    <strong>${Array.isArray(session.section) ? (session.section.length > 2 ? session.section.length + ' Topics Selected' : session.section.join(', ')) : (session.section === 'all' ? 'Mixed Practice Session' : session.section)}</strong>
                     <span>${session.label}</span>
                 </div>
                 <div class="session-trend-metrics">

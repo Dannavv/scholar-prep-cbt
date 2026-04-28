@@ -1,0 +1,2609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HPCL Scholar — Paper 2 Complete Notes</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Mono:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f3ee;
+            --surface: #ffffff;
+            --surface2: #f0ede6;
+            --surface3: #e8e4db;
+            --border: rgba(60, 40, 10, 0.1);
+            --text: #1e1a12;
+            --muted: #6b6252;
+            --gold: #b06a00;
+            --gold-dim: rgba(176, 106, 0, 0.1);
+            --blue: #1a5fa8;
+            --blue-dim: rgba(26, 95, 168, 0.1);
+            --green: #1a7a42;
+            --green-dim: rgba(26, 122, 66, 0.1);
+            --rose: #c0373a;
+            --rose-dim: rgba(192, 55, 58, 0.1);
+            --violet: #6b35c2;
+            --violet-dim: rgba(107, 53, 194, 0.1);
+            --cyan: #0e7a94;
+            --cyan-dim: rgba(14, 122, 148, 0.1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Subtle paper texture bg */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 40% at 70% 10%, rgba(176, 106, 0, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 60% at 10% 80%, rgba(107, 53, 194, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* PROGRESS BAR */
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--rose), var(--violet));
+            z-index: 999;
+            transition: width 0.1s;
+            box-shadow: 0 0 8px rgba(176, 106, 0, 0.4);
+        }
+
+        /* SIDE NAV */
+        .sidenav {
+            width: 270px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 1.5rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            z-index: 100;
+        }
+
+        .sidenav::-webkit-scrollbar {
+            width: 4px
+        }
+
+        .sidenav::-webkit-scrollbar-track {
+            background: transparent
+        }
+
+        .sidenav::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 99px
+        }
+
+        .sidenav-logo {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidenav-logo h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+            letter-spacing: -0.02em;
+        }
+
+        .sidenav-logo p {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 0.2rem
+        }
+
+        .nav-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            margin: 1rem 0 0.4rem 0.75rem;
+            font-weight: 800;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.65rem 0.85rem;
+            border-radius: 10px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            user-select: none;
+        }
+
+        .nav-item:hover {
+            color: var(--text);
+            background: var(--surface2)
+        }
+
+        .nav-item.active {
+            color: var(--text);
+            background: var(--surface2);
+            border-color: var(--border);
+        }
+
+        .nav-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .nav-item.toc.active .nav-icon {
+            background: var(--rose-dim);
+            color: var(--rose)
+        }
+
+        .nav-item.dbms.active .nav-icon {
+            background: var(--blue-dim);
+            color: var(--blue)
+        }
+
+        .nav-item.os.active .nav-icon {
+            background: var(--gold-dim);
+            color: var(--gold)
+        }
+
+        .nav-item.coa.active .nav-icon {
+            background: var(--violet-dim);
+            color: var(--violet)
+        }
+
+        .nav-item.algo.active .nav-icon {
+            background: var(--green-dim);
+            color: var(--green)
+        }
+
+        .nav-item.toc .nav-icon {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted)
+        }
+
+        .nav-item.dbms .nav-icon {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted)
+        }
+
+        .nav-item.os .nav-icon {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted)
+        }
+
+        .nav-item.coa .nav-icon {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted)
+        }
+
+        .nav-item.algo .nav-icon {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted)
+        }
+
+        .nav-item.cn.active .nav-icon {
+            background: var(--blue-dim);
+            color: var(--blue)
+        }
+
+        .nav-item.se.active .nav-icon {
+            background: var(--green-dim);
+            color: var(--green)
+        }
+
+        .nav-item.prog.active .nav-icon {
+            background: var(--rose-dim);
+            color: var(--rose)
+        }
+
+        .nav-item.cn .nav-icon,
+        .nav-item.se .nav-icon,
+        .nav-item.prog .nav-icon {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted)
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.15rem 0.5rem;
+            border-radius: 99px;
+        }
+
+        .toc .nav-badge {
+            background: var(--rose-dim);
+            color: var(--rose)
+        }
+
+        .dbms .nav-badge {
+            background: var(--blue-dim);
+            color: var(--blue)
+        }
+
+        .os .nav-badge {
+            background: var(--gold-dim);
+            color: var(--gold)
+        }
+
+        .coa .nav-badge {
+            background: var(--violet-dim);
+            color: var(--violet)
+        }
+
+        .algo .nav-badge {
+            background: var(--green-dim);
+            color: var(--green)
+        }
+
+        .cn .nav-badge {
+            background: var(--blue-dim);
+            color: var(--blue)
+        }
+
+        .se .nav-badge {
+            background: var(--green-dim);
+            color: var(--green)
+        }
+
+        .prog .nav-badge {
+            background: var(--rose-dim);
+            color: var(--rose)
+        }
+
+        /* MAIN */
+        .main-content {
+            margin-left: 270px;
+            flex: 1;
+            padding: 3rem 3.5rem 8rem;
+            max-width: 1100px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeUp 0.4s ease
+        }
+
+        .tab-pane.active {
+            display: block
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* SUBJECT HEADER */
+        .subject-header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .subject-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 99px;
+            width: fit-content;
+        }
+
+        .toc-accent .subject-eyebrow {
+            background: var(--rose-dim);
+            color: var(--rose)
+        }
+
+        .dbms-accent .subject-eyebrow {
+            background: var(--blue-dim);
+            color: var(--blue)
+        }
+
+        .os-accent .subject-eyebrow {
+            background: var(--gold-dim);
+            color: var(--gold)
+        }
+
+        .coa-accent .subject-eyebrow {
+            background: var(--violet-dim);
+            color: var(--violet)
+        }
+
+        .algo-accent .subject-eyebrow {
+            background: var(--green-dim);
+            color: var(--green)
+        }
+
+        .cn-accent .subject-eyebrow {
+            background: var(--blue-dim);
+            color: var(--blue)
+        }
+
+        .se-accent .subject-eyebrow {
+            background: var(--green-dim);
+            color: var(--green)
+        }
+
+        .prog-accent .subject-eyebrow {
+            background: var(--rose-dim);
+            color: var(--rose)
+        }
+
+        .subject-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            line-height: 1.05;
+            color: var(--text);
+            letter-spacing: -0.03em;
+        }
+
+        .subject-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--muted);
+            padding: 0.3rem 0.75rem;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 99px;
+        }
+
+        .subject-desc {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.75;
+            max-width: 820px;
+        }
+
+        /* SECTION TITLES */
+        .section-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+            margin: 2.5rem 0 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* CONCEPT CARDS */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem 1.4rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(60, 40, 10, 0.12)
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+        }
+
+        .card.rose::before {
+            background: var(--rose)
+        }
+
+        .card.blue::before {
+            background: var(--blue)
+        }
+
+        .card.gold::before {
+            background: var(--gold)
+        }
+
+        .card.violet::before {
+            background: var(--violet)
+        }
+
+        .card.green::before {
+            background: var(--green)
+        }
+
+        .card.cyan::before {
+            background: var(--cyan)
+        }
+
+        .card-tag {
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.6rem;
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .card.rose .card-tag {
+            background: var(--rose-dim);
+            color: var(--rose)
+        }
+
+        .card.blue .card-tag {
+            background: var(--blue-dim);
+            color: var(--blue)
+        }
+
+        .card.gold .card-tag {
+            background: var(--gold-dim);
+            color: var(--gold)
+        }
+
+        .card.violet .card-tag {
+            background: var(--violet-dim);
+            color: var(--violet)
+        }
+
+        .card.green .card-tag {
+            background: var(--green-dim);
+            color: var(--green)
+        }
+
+        .card.cyan .card-tag {
+            background: var(--cyan-dim);
+            color: var(--cyan)
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.6rem;
+            color: var(--text);
+        }
+
+        .card p {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.65
+        }
+
+        .card ul {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.8;
+            padding-left: 1.2rem;
+            margin-top: 0.4rem;
+        }
+
+        .card li {
+            margin-bottom: 0.1rem
+        }
+
+        .card code {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--cyan);
+            background: rgba(56, 201, 232, 0.1);
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+        }
+
+        /* FORMULA BOXES */
+        .formula-box {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .formula-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+
+        .formula-name {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+        }
+
+        .formula-text {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .formula-text .highlight {
+            color: var(--gold)
+        }
+
+        .formula-text .var {
+            color: var(--blue)
+        }
+
+        .formula-text .result {
+            color: var(--green)
+        }
+
+        /* TABLES */
+        .table-wrap {
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left
+        }
+
+        th,
+        td {
+            padding: 0.85rem 1.1rem;
+            border-bottom: 1px solid var(--border)
+        }
+
+        th {
+            background: var(--surface3);
+            font-weight: 800;
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        tr:last-child td {
+            border-bottom: none
+        }
+
+        tr:hover td {
+            background: rgba(60, 40, 10, 0.03)
+        }
+
+        td {
+            font-size: 0.88rem;
+            color: var(--text)
+        }
+
+        td code {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--cyan);
+            background: var(--cyan-dim);
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+        }
+
+        td .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.2rem 0.5rem;
+            border-radius: 99px;
+        }
+
+        .badge-green {
+            background: var(--green-dim);
+            color: var(--green)
+        }
+
+        .badge-blue {
+            background: var(--blue-dim);
+            color: var(--blue)
+        }
+
+        .badge-rose {
+            background: var(--rose-dim);
+            color: var(--rose)
+        }
+
+        .badge-violet {
+            background: var(--violet-dim);
+            color: var(--violet)
+        }
+
+        .badge-gold {
+            background: var(--gold-dim);
+            color: var(--gold)
+        }
+
+        /* PYQ BOXES */
+        .pyq-box {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pyq-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--green);
+        }
+
+        .pyq-year {
+            font-size: 0.68rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--green);
+            margin-bottom: 0.5rem;
+        }
+
+        .pyq-q {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .pyq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .pyq-option {
+            font-size: 0.85rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            transition: all 0.2s;
+            background: var(--surface3);
+            user-select: none;
+        }
+
+        .pyq-option:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            color: var(--text)
+        }
+
+        .pyq-option.correct {
+            border-color: var(--green);
+            color: var(--green);
+            background: var(--green-dim);
+        }
+
+        .pyq-option.wrong {
+            border-color: var(--rose);
+            color: var(--rose);
+            background: var(--rose-dim);
+        }
+
+        .pyq-reveal-btn {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 800;
+            background: var(--surface3);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pyq-reveal-btn:hover {
+            color: var(--text);
+            border-color: rgba(255, 255, 255, 0.2)
+        }
+
+        .pyq-ans {
+            font-size: 0.88rem;
+            color: var(--muted);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            background: rgba(26, 122, 66, 0.06);
+            border: 1px solid rgba(26, 122, 66, 0.2);
+            border-left: 3px solid var(--green);
+            display: none;
+            margin-top: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .pyq-ans.visible {
+            display: block
+        }
+
+        .pyq-ans strong {
+            color: var(--green)
+        }
+
+        /* QUICK REFERENCE STRIP */
+        .qr-strip {
+            background: linear-gradient(135deg, var(--surface2), var(--surface3));
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .qr-strip-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--violet);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qr-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .qr-chip {
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 0.3rem 0.75rem;
+            border-radius: 99px;
+            border: 1px solid var(--border);
+            color: var(--text);
+            background: var(--surface);
+        }
+
+        .qr-chip span {
+            color: var(--gold);
+            margin-right: 0.25rem
+        }
+
+        /* HIERARCHY VISUAL */
+        .hierarchy {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .hierarchy-level {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.7rem 1.25rem;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .hierarchy-level:first-child {
+            border-radius: 12px 12px 0 0
+        }
+
+        .hierarchy-level:last-child {
+            border-radius: 0 0 12px 12px
+        }
+
+        .hierarchy-level:not(:last-child) {
+            border-bottom: none
+        }
+
+        .hierarchy-level:hover {
+            background: var(--surface3)
+        }
+
+        .hier-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .hier-lang {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--text)
+        }
+
+        .hier-machine {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-left: auto
+        }
+
+        .hier-arrow {
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-left: 0.5rem;
+        }
+
+        /* FLASHCARD */
+        .flashcard-section {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .flashcard-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--violet);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .flashcard {
+            background: var(--surface3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.85rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            perspective: 600px;
+            position: relative;
+            min-height: 90px;
+        }
+
+        .flashcard:hover {
+            border-color: rgba(255, 255, 255, 0.15)
+        }
+
+        .fc-front,
+        .fc-back {
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .fc-front {
+            font-weight: 700;
+            color: var(--text)
+        }
+
+        .fc-back {
+            display: none;
+            color: var(--gold);
+            font-weight: 700;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .flashcard.flipped .fc-front {
+            display: none
+        }
+
+        .flashcard.flipped .fc-back {
+            display: block
+        }
+
+        .fc-hint {
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-top: 0.3rem
+        }
+
+        /* MOBILE NAV */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            padding: 0.4rem 0.5rem;
+            /* grid-template-columns: repeat(5, 1fr); replaced with flex for scrolling */
+            gap: 0.25rem;
+            box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .mobile-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mob-btn {
+            flex: 0 0 auto;
+            min-width: 72px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            padding: 0.5rem 0.25rem;
+            border: none;
+            background: transparent;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: var(--muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .mob-btn.active {
+            color: var(--gold);
+            background: var(--gold-dim)
+        }
+
+        .mob-btn i {
+            font-size: 1rem
+        }
+
+        @media(max-width:980px) {
+            .sidenav {
+                display: none
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1.25rem 7rem
+            }
+
+            .subject-header h1 {
+                font-size: 2rem
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* UTILITY */
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem
+        }
+
+        .tag {
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            background: var(--surface3);
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .tag.important {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-dim)
+        }
+
+        .alert-box {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            border: 1px solid;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            line-height: 1.6;
+        }
+
+        .alert-box.warn {
+            border-color: rgba(245, 200, 66, 0.3);
+            background: rgba(245, 200, 66, 0.06);
+            color: var(--gold);
+        }
+
+        .alert-box.info {
+            border-color: rgba(79, 156, 249, 0.3);
+            background: rgba(79, 156, 249, 0.06);
+            color: var(--blue);
+        }
+
+        .alert-box i {
+            margin-top: 0.15rem;
+            flex-shrink: 0
+        }
+
+        /* CHEAT SHEET */
+        .cheat-sheet {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cheat-item {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .cheat-q {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text)
+        }
+
+        .cheat-a {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--gold);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div id="progress"></div>
+
+    <!-- SIDENAV -->
+    <nav class="sidenav">
+        <div class="sidenav-logo">
+            <h2>HPCL Scholar</h2>
+            <p>Paper 2 — Complete Notes</p>
+        </div>
+
+        <span class="nav-label">Subjects</span>
+
+        <a class="nav-item toc active" onclick="switchTab('toc')">
+            <span class="nav-icon"><i class="fas fa-cogs"></i></span>
+            Theory of Computation
+            <span class="nav-badge">14 Qs</span>
+        </a>
+        <a class="nav-item dbms" onclick="switchTab('dbms')">
+            <span class="nav-icon"><i class="fas fa-database"></i></span>
+            DBMS
+            <span class="nav-badge">12 Qs</span>
+        </a>
+        <a class="nav-item os" onclick="switchTab('os')">
+            <span class="nav-icon"><i class="fas fa-server"></i></span>
+            Operating Systems
+            <span class="nav-badge">11 Qs</span>
+        </a>
+        <a class="nav-item coa" onclick="switchTab('coa')">
+            <span class="nav-icon"><i class="fas fa-microchip"></i></span>
+            COA
+            <span class="nav-badge">10 Qs</span>
+        </a>
+        <a class="nav-item algo" onclick="switchTab('algo')">
+            <span class="nav-icon"><i class="fas fa-project-diagram"></i></span>
+            Algorithms
+            <span class="nav-badge">9 Qs</span>
+        </a>
+        <a class="nav-item cn" onclick="switchTab('cn')">
+            <span class="nav-icon"><i class="fas fa-network-wired"></i></span>
+            Comp Networks
+            <span class="nav-badge">8 Qs</span>
+        </a>
+        <a class="nav-item se" onclick="switchTab('se')">
+            <span class="nav-icon"><i class="fas fa-tools"></i></span>
+            Software Engg
+            <span class="nav-badge">6 Qs</span>
+        </a>
+        <a class="nav-item prog" onclick="switchTab('prog')">
+            <span class="nav-icon"><i class="fas fa-code"></i></span>
+            Programming
+            <span class="nav-badge">9 Qs</span>
+        </a>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav">
+        <button class="mob-btn active" onclick="switchTab('toc')" data-tab="toc"><i class="fas fa-cogs"></i>TOC</button>
+        <button class="mob-btn" onclick="switchTab('dbms')" data-tab="dbms"><i class="fas fa-database"></i>DBMS</button>
+        <button class="mob-btn" onclick="switchTab('os')" data-tab="os"><i class="fas fa-server"></i>OS</button>
+        <button class="mob-btn" onclick="switchTab('coa')" data-tab="coa"><i class="fas fa-microchip"></i>COA</button>
+        <button class="mob-btn" onclick="switchTab('algo')" data-tab="algo"><i class="fas fa-project-diagram"></i>Algo</button>
+        <button class="mob-btn" onclick="switchTab('cn')" data-tab="cn"><i class="fas fa-network-wired"></i>CN</button>
+        <button class="mob-btn" onclick="switchTab('se')" data-tab="se"><i class="fas fa-tools"></i>SE</button>
+        <button class="mob-btn" onclick="switchTab('prog')" data-tab="prog"><i class="fas fa-code"></i>Prog</button>
+    </div>
+
+    <main class="main-content">
+
+        <!-- ===== TOC ===== -->
+        <div id="content-toc" class="tab-pane active toc-accent">
+            <div class="subject-header">
+                <span class="subject-eyebrow"><i class="fas fa-cogs"></i> Theory of Computation</span>
+                <h1>Theory of Computation</h1>
+                <div class="subject-meta">
+                    <span class="meta-chip"><i class="fas fa-fire"></i> Highest Weightage</span>
+                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~14 Questions</span>
+                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: HIGH</span>
+                </div>
+                <p class="subject-desc">TOC is the <strong>most heavily tested</strong> subject in HPCL Paper 2. It
+                    covers formal language hierarchy, grammar types, finite automata, pushdown automata, Turing
+                    machines, and decidability. Master the hierarchy and closure properties first.</p>
+            </div>
+
+            <div class="alert-box warn">
+                <i class="fas fa-star"></i>
+                <span><strong>Exam Tip:</strong> ~50% of TOC questions test the Language Hierarchy and which machine
+                    accepts which language. Memorize the table below cold.</span>
+            </div>
+
+            <div class="section-title">Language Hierarchy (Most Critical)</div>
+
+            <div class="hierarchy">
+                <div class="hierarchy-level">
+                    <span class="hier-num" style="background:rgba(249,112,112,0.2);color:var(--rose)">1</span>
+                    <span class="hier-lang">Regular Language (RL)</span>
+                    <span class="hier-machine">→ DFA / NFA / ε-NFA</span>
+                </div>
+                <div class="hierarchy-level">
+                    <span class="hier-num" style="background:rgba(245,200,66,0.2);color:var(--gold)">2</span>
+                    <span class="hier-lang">Deterministic CFL (DCFL)</span>
+                    <span class="hier-machine">→ Deterministic PDA (DPDA)</span>
+                </div>
+                <div class="hierarchy-level">
+                    <span class="hier-num" style="background:rgba(79,156,249,0.2);color:var(--blue)">3</span>
+                    <span class="hier-lang">Context-Free Language (CFL)</span>
+                    <span class="hier-machine">→ Non-Deterministic PDA (NPDA)</span>
+                </div>
+                <div class="hierarchy-level">
+                    <span class="hier-num" style="background:rgba(176,126,248,0.2);color:var(--violet)">4</span>
+                    <span class="hier-lang">Context-Sensitive Language (CSL)</span>
+                    <span class="hier-machine">→ Linear Bounded Automata (LBA)</span>
+                </div>
+                <div class="hierarchy-level">
+                    <span class="hier-num" style="background:rgba(61,214,140,0.2);color:var(--green)">5</span>
+                    <span class="hier-lang">Recursive Language</span>
+                    <span class="hier-machine">→ Halting Turing Machine</span>
+                </div>
+                <div class="hierarchy-level">
+                    <span class="hier-num" style="background:rgba(56,201,232,0.2);color:var(--cyan)">6</span>
+                    <span class="hier-lang">Recursively Enumerable (RE)</span>
+                    <span class="hier-machine">→ Turing Machine (may not halt)</span>
+                </div>
+            </div>
+
+            <div class="alert-box info">
+                <i class="fas fa-info-circle"></i>
+                <span><strong>Subset Rule:</strong> RL ⊂ DCFL ⊂ CFL ⊂ CSL ⊂ Recursive ⊂ RE. Upper classes include all
+                    lower. If a language is Regular → it is automatically CFL, CSL, etc.</span>
+            </div>
+
+            <div class="section-title">Key Concepts</div>
+            <div class="card-grid">
+                <div class="card rose">
+                    <span class="card-tag">Grammar</span>
+                    <h3>Regular Grammar Rules</h3>
+                    <p>Must be <strong>strictly</strong> Right-Linear <em>or</em> Left-Linear — never mixed.
+                        Right-Linear: <code>S → aS</code> or <code>S → a</code>. A variable can only appear at the end
+                        (right) or start (left), never in the middle.</p>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Automata</span>
+                    <h3>NPDA Transition Function</h3>
+                    <p>δ (current_state, input_symbol, stack_top) → set of (next_state, stack_string). It takes
+                        <strong>3 inputs</strong>: current state, current input symbol, and the <strong>current top of
+                            stack</strong>.</p>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">CFL vs DCFL</span>
+                    <h3>ww<sup>R</sup> vs wcw<sup>R</sup></h3>
+                    <p><strong>ww<sup>R</sup></strong> (even palindrome, no center marker) = <span
+                            style="color:var(--blue)">CFL only</span> — DPDA cannot find the
+                        midpoint.<br><strong>wcw<sup>R</sup></strong> (with center marker c) = <span
+                            style="color:var(--gold)">DCFL</span> — marker tells the DPDA to switch.</p>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Closure</span>
+                    <h3>Closure Properties — Regular</h3>
+                    <ul>
+                        <li>Union, Intersection, Complement ✓</li>
+                        <li>Concatenation, Kleene Star ✓</li>
+                        <li>Reversal, Homomorphism ✓</li>
+                        <li>All boolean operations closed ✓</li>
+                    </ul>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Closure</span>
+                    <h3>Closure Properties — CFL</h3>
+                    <ul>
+                        <li>Union, Concatenation, Kleene Star ✓</li>
+                        <li>Intersection with Regular ✓</li>
+                        <li><strong>Intersection of two CFLs ✗</strong></li>
+                        <li><strong>Complement ✗</strong></li>
+                    </ul>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Decidability</span>
+                    <h3>Decidable vs Undecidable</h3>
+                    <ul>
+                        <li>Is w ∈ L? (Regular/CFL) — <span style="color:var(--green)">Decidable</span></li>
+                        <li>Is CFL empty? — <span style="color:var(--green)">Decidable</span></li>
+                        <li>Halting Problem — <span style="color:var(--rose)">Undecidable</span></li>
+                        <li>Are two CFGs equivalent? — <span style="color:var(--rose)">Undecidable</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-title">Formulas & Rules</div>
+            <div class="formula-box">
+                <span class="formula-name">Number of States — DFA for aⁿ where n mod k = 0</span>
+                <span class="formula-text">Minimum DFA states = <span class="highlight">k</span> states (one for each
+                    remainder 0 to k-1)</span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Pumping Lemma for Regular Languages</span>
+                <span class="formula-text">For any string w in L where |w| ≥ n (pumping length): w = xyz where |xy| ≤ n,
+                    |y| ≥ 1, and xy<span class="highlight">i</span>z ∈ L for all i ≥ 0</span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Grammar Classification — Chomsky Hierarchy</span>
+                <span class="formula-text">Type 0 (RE) → Type 1 (CSL, |α| ≤ |β|) → Type 2 (CFL, A → α) → Type 3
+                    (Regular, A → aB or A → a)</span>
+            </div>
+
+            <div class="section-title">Quick-Fire Flashcards (click to reveal)</div>
+            <div class="flashcard-section">
+                <div class="flashcard-title"><i class="fas fa-bolt"></i> Tap each card to see the answer</div>
+                <div class="flashcard-grid">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Which machine accepts Regular Languages?<div class="fc-hint">Tap to reveal
+                            </div>
+                        </div>
+                        <div class="fc-back">DFA / NFA / ε-NFA (all equivalent in power)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Is a^n b^n (n≥0) regular?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">NO — it is DCFL. Needs a PDA to count.</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">ww^R with no marker — which class?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">CFL (not DCFL). Requires non-determinism.</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">What does LBA stand for?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Linear Bounded Automaton — accepts CSL.</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Type 2 Grammar produces which language?<div class="fc-hint">Tap to reveal
+                            </div>
+                        </div>
+                        <div class="fc-back">Context-Free Language (CFL)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Is CFL closed under Intersection?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">NO — but CFL ∩ Regular = CFL (yes).</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Past Year Questions — Interactive</div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Frequently Asked</div>
+                <div class="pyq-q">Q1. Which of the following is NOT a Deterministic Context-Free Language (DCFL)?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) a<sup>n</sup>b<sup>n</sup> (n ≥ 1)
+                    </div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) wcw<sup>R</sup> (w is a string, c is a
+                        separator)</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) ww<sup>R</sup> (even-length
+                        palindrome, no separator)</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) {a<sup>n</sup>b<sup>m</sup> | n ≠ m}
+                    </div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: C — ww<sup>R</sup></strong> is CFL but NOT DCFL. A DPDA
+                    cannot determine the midpoint of the string non-deterministically. wcw<sup>R</sup> is DCFL because
+                    the center marker 'c' tells the DPDA when to switch from push to pop mode.</div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Frequently Asked</div>
+                <div class="pyq-q">Q2. In a Non-Deterministic Pushdown Automata (NPDA), the transition function takes
+                    which three inputs?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Current state, next state, input
+                        symbol</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) Current state, input symbol, current
+                        top of stack</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) Input symbol, stack contents, output
+                    </div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Current state, stack contents, tape
+                        symbol</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: B</strong> — NPDA transition: δ(current_state,
+                    input_symbol, stack_top) → set of (next_state, stack_string). Only the <strong>top</strong> of the
+                    stack is visible, not the entire stack.</div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Important Concept</div>
+                <div class="pyq-q">Q3. A grammar has productions: S → aSb | ε. The language generated is?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Regular — can be recognized by DFA
+                    </div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) DCFL — a<sup>n</sup>b<sup>n</sup>,
+                        recognized by DPDA</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) Only CFL — not DCFL</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Context-Sensitive Language</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: B</strong> — This generates {a<sup>n</sup>b<sup>n</sup> | n
+                    ≥ 0}, which is a<sup>n</sup>b<sup>n</sup> — a classic DCFL. The grammar is Context-Free (CFG), but
+                    the language is DCFL since a DPDA can accept it deterministically.</div>
+            </div>
+        </div>
+
+        <!-- ===== DBMS ===== -->
+        <div id="content-dbms" class="tab-pane dbms-accent">
+            <div class="subject-header">
+                <span class="subject-eyebrow"><i class="fas fa-database"></i> DBMS</span>
+                <h1>Database Management Systems</h1>
+                <div class="subject-meta">
+                    <span class="meta-chip"><i class="fas fa-fire"></i> High Weightage</span>
+                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~12 Questions</span>
+                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: HIGH</span>
+                </div>
+                <p class="subject-desc">DBMS questions focus on ER diagrams, integrity constraints, relational algebra,
+                    SQL syntax, normalization (1NF–BCNF), and transaction concepts (ACID). Pay special attention to ER
+                    diagram notations and SQL clauses.</p>
+            </div>
+
+            <div class="alert-box warn">
+                <i class="fas fa-star"></i>
+                <span><strong>Exam Tip:</strong> ER diagram notation questions appear almost every year. Memorize which
+                    shape represents which concept — especially Double Line shapes and Derived/Multi-valued
+                    attributes.</span>
+            </div>
+
+            <div class="section-title">ER Diagram Notation Cheat Sheet</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Symbol / Notation</th>
+                            <th>Represents</th>
+                            <th>When Used</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Rectangle</strong></td>
+                            <td>Entity Set</td>
+                            <td>Any strong entity (has its own primary key)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Double Rectangle</strong></td>
+                            <td>Weak Entity</td>
+                            <td>Entity that depends on another for existence (no own PK)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Diamond</strong></td>
+                            <td>Relationship Set</td>
+                            <td>Connection between two entity sets</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Double Diamond</strong></td>
+                            <td><span class="badge badge-blue">Identifying Relationship</span></td>
+                            <td>Links a weak entity to its owner entity</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ellipse (Oval)</strong></td>
+                            <td>Attribute</td>
+                            <td>Property of an entity or relationship</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Double Ellipse</strong></td>
+                            <td><span class="badge badge-violet">Multi-valued Attribute</span></td>
+                            <td>Attribute with multiple values (e.g., phone numbers)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dashed Ellipse</strong></td>
+                            <td><span class="badge badge-green">Derived Attribute</span></td>
+                            <td>Computed from another attribute (e.g., Age from DOB)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Underlined Attribute</strong></td>
+                            <td>Primary Key</td>
+                            <td>Uniquely identifies entity in a strong entity set</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dashed Underline</strong></td>
+                            <td>Partial Key</td>
+                            <td>Identifies weak entity (combined with owner's PK)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Integrity Constraints</div>
+            <div class="card-grid">
+                <div class="card blue">
+                    <span class="card-tag">Constraint</span>
+                    <h3>Entity Integrity</h3>
+                    <p>The <strong>Primary Key</strong> of a table can <strong>never be NULL</strong>. Every row must be
+                        uniquely identifiable. This is enforced at the table level.</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">Constraint</span>
+                    <h3>Referential Integrity</h3>
+                    <p>A <strong>Foreign Key</strong> value must either match an existing Primary Key in the referenced
+                        table, or be NULL. No dangling references allowed.</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">Constraint</span>
+                    <h3>Domain Constraint</h3>
+                    <p>Each attribute value must be within the <strong>defined domain</strong> of that attribute. For
+                        example, an Age column should only store positive integers.</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">ACID</span>
+                    <h3>Transaction Properties</h3>
+                    <ul>
+                        <li><strong>A</strong>tomicity — All or nothing</li>
+                        <li><strong>C</strong>onsistency — DB stays valid</li>
+                        <li><strong>I</strong>solation — Transactions independent</li>
+                        <li><strong>D</strong>urability — Committed = permanent</li>
+                    </ul>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">SQL</span>
+                    <h3>SQL Clause Hierarchy</h3>
+                    <p><strong>Mandatory:</strong> SELECT, FROM<br><strong>Optional:</strong> WHERE, GROUP BY, HAVING,
+                        ORDER BY<br>Execution order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">Joins</span>
+                    <h3>Types of Joins</h3>
+                    <ul>
+                        <li>INNER JOIN — matching rows only</li>
+                        <li>LEFT JOIN — all from left + matches</li>
+                        <li>RIGHT JOIN — all from right + matches</li>
+                        <li>FULL JOIN — all rows, nulls for no match</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-title">Normalization Forms</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Normal Form</th>
+                            <th>Requirement</th>
+                            <th>Violation Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge badge-rose">1NF</span></td>
+                            <td>No multi-valued / composite attributes; atomic values only</td>
+                            <td>Phone = {9876, 1234} in one cell</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-gold">2NF</span></td>
+                            <td>1NF + No partial dependency (non-key attribute depends on part of composite PK)</td>
+                            <td>Student_Name depends only on Student_ID, not (Student_ID, Course_ID)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-blue">3NF</span></td>
+                            <td>2NF + No transitive dependency (non-key → non-key)</td>
+                            <td>Zip → City where Zip is not a key</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-violet">BCNF</span></td>
+                            <td>For every FD X → Y, X must be a superkey</td>
+                            <td>Stricter than 3NF; some 3NF tables violate BCNF</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Relational Algebra</div>
+            <div class="formula-box">
+                <span class="formula-name">Selection (σ) — Filter Rows</span>
+                <span class="formula-text">σ<span class="highlight">_condition</span>(R) → Returns tuples satisfying
+                    condition. <span class="result">All columns returned by default.</span></span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Projection (π) — Filter Columns</span>
+                <span class="formula-text">π<span class="highlight">_A1,A2</span>(R) → Returns only specified
+                    attributes. Duplicates are eliminated automatically.</span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Natural Join (⋈)</span>
+                <span class="formula-text">R ⋈ S → Joins on <span class="highlight">common attributes</span>
+                    automatically. Equivalent to: π<span class="var">_common</span>(σ<span class="var">_R.A=S.A</span>(R
+                    × S))</span>
+            </div>
+
+            <div class="section-title">Quick-Fire Flashcards</div>
+            <div class="flashcard-section">
+                <div class="flashcard-title"><i class="fas fa-bolt"></i> Tap each card to see the answer</div>
+                <div class="flashcard-grid">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Primary key cannot be ___?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">NULL (Entity Integrity Constraint)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Double diamond in ER = ?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Identifying Relationship</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Which SQL clauses are mandatory?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">SELECT and FROM only</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">No transitive dependency = which NF?<div class="fc-hint">Tap to reveal
+                            </div>
+                        </div>
+                        <div class="fc-back">3NF (Third Normal Form)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Dashed ellipse in ER = ?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Derived Attribute (e.g., Age from DOB)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">σ operation in relational algebra does what?<div class="fc-hint">Tap to
+                                reveal</div>
+                        </div>
+                        <div class="fc-back">Selects/filters rows (horizontal subset)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Past Year Questions — Interactive</div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Frequently Asked</div>
+                <div class="pyq-q">Q1. Which constraint states that the value of a primary key cannot be NULL?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Referential Integrity Constraint</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) Entity Integrity Constraint</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) Domain Constraint</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Key Constraint</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: B — Entity Integrity Constraint.</strong> This rule ensures
+                    every tuple in a relation is uniquely identifiable. The Primary Key must never be null because it
+                    serves as the unique identifier of each row.</div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Frequently Asked</div>
+                <div class="pyq-q">Q2. In an ER diagram, a Double Line Diamond represents which element?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Multi-valued Attribute</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) Weak Entity Set</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) Identifying Relationship</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Derived Attribute</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: C — Identifying Relationship.</strong> A double-line (bold)
+                    diamond is used to represent the identifying relationship that connects a weak entity to its
+                    identifying (owner) entity. Remember: Double Rectangle = Weak Entity; Double Diamond = Its
+                    relationship with owner.</div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ SQL Focus</div>
+                <div class="pyq-q">Q3. In SQL, which of the following clauses are optional (not mandatory for a query to
+                    work)?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) SELECT and FROM</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) FROM and WHERE</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) WHERE, GROUP BY, HAVING, ORDER BY
+                    </div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) SELECT and WHERE</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: C.</strong> A valid SQL query only requires SELECT and
+                    FROM. <code>SELECT * FROM employees;</code> is a complete, valid query. WHERE, GROUP BY, HAVING, and
+                    ORDER BY are all optional clauses used for filtering, grouping, and sorting.</div>
+            </div>
+        </div>
+
+        <!-- ===== OS ===== -->
+        <div id="content-os" class="tab-pane os-accent">
+            <div class="subject-header">
+                <span class="subject-eyebrow"><i class="fas fa-server"></i> Operating Systems</span>
+                <h1>Operating Systems</h1>
+                <div class="subject-meta">
+                    <span class="meta-chip"><i class="fas fa-fire"></i> High Weightage</span>
+                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~11 Questions</span>
+                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: HIGH</span>
+                </div>
+                <p class="subject-desc">OS covers process management, memory management, scheduling algorithms, file
+                    systems, deadlocks, and synchronization. The process state lifecycle, memory addressing, and
+                    scheduler types are the most frequently examined topics.</p>
+            </div>
+
+            <div class="alert-box warn">
+                <i class="fas fa-star"></i>
+                <span><strong>Exam Tip:</strong> Remember: New and Terminated states reside in Secondary Memory. Ready,
+                    Running, and Waiting states are in Primary Memory (RAM). This is a direct exam question.</span>
+            </div>
+
+            <div class="section-title">Process State Lifecycle</div>
+            <div class="qr-strip">
+                <div class="qr-strip-title"><i class="fas fa-circle-notch"></i> Process State → Memory Location</div>
+                <div class="qr-row">
+                    <span class="qr-chip"><span>New</span> → Secondary Memory</span>
+                    <span class="qr-chip"><span>Ready</span> → Primary (RAM)</span>
+                    <span class="qr-chip"><span>Running</span> → Primary (RAM)</span>
+                    <span class="qr-chip"><span>Waiting</span> → Primary (RAM)</span>
+                    <span class="qr-chip"><span>Terminated</span> → Secondary Memory</span>
+                </div>
+            </div>
+
+            <div class="section-title">OS Schedulers</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Scheduler</th>
+                            <th>Alias</th>
+                            <th>Moves From</th>
+                            <th>Moves To</th>
+                            <th>Frequency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Long-Term Scheduler</strong></td>
+                            <td><span class="badge badge-rose">Job Scheduler</span></td>
+                            <td>New (Secondary)</td>
+                            <td>Ready (RAM)</td>
+                            <td>Slow (controls degree of multiprogramming)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Short-Term Scheduler</strong></td>
+                            <td><span class="badge badge-green">CPU Scheduler</span></td>
+                            <td>Ready (RAM)</td>
+                            <td>Running (CPU)</td>
+                            <td>Very Fast (runs every few milliseconds)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mid-Term Scheduler</strong></td>
+                            <td><span class="badge badge-blue">Swapper</span></td>
+                            <td>Waiting/Running</td>
+                            <td>Suspended/Ready</td>
+                            <td>Medium (reduces multiprogramming when needed)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Key Concepts</div>
+            <div class="card-grid">
+                <div class="card gold">
+                    <span class="card-tag">Memory</span>
+                    <h3>Paging — Address Translation</h3>
+                    <p>Logical address = <strong>Page Number + Offset</strong><br>If logical space = 2<sup>n</sup> bytes
+                        and page size = 2<sup>m</sup> bytes:<br>• Offset bits = m<br>• Page number bits = n - m</p>
+                </div>
+                <div class="card gold">
+                    <span class="card-tag">Kernel Access</span>
+                    <h3>System Calls</h3>
+                    <p>When a user program needs OS kernel services, it uses a <strong>System Call</strong> via an
+                        Application Program Interface (API). Examples: read(), write(), fork(), exec().</p>
+                </div>
+                <div class="card gold">
+                    <span class="card-tag">File System</span>
+                    <h3>File Allocation Table (FAT)</h3>
+                    <p>Maintains <strong>one entry per disk block</strong>, indexed by block number. Used in FAT12,
+                        FAT16, FAT32 file systems. Each entry points to the next block or indicates end-of-file.</p>
+                </div>
+                <div class="card gold">
+                    <span class="card-tag">Deadlock</span>
+                    <h3>Deadlock Conditions (All 4 Required)</h3>
+                    <ul>
+                        <li>Mutual Exclusion</li>
+                        <li>Hold and Wait</li>
+                        <li>No Preemption</li>
+                        <li>Circular Wait</li>
+                    </ul>
+                </div>
+                <div class="card gold">
+                    <span class="card-tag">Scheduling</span>
+                    <h3>CPU Scheduling Algorithms</h3>
+                    <ul>
+                        <li><strong>FCFS</strong> — First Come First Served (non-preemptive)</li>
+                        <li><strong>SJF</strong> — Shortest Job First</li>
+                        <li><strong>SRTF</strong> — Shortest Remaining Time First</li>
+                        <li><strong>Round Robin</strong> — time quantum based</li>
+                        <li><strong>Priority</strong> — highest priority runs first</li>
+                    </ul>
+                </div>
+                <div class="card gold">
+                    <span class="card-tag">Synchronization</span>
+                    <h3>Critical Section Problem</h3>
+                    <p>Three requirements: <strong>Mutual Exclusion</strong> (only one process at a time),
+                        <strong>Progress</strong> (if no one in CS, a waiting process should enter), <strong>Bounded
+                            Waiting</strong> (no starvation).</p>
+                </div>
+            </div>
+
+            <div class="section-title">Formulas</div>
+            <div class="formula-box">
+                <span class="formula-name">Page Addressing Example</span>
+                <span class="formula-text">Logical space = 4096 = 2<span class="highlight">^12</span>, Page size = 512 =
+                    2<span class="highlight">^9</span><br>→ Offset bits = 9, Page number bits = <span class="result">12
+                        - 9 = 3 bits</span></span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Process Size in Paging</span>
+                <span class="formula-text">Process Size = <span class="highlight">Number of Pages</span> × <span
+                        class="highlight">Page Size</span></span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Turnaround Time</span>
+                <span class="formula-text">TAT = <span class="highlight">Completion Time</span> - <span
+                        class="highlight">Arrival Time</span></span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Waiting Time</span>
+                <span class="formula-text">WT = <span class="highlight">Turnaround Time</span> - <span
+                        class="highlight">Burst Time</span></span>
+            </div>
+
+            <div class="section-title">Quick-Fire Flashcards</div>
+            <div class="flashcard-section">
+                <div class="flashcard-title"><i class="fas fa-bolt"></i> Tap each card to see the answer</div>
+                <div class="flashcard-grid">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Ready queue is in which memory?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Primary Memory (RAM)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Short-Term Scheduler = ?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">CPU Scheduler (Ready → Running)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">To access OS kernel, user program uses?<div class="fc-hint">Tap to reveal
+                            </div>
+                        </div>
+                        <div class="fc-back">System Call (via API)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Deadlock has how many necessary conditions?<div class="fc-hint">Tap to
+                                reveal</div>
+                        </div>
+                        <div class="fc-back">4 — ME, Hold & Wait, No Preemption, Circular Wait</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">New and Terminated states are in?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Secondary Memory (not RAM)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Which algorithm has convoy effect?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">FCFS — long jobs block short ones</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Past Year Questions — Interactive</div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Direct Question</div>
+                <div class="pyq-q">Q1. In an operating system, the "Ready Queue" is maintained in which memory?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Secondary Memory (Hard Disk)</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) Primary Memory (RAM)</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) Cache Memory</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Registers</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: B — Primary Memory (RAM).</strong> The Ready, Running, and
+                    Waiting queues are all in RAM. Only the New and Terminated process states reside in Secondary Memory
+                    (disk).</div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Calculation</div>
+                <div class="pyq-q">Q2. If logical address space = 4096 units and page size = 512 units, how many bits
+                    are needed for the page number?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) 9 bits</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) 12 bits</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) 3 bits</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) 4 bits</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: C — 3 bits.</strong> Total bits = log₂(4096) = 12 bits.
+                    Offset bits = log₂(512) = 9 bits. Page number bits = 12 - 9 = <strong>3 bits</strong> (which gives
+                    2³ = 8 page frames).</div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Concept</div>
+                <div class="pyq-q">Q3. When a user program needs to access the OS kernel for services, it uses a ___?
+                </div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Interrupt Request</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) Device Driver</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) System Call</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Semaphore</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: C — System Call.</strong> A system call is the programmatic
+                    way user-space programs request services from the OS kernel. It acts through an API. Examples:
+                    fork(), open(), read(), exec().</div>
+            </div>
+        </div>
+
+        <!-- ===== COA ===== -->
+        <div id="content-coa" class="tab-pane coa-accent">
+            <div class="subject-header">
+                <span class="subject-eyebrow"><i class="fas fa-microchip"></i> COA</span>
+                <h1>Computer Organization & Architecture</h1>
+                <div class="subject-meta">
+                    <span class="meta-chip"><i class="fas fa-fire"></i> Medium Weightage</span>
+                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~10 Questions</span>
+                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: MEDIUM</span>
+                </div>
+                <p class="subject-desc">COA tests CPU organization, memory hierarchy, addressing modes, instruction
+                    formats, pipelining, number systems, and digital circuits. Master addressing modes and the memory
+                    hierarchy table.</p>
+            </div>
+
+            <div class="section-title">Memory Hierarchy (Fastest → Slowest)</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Speed</th>
+                            <th>Cost/Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><span class="badge badge-violet">Registers</span></td>
+                            <td>Inside CPU</td>
+                            <td>Fastest</td>
+                            <td>Tiny (bytes), Expensive</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><span class="badge badge-rose">Cache (L1/L2/L3)</span></td>
+                            <td>Between CPU & RAM</td>
+                            <td>Very Fast</td>
+                            <td>KB–MB, Expensive</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><span class="badge badge-blue">Main Memory (RAM)</span></td>
+                            <td>On Motherboard</td>
+                            <td>Fast</td>
+                            <td>GB, Moderate</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><span class="badge badge-green">Secondary Storage</span></td>
+                            <td>Hard Disk / SSD</td>
+                            <td>Slow</td>
+                            <td>TB, Cheap</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Tertiary Storage</td>
+                            <td>Tape / Optical</td>
+                            <td>Slowest</td>
+                            <td>Very Large, Cheapest</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Addressing Modes</div>
+            <div class="card-grid">
+                <div class="card violet">
+                    <span class="card-tag">Mode</span>
+                    <h3>Immediate Addressing</h3>
+                    <p>Operand value is directly embedded in the instruction itself. No memory access needed. Fastest.
+                        Example: <code>MOV R1, #5</code> (load value 5 into R1).</p>
+                </div>
+                <div class="card violet">
+                    <span class="card-tag">Mode</span>
+                    <h3>Register Addressing</h3>
+                    <p>Instruction contains the <strong>name/address of a register</strong>. The actual operand is
+                        stored <strong>inside the register</strong>. Very fast — no memory access.</p>
+                </div>
+                <div class="card violet">
+                    <span class="card-tag">Mode</span>
+                    <h3>Direct (Absolute) Addressing</h3>
+                    <p>The instruction contains the <strong>memory address</strong> of the operand. One memory access
+                        required. Example: <code>LOAD 2000</code> fetches data from address 2000.</p>
+                </div>
+                <div class="card violet">
+                    <span class="card-tag">Mode</span>
+                    <h3>Indirect Addressing</h3>
+                    <p>Instruction has an address that <strong>points to another address</strong> which holds the
+                        operand. Two memory accesses needed. Useful for pointers.</p>
+                </div>
+                <div class="card violet">
+                    <span class="card-tag">Mode</span>
+                    <h3>Indexed Addressing</h3>
+                    <p>Effective Address = <strong>Base Address + Index Register</strong>. Used for accessing arrays.
+                        The index register holds the displacement.</p>
+                </div>
+                <div class="card violet">
+                    <span class="card-tag">Pipelining</span>
+                    <h3>Pipeline Throughput</h3>
+                    <p>Once the pipeline is <strong>fully filled</strong>, one instruction completes per clock cycle.
+                        Pipelining improves <strong>throughput</strong>, not individual instruction latency. Hazards:
+                        Structural, Data, Control.</p>
+                </div>
+            </div>
+
+            <div class="section-title">Formulas & Calculations</div>
+            <div class="formula-box">
+                <span class="formula-name">Number Base Conversion (Any Base → Decimal)</span>
+                <span class="formula-text">N<sub>(base X)</sub> = d₀×X⁰ + d₁×X¹ + d₂×X² + ...<br>E.g.,
+                    1011<sub>(2)</sub> = 1×8 + 0×4 + 1×2 + 1×1 = <span class="result">11</span></span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Maximum Links in Mesh Topology</span>
+                <span class="formula-text">For n nodes: Max links = <span class="highlight">n(n−1) / 2</span></span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Combinational Circuit Output Bits</span>
+                <span class="formula-text">For 2 inputs of k bits each: max sum = (2<sup>k</sup>−1) + (2<sup>k</sup>−1)
+                    = 2<sup>(k+1)</sup>−2<br>Output bits needed = <span class="highlight">k + 1</span> bits<br>E.g.,
+                    3-bit + 3-bit: max = 7+7 = 14 → needs <span class="result">4 bits</span></span>
+            </div>
+
+            <div class="section-title">Quick-Fire Flashcards</div>
+            <div class="flashcard-section">
+                <div class="flashcard-title"><i class="fas fa-bolt"></i> Tap each card to see the answer</div>
+                <div class="flashcard-grid">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Fastest memory in hierarchy?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">CPU Registers (inside CPU)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Cache sits between which two?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">CPU and Main Memory (RAM)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Register addressing: operand is in?<div class="fc-hint">Tap to reveal
+                            </div>
+                        </div>
+                        <div class="fc-back">Inside a CPU register</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">2 × 3-bit adder needs how many output bits?<div class="fc-hint">Tap to
+                                reveal</div>
+                        </div>
+                        <div class="fc-back">4 bits (max sum = 14 = 1110₂)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Pipelining improves what?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Throughput (not individual latency)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Max links for 5 nodes (mesh)?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">5×4/2 = 10 links</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Past Year Questions — Interactive</div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Frequently Asked</div>
+                <div class="pyq-q">Q1. Which statement about Cache Memory is CORRECT?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) It is slower than RAM but faster than
+                        disk</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) It is inside the Secondary Storage
+                    </div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) It is a fast, small memory placed
+                        between the CPU and Main Memory</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) It permanently stores the operating
+                        system</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: C.</strong> Cache is a small, high-speed memory layer
+                    placed between the CPU and RAM. Its purpose is to store frequently accessed data so the CPU doesn't
+                    have to wait for slower RAM. L1 is closest to CPU and fastest.</div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Calculation Question</div>
+                <div class="pyq-q">Q2. A combinational circuit takes two 3-bit numbers as inputs and outputs their sum.
+                    How many output lines are needed?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) 3</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) 4</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) 6</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) 5</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: B — 4 output lines.</strong> Maximum 3-bit number = 7
+                    (111₂). Maximum sum = 7 + 7 = 14 (1110₂). This requires 4 bits to represent. So the circuit needs 4
+                    output lines.</div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Pipeline</div>
+                <div class="pyq-q">Q3. Which is TRUE about a k-stage pipeline processor?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Each instruction takes 1 clock cycle
+                        to execute</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) k instructions can run simultaneously,
+                        none sharing stages</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) After the pipeline is fully filled,
+                        one instruction completes per clock cycle</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) The first instruction completes in 1
+                        clock cycle</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: C.</strong> Initially, it takes k cycles to fill the
+                    pipeline (fill latency = k cycles for first instruction). Once filled, one instruction completes per
+                    cycle — this is ideal throughput. First instruction still takes k cycles.</div>
+            </div>
+        </div>
+
+        <!-- ===== ALGORITHMS ===== -->
+        <div id="content-algo" class="tab-pane algo-accent">
+            <div class="subject-header">
+                <span class="subject-eyebrow"><i class="fas fa-project-diagram"></i> Algorithms</span>
+                <h1>Algorithms & Data Structures</h1>
+                <div class="subject-meta">
+                    <span class="meta-chip"><i class="fas fa-fire"></i> Medium Weightage</span>
+                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~8-9 Questions</span>
+                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: MEDIUM</span>
+                </div>
+                <p class="subject-desc">Algorithms questions focus on graph traversals (BFS/DFS), tree properties,
+                    sorting algorithms, Greedy vs Dynamic Programming classification, and Big-O complexity analysis.
+                    Know which algorithm uses which paradigm.</p>
+            </div>
+
+            <div class="alert-box warn">
+                <i class="fas fa-star"></i>
+                <span><strong>Exam Tip:</strong> The most common question type is "Is this Greedy or DP?" Memorize the
+                    table of algorithms and their paradigms. Kruskal's + Disjoint Set is a direct PYQ.</span>
+            </div>
+
+            <div class="section-title">Algorithm Paradigms — Master Table</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Paradigm</th>
+                            <th>Key Data Structure</th>
+                            <th>Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Kruskal's MST</td>
+                            <td><span class="badge badge-green">Greedy</span></td>
+                            <td>Disjoint Set (Union-Find)</td>
+                            <td>O(E log E)</td>
+                        </tr>
+                        <tr>
+                            <td>Prim's MST</td>
+                            <td><span class="badge badge-green">Greedy</span></td>
+                            <td>Priority Queue / Min-Heap</td>
+                            <td>O(E log V)</td>
+                        </tr>
+                        <tr>
+                            <td>Dijkstra's Shortest Path</td>
+                            <td><span class="badge badge-green">Greedy</span></td>
+                            <td>Priority Queue / Min-Heap</td>
+                            <td>O((V+E) log V)</td>
+                        </tr>
+                        <tr>
+                            <td>Fractional Knapsack</td>
+                            <td><span class="badge badge-green">Greedy</span></td>
+                            <td>Sort by value/weight ratio</td>
+                            <td>O(n log n)</td>
+                        </tr>
+                        <tr>
+                            <td>0/1 Knapsack</td>
+                            <td><span class="badge badge-blue">Dynamic Programming</span></td>
+                            <td>2D DP Table</td>
+                            <td>O(nW)</td>
+                        </tr>
+                        <tr>
+                            <td>Matrix Chain Multiplication</td>
+                            <td><span class="badge badge-blue">Dynamic Programming</span></td>
+                            <td>2D DP Table</td>
+                            <td>Θ(n³)</td>
+                        </tr>
+                        <tr>
+                            <td>Longest Common Subsequence</td>
+                            <td><span class="badge badge-blue">Dynamic Programming</span></td>
+                            <td>2D DP Table</td>
+                            <td>O(mn)</td>
+                        </tr>
+                        <tr>
+                            <td>BFS Traversal</td>
+                            <td><span class="badge badge-gold">Graph Traversal</span></td>
+                            <td><strong>Queue (FIFO)</strong></td>
+                            <td>O(V+E)</td>
+                        </tr>
+                        <tr>
+                            <td>DFS Traversal</td>
+                            <td><span class="badge badge-gold">Graph Traversal</span></td>
+                            <td><strong>Stack (LIFO)</strong></td>
+                            <td>O(V+E)</td>
+                        </tr>
+                        <tr>
+                            <td>Binary Search</td>
+                            <td><span class="badge badge-rose">Divide & Conquer</span></td>
+                            <td>Sorted Array</td>
+                            <td>O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Merge Sort</td>
+                            <td><span class="badge badge-rose">Divide & Conquer</span></td>
+                            <td>Temporary Arrays</td>
+                            <td>O(n log n)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Tree Traversals — BST Properties</div>
+            <div class="card-grid">
+                <div class="card green">
+                    <span class="card-tag">BST Property</span>
+                    <h3>In-Order Traversal</h3>
+                    <p>In-Order (Left → Root → Right) of a <strong>Binary Search Tree</strong> always produces nodes in
+                        <strong>non-decreasing (sorted ascending) order</strong>. This is the most tested BST property.
+                    </p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Traversal</span>
+                    <h3>Pre-Order &amp; Post-Order</h3>
+                    <p><strong>Pre-Order</strong> (Root → Left → Right): Used to copy a
+                        tree.<br><strong>Post-Order</strong> (Left → Right → Root): Used to delete/evaluate expression
+                        trees.</p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Graph</span>
+                    <h3>BFS vs DFS</h3>
+                    <p><strong>BFS</strong> — Uses <code>Queue</code>. Explores level by level. Finds shortest path in
+                        unweighted graphs.<br><strong>DFS</strong> — Uses <code>Stack</code> (or recursion). Explores
+                        depth-first. Used for cycle detection, topological sort.</p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Greedy vs DP</span>
+                    <h3>Key Distinction</h3>
+                    <p><strong>Greedy:</strong> Makes locally optimal choice at each step, never reconsiders. Works for
+                        Fractional Knapsack.<br><strong>DP:</strong> Solves overlapping subproblems optimally. Required
+                        for 0/1 Knapsack.</p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Sorting</span>
+                    <h3>Sorting Complexity</h3>
+                    <ul>
+                        <li>Bubble/Selection/Insertion — O(n²)</li>
+                        <li>Merge Sort / Heap Sort — O(n log n)</li>
+                        <li>Quick Sort — O(n log n) avg, O(n²) worst</li>
+                        <li>Counting/Radix Sort — O(n+k)</li>
+                    </ul>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">MST</span>
+                    <h3>Minimum Spanning Tree</h3>
+                    <p>MST has exactly <strong>V-1 edges</strong> for V vertices. Kruskal's builds by adding minimum
+                        weight edges without cycles. Prim's grows from a starting vertex by adding cheapest adjacent
+                        edge.</p>
+                </div>
+            </div>
+
+            <div class="section-title">Formulas</div>
+            <div class="formula-box">
+                <span class="formula-name">Matrix Chain Multiplication — DP Time Complexity</span>
+                <span class="formula-text">T(n) = <span class="highlight">Θ(n³)</span> when solved using Dynamic
+                    Programming</span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">Height of Complete Binary Tree</span>
+                <span class="formula-text">Height h = <span class="highlight">⌊log₂ n⌋</span> where n = number of
+                    nodes</span>
+            </div>
+            <div class="formula-box">
+                <span class="formula-name">MST Edge Count</span>
+                <span class="formula-text">A Minimum Spanning Tree of a graph with V vertices has exactly <span
+                        class="highlight">V - 1</span> edges</span>
+            </div>
+
+            <div class="section-title">Quick-Fire Flashcards</div>
+            <div class="flashcard-section">
+                <div class="flashcard-title"><i class="fas fa-bolt"></i> Tap each card to see the answer</div>
+                <div class="flashcard-grid">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">DFS uses which data structure?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Stack (LIFO)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">BFS uses which data structure?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Queue (FIFO)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">0/1 Knapsack → Greedy or DP?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Dynamic Programming (not Greedy)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">BST in-order gives?<div class="fc-hint">Tap to reveal</div>
+                        </div>
+                        <div class="fc-back">Non-decreasing (sorted) order</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">Kruskal's uses which data structure?<div class="fc-hint">Tap to reveal
+                            </div>
+                        </div>
+                        <div class="fc-back">Disjoint Set (Union-Find)</div>
+                    </div>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-front">MST of 7 vertices has how many edges?<div class="fc-hint">Tap to reveal
+                            </div>
+                        </div>
+                        <div class="fc-back">6 edges (V - 1)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Past Year Questions — Interactive</div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Direct PYQ</div>
+                <div class="pyq-q">Q1. Which of the following problems CANNOT be solved by a Greedy algorithm?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Fractional Knapsack</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) Dijkstra's Shortest Path</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) 0/1 Knapsack</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Prim's MST</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: C — 0/1 Knapsack.</strong> The 0/1 Knapsack requires
+                    Dynamic Programming because each item is either fully taken or left. Greedy fails here because
+                    locally optimal choices don't lead to globally optimal solutions. Fractional Knapsack IS solvable by
+                    Greedy (take fractional amounts).</div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Direct PYQ</div>
+                <div class="pyq-q">Q2. Which Greedy algorithm uses the Disjoint Set data structure?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Dijkstra's Shortest Path</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) Kruskal's Minimum Spanning Tree
+                    </div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) Prim's MST</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Fractional Knapsack</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: B — Kruskal's MST Algorithm.</strong> Kruskal's adds edges
+                    in increasing order of weight and uses the Disjoint Set (Union-Find) structure to efficiently detect
+                    and avoid cycles. If adding an edge creates a cycle (both vertices in same set), it is skipped.
+                </div>
+            </div>
+
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Direct PYQ</div>
+                <div class="pyq-q">Q3. Which traversal of a BST gives nodes in non-decreasing (sorted ascending) order?
+                </div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Pre-Order Traversal</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) In-Order Traversal</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) Post-Order Traversal</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Level-Order Traversal</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: B — In-Order Traversal (Left → Root → Right).</strong> For
+                    a Binary Search Tree, an In-Order traversal visits nodes in ascending sorted order. This is a
+                    fundamental BST property. Pre-Order gives a copy-friendly sequence; Post-Order is used in expression
+                    tree evaluation.</div>
+            </div>
+        </div>
+
+        <!-- ===== COMPUTER NETWORKS ===== -->
+        <div id="content-cn" class="tab-pane cn-accent">
+            <div class="subject-header">
+                <span class="subject-eyebrow"><i class="fas fa-network-wired"></i> Computer Networks</span>
+                <h1>Computer Networks</h1>
+                <div class="subject-meta">
+                    <span class="meta-chip"><i class="fas fa-fire"></i> Medium Weightage</span>
+                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~8 Questions</span>
+                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: MEDIUM</span>
+                </div>
+                <p class="subject-desc">Computer Networks covers the OSI model, IP addressing, routing protocols, and network topologies.</p>
+            </div>
+
+            <div class="alert-box info">
+                <i class="fas fa-info-circle"></i>
+                <span><strong>Exam Tip:</strong> IP addressing and the 7 OSI layers are the most commonly tested concepts.</span>
+            </div>
+
+            <div class="section-title">Key Concepts</div>
+            <div class="card-grid">
+                <div class="card blue">
+                    <span class="card-tag">OSI Model</span>
+                    <h3>The 7 Layers</h3>
+                    <p>Physical (Bits), Data Link (Frames), Network (Packets), Transport (Segments), Session, Presentation, Application (Data).</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">IP Addressing</span>
+                    <h3>IPv4 Classes</h3>
+                    <p>Class A: 0-127, Class B: 128-191, Class C: 192-223, Class D: 224-239 (Multicast), Class E: 240-255 (Experimental).</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">Protocols</span>
+                    <h3>TCP vs UDP</h3>
+                    <p>TCP is connection-oriented and reliable (3-way handshake). UDP is connectionless and unreliable (faster, no overhead).</p>
+                </div>
+            </div>
+
+            <div class="section-title">Past Year Questions — Interactive</div>
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Direct PYQ</div>
+                <div class="pyq-q">Q1. Which layer of the OSI model is responsible for routing?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Data Link Layer</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) Network Layer</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) Transport Layer</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Physical Layer</div>
+                </div>
+                <div class="pyq-ans visible"><strong>Answer: B — Network Layer.</strong> The Network Layer handles logical addressing (IP) and routing packets across multiple networks.</div>
+            </div>
+        </div>
+
+        <!-- ===== SOFTWARE ENGINEERING ===== -->
+        <div id="content-se" class="tab-pane se-accent">
+            <div class="subject-header">
+                <span class="subject-eyebrow"><i class="fas fa-tools"></i> Software Engineering</span>
+                <h1>Software Engineering</h1>
+                <div class="subject-meta">
+                    <span class="meta-chip"><i class="fas fa-fire"></i> Low Weightage</span>
+                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~6 Questions</span>
+                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: LOW</span>
+                </div>
+                <p class="subject-desc">Software Engineering focuses on development lifecycles, project management, and testing methodologies.</p>
+            </div>
+
+            <div class="section-title">Key Concepts</div>
+            <div class="card-grid">
+                <div class="card green">
+                    <span class="card-tag">SDLC</span>
+                    <h3>Process Models</h3>
+                    <p>Waterfall: sequential, rigid. Agile: iterative, flexible. Spiral: emphasizes risk analysis at every phase.</p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Testing</span>
+                    <h3>Testing Levels</h3>
+                    <p>Unit Testing (individual components), Integration Testing (combined modules), System Testing (complete system), Acceptance Testing (user validation).</p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Design</span>
+                    <h3>Cohesion & Coupling</h3>
+                    <p>High Cohesion (elements within a module belong together) and Low Coupling (minimal interdependence between modules) is ideal.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PROGRAMMING ===== -->
+        <div id="content-prog" class="tab-pane prog-accent">
+            <div class="subject-header">
+                <span class="subject-eyebrow"><i class="fas fa-code"></i> Programming</span>
+                <h1>Programming</h1>
+                <div class="subject-meta">
+                    <span class="meta-chip"><i class="fas fa-fire"></i> Medium Weightage</span>
+                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~9 Questions</span>
+                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: MEDIUM</span>
+                </div>
+                <p class="subject-desc">Programming assesses fundamental OOP concepts, Java basics, and structural memory concepts like pointers.</p>
+            </div>
+
+            <div class="section-title">Key Concepts</div>
+            <div class="card-grid">
+                <div class="card rose">
+                    <span class="card-tag">OOP</span>
+                    <h3>The 4 Pillars</h3>
+                    <p>Abstraction (hide complexity), Encapsulation (data hiding), Inheritance (code reuse), Polymorphism (multiple forms).</p>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Java Basics</span>
+                    <h3>Important Keywords</h3>
+                    <p><code>final</code> prevents overriding/inheritance. <code>static</code> means class-level scope rather than instance-level.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.sidenav .nav-item').forEach(el => el.classList.remove('active'));
+            const side = document.querySelector(`.sidenav .nav-item.${tabId}`);
+            if (side) side.classList.add('active');
+
+            document.querySelectorAll('.mobile-nav .mob-btn').forEach(el => el.classList.remove('active'));
+            const mob = document.querySelector(`.mobile-nav .mob-btn[data-tab="${tabId}"]`);
+            if (mob) mob.classList.add('active');
+
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+            const pane = document.getElementById(`content-${tabId}`);
+            if (pane) pane.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function markOption(el, result) {
+            const group = el.closest('.pyq-options');
+            group.querySelectorAll('.pyq-option').forEach(o => {
+                o.classList.remove('correct', 'wrong');
+                o.style.pointerEvents = 'none';
+            });
+            el.classList.add(result);
+            const ans = el.closest('.pyq-box').querySelector('.pyq-ans');
+            if (ans) ans.classList.add('visible');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            let subject = urlParams.get('subject');
+            if (subject) {
+                subject = subject.toLowerCase();
+                let tabId = 'toc';
+                if (subject.includes('dbms')) tabId = 'dbms';
+                if (subject.includes('operating') || subject.includes('os')) tabId = 'os';
+                if (subject.includes('coa') || subject.includes('computer org')) tabId = 'coa';
+                if (subject.includes('algo')) tabId = 'algo';
+                if (subject.includes('network') || subject.includes('cn')) tabId = 'cn';
+                if (subject.includes('software') || subject.includes('se')) tabId = 'se';
+                if (subject.includes('program') || subject.includes('prog')) tabId = 'prog';
+                switchTab(tabId);
+            }
+
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                document.getElementById('progress').style.width = scrolled + '%';
+            });
+        });
+    </script>
+</body>
+
+</html>

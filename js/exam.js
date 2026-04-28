@@ -24,6 +24,7 @@
 
     function saveActiveSession() {
         if (!state.isActive || state.isSubmitted) return;
+        syncCurrentQuestionTiming();
         const snapshot = {
             filteredQuestions: state.filteredQuestions,
             currentIndex: state.currentIndex,
@@ -48,13 +49,27 @@
         return [...new Set(available)].sort((a, b) => a - b);
     }
 
+    function getSelectedSections() {
+        const checkAll = document.getElementById('msCheckAll');
+        if (checkAll && checkAll.checked) return 'all';
+        const topics = document.querySelectorAll('.ms-topic:checked');
+        const selected = Array.from(topics).map(cb => cb.value);
+        return selected.length > 0 ? selected : [];
+    }
+
     function refreshExamLengthOptions() {
-        const sectionSelect = document.getElementById('examSection');
         const lengthSelect = document.getElementById('examLength');
         const summary = document.getElementById('examPoolSummary');
-        if (!sectionSelect || !lengthSelect || !summary) return;
+        if (!lengthSelect || !summary) return;
 
-        const pool = HPCLCommon.getQuestionPool(sectionSelect.value);
+        const sectionQuery = getSelectedSections();
+        if (Array.isArray(sectionQuery) && sectionQuery.length === 0) {
+            lengthSelect.innerHTML = '<option value="0">0 Questions</option>';
+            summary.textContent = 'Please select at least one topic to see available questions.';
+            return;
+        }
+
+        const pool = HPCLCommon.getQuestionPool(sectionQuery);
         const counts = getRecommendedDurations(pool.length);
         lengthSelect.innerHTML = counts.map((count, index) => {
             const label = index === counts.length - 1 ? `All available (${count})` : `${count} Questions`;
@@ -64,7 +79,7 @@
         const defaultTarget = counts.includes(10) ? 10 : counts[0];
         lengthSelect.value = String(defaultTarget);
 
-        const sectionLabel = sectionSelect.value === 'all' ? 'all sections' : sectionSelect.value;
+        const sectionLabel = sectionQuery === 'all' ? 'all sections' : sectionQuery.join(', ');
         summary.textContent = `${pool.length} questions currently available for ${sectionLabel}. Session lengths are capped to match the real bank.`;
     }
 
@@ -89,7 +104,7 @@
                 <article class="card history-card ${toneClass}">
                     <div class="history-card-row">
                         <div>
-                            <h4>${item.section === 'all' ? 'Mixed Practice Session' : item.section}</h4>
+                            <h4>${Array.isArray(item.section) ? item.section.join(', ') : (item.section === 'all' ? 'Mixed Practice Session' : item.section)}</h4>
                             <p>${item.label} • ${item.total} Questions • ${item.skipped} skipped</p>
                         </div>
                         <div class="history-score">
@@ -140,7 +155,11 @@
     }
 
     function prepareExam() {
-        const section = document.getElementById('examSection').value;
+        const section = getSelectedSections();
+        if (Array.isArray(section) && section.length === 0) {
+            alert('Please select at least one topic to start the session.');
+            return;
+        }
         const length = Number.parseInt(document.getElementById('examLength').value, 10);
         const startButton = document.getElementById('startExamBtn');
 
@@ -162,9 +181,8 @@
         state.isActive = true;
         state.isSubmitted = false;
 
-        document.getElementById('examTitle').textContent = section === 'all'
-            ? 'Mixed Practice Session'
-            : `${section} Practice Session`;
+        const sectionTitle = section === 'all' ? 'Mixed Practice Session' : section.join(', ');
+        document.getElementById('examTitle').textContent = sectionTitle + ' Session';
 
         if (startButton) startButton.disabled = true;
         toggleScribblePad(false);
@@ -265,7 +283,10 @@
             return;
         }
 
-        state.currentIndex += direction;
+        const newIndex = state.currentIndex + direction;
+        if (newIndex < 0 || newIndex >= state.filteredQuestions.length) return;
+
+        state.currentIndex = newIndex;
         saveActiveSession();
         renderQuestion(true);
     }
@@ -290,6 +311,8 @@
             
             if (state.secondsRemaining <= 0) {
                 stopTimer();
+                syncCurrentQuestionTiming();
+                state.currentQuestionEnteredAtMs = 0; // Prevent alert from inflating time
                 alert("Time is up! Your responses will now be submitted.");
                 submitExam();
             }
@@ -504,7 +527,66 @@
     }
 
     function bindEvents() {
-        document.getElementById('examSection')?.addEventListener('change', refreshExamLengthOptions);
+        const msHeader = document.getElementById('msHeader');
+        const msDropdown = document.getElementById('msDropdown');
+        if (msHeader && msDropdown) {
+            msHeader.addEventListener('click', () => {
+                msDropdown.hidden = !msDropdown.hidden;
+            });
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#focusMultiselect')) {
+                    msDropdown.hidden = true;
+                }
+            });
+
+            const checkAll = document.getElementById('msCheckAll');
+            const groupChecks = document.querySelectorAll('.ms-group-check');
+            const topicChecks = document.querySelectorAll('.ms-topic');
+
+            function updateMsLabel() {
+                const checkedTopics = document.querySelectorAll('.ms-topic:checked');
+                const msLabel = document.getElementById('msLabel');
+                if (checkAll.checked || checkedTopics.length === topicChecks.length) {
+                    msLabel.textContent = 'Mixed (Paper 1 & 2)';
+                } else if (checkedTopics.length === 0) {
+                    msLabel.textContent = 'None Selected';
+                } else if (checkedTopics.length === 1) {
+                    msLabel.textContent = checkedTopics[0].value;
+                } else {
+                    msLabel.textContent = `${checkedTopics.length} Topics Selected`;
+                }
+                refreshExamLengthOptions();
+            }
+
+            checkAll.addEventListener('change', (e) => {
+                const isChecked = e.target.checked;
+                groupChecks.forEach(cb => cb.checked = isChecked);
+                topicChecks.forEach(cb => cb.checked = isChecked);
+                updateMsLabel();
+            });
+
+            groupChecks.forEach(groupCb => {
+                groupCb.addEventListener('change', (e) => {
+                    const isChecked = e.target.checked;
+                    const targetClass = e.target.dataset.target;
+                    document.querySelectorAll(`.ms-topic.${targetClass}`).forEach(cb => cb.checked = isChecked);
+                    checkAll.checked = Array.from(topicChecks).every(cb => cb.checked);
+                    updateMsLabel();
+                });
+            });
+
+            topicChecks.forEach(topicCb => {
+                topicCb.addEventListener('change', () => {
+                    checkAll.checked = Array.from(topicChecks).every(cb => cb.checked);
+                    groupChecks.forEach(groupCb => {
+                        const targetClass = groupCb.dataset.target;
+                        groupCb.checked = Array.from(document.querySelectorAll(`.ms-topic.${targetClass}`)).every(cb => cb.checked);
+                    });
+                    updateMsLabel();
+                });
+            });
+        }
+
         document.getElementById('startExamBtn')?.addEventListener('click', prepareExam);
         document.getElementById('prevBtn')?.addEventListener('click', () => navigateQuestion(-1));
         document.getElementById('nextBtn')?.addEventListener('click', () => navigateQuestion(1));
@@ -523,7 +605,6 @@
                 e.preventDefault();
                 e.returnValue = ''; // Standard way to trigger a confirmation dialog
             }
-            stopTimer();
         });
     }
 
