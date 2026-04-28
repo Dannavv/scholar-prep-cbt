@@ -2453,7 +2453,7 @@
 
             <div class="alert-box info">
                 <i class="fas fa-info-circle"></i>
-                <span><strong>Exam Tip:</strong> IP addressing and the 7 OSI layers are the most commonly tested concepts.</span>
+                <span><strong>Exam Tip:</strong> IP addressing and the 7 OSI layers are the most commonly tested concepts. Numerical questions often focus on subnetting or delay calculations.</span>
             </div>
 
             <div class="section-title">Key Concepts</div>
@@ -2465,13 +2465,49 @@
                 </div>
                 <div class="card blue">
                     <span class="card-tag">IP Addressing</span>
-                    <h3>IPv4 Classes</h3>
-                    <p>Class A: 0-127, Class B: 128-191, Class C: 192-223, Class D: 224-239 (Multicast), Class E: 240-255 (Experimental).</p>
+                    <h3>IPv4 Classes & CIDR</h3>
+                    <p>Class A: 0-127, Class B: 128-191, Class C: 192-223. Subnetting borrows host bits for network. CIDR (Classless Inter-Domain Routing) uses `/n` prefix for flexible allocation.</p>
                 </div>
                 <div class="card blue">
-                    <span class="card-tag">Protocols</span>
+                    <span class="card-tag">Transport Protocols</span>
                     <h3>TCP vs UDP</h3>
-                    <p>TCP is connection-oriented and reliable (3-way handshake). UDP is connectionless and unreliable (faster, no overhead).</p>
+                    <p>TCP is connection-oriented, reliable (3-way handshake), provides flow and error control. UDP is connectionless, fast, unreliable (used in streaming, DNS).</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">Routing Algorithms</span>
+                    <h3>Link State vs Distance Vector</h3>
+                    <p>Distance Vector (RIP): Uses Bellman-Ford, shares routing table with neighbors, prone to count-to-infinity. Link State (OSPF): Uses Dijkstra, full topology knowledge.</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">Application Layer</span>
+                    <h3>Common Protocols & Ports</h3>
+                    <p>HTTP (80), HTTPS (443), FTP (20/21), SMTP (25), DNS (53 TCP/UDP), Telnet (23).</p>
+                </div>
+                <div class="card blue">
+                    <span class="card-tag">Data Link Layer</span>
+                    <h3>MAC & CSMA/CD</h3>
+                    <p>MAC addresses are 48-bit physical addresses. CSMA/CD handles collision detection in wired Ethernet (802.3). CSMA/CA avoids collisions in wireless (802.11).</p>
+                </div>
+            </div>
+
+            <div class="section-title">Formulas & Metrics</div>
+            <div class="formula-box">
+                <div class="f-grid">
+                    <div class="f-item">
+                        <div class="f-name">Transmission Delay</div>
+                        <div class="f-math">\( T_t = \frac{L}{B} \)</div>
+                        <div class="f-desc">L = Packet length (bits), B = Bandwidth (bps)</div>
+                    </div>
+                    <div class="f-item">
+                        <div class="f-name">Propagation Delay</div>
+                        <div class="f-math">\( T_p = \frac{d}{v} \)</div>
+                        <div class="f-desc">d = Distance, v = Propagation speed</div>
+                    </div>
+                    <div class="f-item">
+                        <div class="f-name">Total Round Trip Time (RTT)</div>
+                        <div class="f-math">\( RTT \approx 2 \times T_p \)</div>
+                        <div class="f-desc">Assuming processing and queuing delays are 0</div>
+                    </div>
                 </div>
             </div>
 
@@ -2485,7 +2521,19 @@
                     <div class="pyq-option" onclick="markOption(this,'wrong')">C) Transport Layer</div>
                     <div class="pyq-option" onclick="markOption(this,'wrong')">D) Physical Layer</div>
                 </div>
-                <div class="pyq-ans visible"><strong>Answer: B — Network Layer.</strong> The Network Layer handles logical addressing (IP) and routing packets across multiple networks.</div>
+                <div class="pyq-ans"><strong>Answer: B — Network Layer.</strong> The Network Layer handles logical addressing (IP) and routing packets across multiple networks.</div>
+            </div>
+            
+            <div class="pyq-box">
+                <div class="pyq-year">🔥 Frequent Concept</div>
+                <div class="pyq-q">Q2. What is the maximum number of hosts per subnet for an IP address with a `/26` prefix?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) 126</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) 62</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) 64</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) 254</div>
+                </div>
+                <div class="pyq-ans"><strong>Answer: B — 62.</strong> Prefix /26 leaves 32 - 26 = 6 bits for the host ID. Number of total hosts = 2⁶ = 64. Usable hosts = 64 - 2 (network and broadcast addresses) = 62.</div>
             </div>
         </div>
 
@@ -2499,7 +2547,12 @@
                     <span class="meta-chip"><i class="fas fa-question-circle"></i> ~6 Questions</span>
                     <span class="meta-chip"><i class="fas fa-clock"></i> Priority: LOW</span>
                 </div>
-                <p class="subject-desc">Software Engineering focuses on development lifecycles, project management, and testing methodologies.</p>
+                <p class="subject-desc">Software Engineering focuses on development lifecycles, project management, testing methodologies, and software metrics.</p>
+            </div>
+
+            <div class="alert-box info">
+                <i class="fas fa-info-circle"></i>
+                <span><strong>Exam Tip:</strong> Pay special attention to Cohesion vs. Coupling characteristics and McCabe's Cyclomatic Complexity formula.</span>
             </div>
 
             <div class="section-title">Key Concepts</div>
@@ -2507,18 +2560,57 @@
                 <div class="card green">
                     <span class="card-tag">SDLC</span>
                     <h3>Process Models</h3>
-                    <p>Waterfall: sequential, rigid. Agile: iterative, flexible. Spiral: emphasizes risk analysis at every phase.</p>
+                    <p>Waterfall: sequential, rigid. Agile: iterative, flexible, customer feedback. Spiral: emphasizes risk analysis at every phase (radius represents cost).</p>
                 </div>
                 <div class="card green">
                     <span class="card-tag">Testing</span>
                     <h3>Testing Levels</h3>
-                    <p>Unit Testing (individual components), Integration Testing (combined modules), System Testing (complete system), Acceptance Testing (user validation).</p>
+                    <p>Unit Testing (White-box, components), Integration Testing (combined modules), System Testing (Black-box, complete system), Acceptance Testing (user validation, Alpha/Beta).</p>
                 </div>
                 <div class="card green">
                     <span class="card-tag">Design</span>
                     <h3>Cohesion & Coupling</h3>
-                    <p>High Cohesion (elements within a module belong together) and Low Coupling (minimal interdependence between modules) is ideal.</p>
+                    <p><strong>Cohesion:</strong> Degree to which elements inside a module belong together. High Cohesion is ideal. <br><strong>Coupling:</strong> Degree of interdependence between software modules. Low Coupling is ideal.</p>
                 </div>
+                <div class="card green">
+                    <span class="card-tag">Maintenance</span>
+                    <h3>Types of Maintenance</h3>
+                    <p>Corrective (fixing bugs), Adaptive (environment changes), Perfective (new features), Preventive (improving maintainability). Perfective consumes the most effort.</p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Requirements</span>
+                    <h3>SRS Document</h3>
+                    <p>Software Requirements Specification (SRS) should be unambiguous, complete, verifiable, and consistent. It serves as an agreement between developers and customers.</p>
+                </div>
+                <div class="card green">
+                    <span class="card-tag">Metrics</span>
+                    <h3>COCOMO Model</h3>
+                    <p>Constructive Cost Model estimates effort and duration. Basic COCOMO uses lines of code (KLOC) to estimate project effort (Organic, Semi-detached, Embedded).</p>
+                </div>
+            </div>
+
+            <div class="section-title">Formulas & Metrics</div>
+            <div class="formula-box">
+                <div class="f-grid">
+                    <div class="f-item">
+                        <div class="f-name">McCabe's Cyclomatic Complexity</div>
+                        <div class="f-math">\( V(G) = E - N + 2P \)</div>
+                        <div class="f-desc">E = Edges, N = Nodes, P = Connected components</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Past Year Questions — Interactive</div>
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Direct PYQ</div>
+                <div class="pyq-q">Q1. Which of the following is the most desirable combination for software design?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) High coupling, Low cohesion</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) Low coupling, Low cohesion</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) Low coupling, High cohesion</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) High coupling, High cohesion</div>
+                </div>
+                <div class="pyq-ans"><strong>Answer: C — Low coupling, High cohesion.</strong> Modules should be highly self-contained (high cohesion) and have minimal dependence on other modules (low coupling).</div>
             </div>
         </div>
 
@@ -2526,13 +2618,18 @@
         <div id="content-prog" class="tab-pane prog-accent">
             <div class="subject-header">
                 <span class="subject-eyebrow"><i class="fas fa-code"></i> Programming</span>
-                <h1>Programming</h1>
+                <h1>Programming & Data Structures</h1>
                 <div class="subject-meta">
-                    <span class="meta-chip"><i class="fas fa-fire"></i> Medium Weightage</span>
-                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~9 Questions</span>
-                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: MEDIUM</span>
+                    <span class="meta-chip"><i class="fas fa-fire"></i> High Weightage</span>
+                    <span class="meta-chip"><i class="fas fa-question-circle"></i> ~10 Questions</span>
+                    <span class="meta-chip"><i class="fas fa-clock"></i> Priority: HIGH</span>
                 </div>
-                <p class="subject-desc">Programming assesses fundamental OOP concepts, Java basics, and structural memory concepts like pointers.</p>
+                <p class="subject-desc">Programming assesses fundamental OOP concepts, Java/C basics, data types, parameter passing, and execution tracing.</p>
+            </div>
+
+            <div class="alert-box info">
+                <i class="fas fa-info-circle"></i>
+                <span><strong>Exam Tip:</strong> Expect code snippets (especially in C/C++) requiring you to trace output, often involving pointers, static variables, or loops.</span>
             </div>
 
             <div class="section-title">Key Concepts</div>
@@ -2540,13 +2637,69 @@
                 <div class="card rose">
                     <span class="card-tag">OOP</span>
                     <h3>The 4 Pillars</h3>
-                    <p>Abstraction (hide complexity), Encapsulation (data hiding), Inheritance (code reuse), Polymorphism (multiple forms).</p>
+                    <p>Abstraction (hide complexity), Encapsulation (data hiding), Inheritance (code reuse), Polymorphism (multiple forms, e.g., overloading & overriding).</p>
                 </div>
                 <div class="card rose">
                     <span class="card-tag">Java Basics</span>
                     <h3>Important Keywords</h3>
-                    <p><code>final</code> prevents overriding/inheritance. <code>static</code> means class-level scope rather than instance-level.</p>
+                    <p><code>final</code>: prevents overriding/inheritance/reassignment. <code>static</code>: class-level scope. <code>super</code>: refers to parent class object. <code>this</code>: refers to current object.</p>
                 </div>
+                <div class="card rose">
+                    <span class="card-tag">C/C++ Pointers</span>
+                    <h3>Pointers & Arrays</h3>
+                    <p>Name of an array acts as a pointer to its first element. Pointer arithmetic accounts for the data type size (e.g., <code>ptr++</code> advances by 4 bytes for an integer pointer).</p>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Functions</span>
+                    <h3>Parameter Passing</h3>
+                    <p>Pass-by-Value: Copy of data passed (modifications don't affect original). Pass-by-Reference: Address passed (modifications affect original variables).</p>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Memory Management</span>
+                    <h3>Stack vs Heap</h3>
+                    <p>Stack: Local variables, function call frames, fast allocation. Heap: Dynamically allocated memory (<code>malloc</code>/<code>new</code>), manual deallocation required, slower.</p>
+                </div>
+                <div class="card rose">
+                    <span class="card-tag">Variables</span>
+                    <h3>Static Variables</h3>
+                    <p>Retain their value between multiple function calls. Initialized only once. Often tested in recursive or iterative code snippet questions.</p>
+                </div>
+            </div>
+
+            <div class="section-title">Past Year Questions — Interactive</div>
+            <div class="pyq-box">
+                <div class="pyq-year">⭐ Direct PYQ</div>
+                <div class="pyq-q">
+                    Q1. What is the output of the following C code snippet?<br>
+                    <pre style="background: #f4f4f4; padding: 10px; border-radius: 4px; margin-top: 10px; font-family: monospace;">void func() {
+    static int x = 0;
+    printf("%d ", x);
+    x++;
+}
+int main() {
+    func(); func(); func();
+    return 0;
+}</pre>
+                </div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) 0 0 0</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">B) 0 1 2</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">C) 1 2 3</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Compilation Error</div>
+                </div>
+                <div class="pyq-ans"><strong>Answer: B — 0 1 2.</strong> The <code>static</code> variable <code>x</code> retains its value across function calls. It initializes to 0 on the first call and increments subsequently.</div>
+            </div>
+            
+            <div class="pyq-box">
+                <div class="pyq-year">🔥 Frequent Concept</div>
+                <div class="pyq-q">Q2. Which OOP concept refers to the capability of an object to take on many forms?</div>
+                <div class="pyq-options">
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">A) Inheritance</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">B) Encapsulation</div>
+                    <div class="pyq-option" onclick="markOption(this,'correct')">C) Polymorphism</div>
+                    <div class="pyq-option" onclick="markOption(this,'wrong')">D) Abstraction</div>
+                </div>
+                <div class="pyq-ans"><strong>Answer: C — Polymorphism.</strong> Poly (many) + morphs (forms). Common examples include method overloading (compile-time) and method overriding (run-time).</div>
             </div>
         </div>
 
