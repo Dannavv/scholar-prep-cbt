@@ -519,6 +519,517 @@ const set2Questions = [
     "answer": "b",
     "explanation": "The Diamond Problem occurs in Multiple Inheritance when a class inherits from two classes that both inherit from a common superclass, causing ambiguity about which superclass methods to use.",
     "difficulty": "Medium"
+  },
+  // QUANTITATIVE APTITUDE (New)
+  {
+    "id": "S2_QUANT_06",
+    "section": "Quantitative Aptitude",
+    "topic": "Compound Interest",
+    "question": "A sum of money becomes Rs. 13,380 after 3 years and Rs. 20,070 after 6 years at compound interest. What is the original sum?",
+    "options": ["Rs. 8,800", "Rs. 8,920", "Rs. 9,000", "Rs. 9,200"],
+    "answer": "b",
+    "explanation": "Let sum be P and (1+r/100)^3 = x. We have P*x = 13380 and P*x^2 = 20070. Dividing, x = 20070/13380 = 3/2. Therefore, P*(3/2) = 13380 => P = 13380 * 2 / 3 = 8920.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_QUANT_07",
+    "section": "Quantitative Aptitude",
+    "topic": "Mixture & Alligation",
+    "question": "Two alloys contain zinc and copper in the ratio 2:1 and 4:1. In what ratio should the two alloys be added together to get a new alloy having zinc and copper in the ratio 3:1?",
+    "options": ["3:5", "5:7", "3:4", "4:5"],
+    "answer": "a",
+    "explanation": "Zinc in alloy 1 = 2/3. Zinc in alloy 2 = 4/5. Desired zinc = 3/4. Using alligation: (4/5 - 3/4) / (3/4 - 2/3) = (1/20) / (1/12) = 12/20 = 3/5. The ratio is 3:5.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_QUANT_08",
+    "section": "Quantitative Aptitude",
+    "topic": "Profit & Loss",
+    "question": "A shopkeeper marks his goods 20% above the cost price but allows a 30% discount for cash. What is his net loss percentage?",
+    "options": ["10%", "14%", "16%", "20%"],
+    "answer": "c",
+    "explanation": "Let CP = 100. MP = 120. Discount = 30% of 120 = 36. SP = 120 - 36 = 84. Loss = 100 - 84 = 16. Loss% = 16%.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_QUANT_09",
+    "section": "Quantitative Aptitude",
+    "topic": "Mensuration",
+    "question": "If the radius of a cylinder is decreased by 50% and the height is increased by 50%, what is the percentage change in its volume?",
+    "options": ["Decreased by 62.5%", "Decreased by 25%", "Increased by 12.5%", "Decreased by 50%"],
+    "answer": "a",
+    "explanation": "Volume V = πr²h. New radius r' = 0.5r. New height h' = 1.5h. New volume V' = π(0.5r)²(1.5h) = 0.25 * 1.5 * πr²h = 0.375 V. This is a decrease of (1 - 0.375) * 100 = 62.5%.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_QUANT_10",
+    "section": "Quantitative Aptitude",
+    "topic": "Boats & Streams",
+    "question": "A motorboat takes half time to cover a certain distance downstream than upstream. What is the ratio between the speed of the boat in still water and the speed of the current?",
+    "options": ["2:1", "3:1", "1:2", "1:3"],
+    "answer": "b",
+    "explanation": "Let boat speed be v and stream speed be u. Time upstream / Time downstream = 2/1. Therefore, Speed downstream / Speed upstream = 2/1 => (v+u)/(v-u) = 2/1 => v+u = 2v-2u => v = 3u. Ratio v:u = 3:1.",
+    "difficulty": "Medium"
+  },
+  // REASONING (New)
+  {
+    "id": "S2_REAS_06",
+    "section": "Reasoning",
+    "topic": "Blood Relation",
+    "question": "A tells B, 'Your mother's father's only son is my father.' How is A related to B?",
+    "options": ["Uncle", "Cousin", "Brother", "Nephew"],
+    "answer": "b",
+    "explanation": "B's mother's father is B's maternal grandfather. His only son is B's maternal uncle. A says B's maternal uncle is A's father. Thus, A and B are cousins.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_REAS_07",
+    "section": "Reasoning",
+    "topic": "Direction Sense",
+    "question": "At 12:30, the hour hand of a clock faces North. In which direction will the minute hand face at 2:45?",
+    "options": ["South-East", "West", "North-West", "East"],
+    "answer": "b",
+    "explanation": "At 12:30, standard hour hand is slightly past 12 (North-ish), but the problem states it faces exactly North. Let's assume 12 is North. At 2:45, the minute hand points exactly at 9. 9 represents West.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_REAS_08",
+    "section": "Reasoning",
+    "topic": "Puzzle",
+    "question": "There are 5 books A, B, C, D, and E placed on a table. If A is placed below E, C is placed above D, B is placed below A, and D is placed above E. Which book is at the bottom?",
+    "options": ["A", "B", "C", "D"],
+    "answer": "b",
+    "explanation": "A is below E (E > A). C is above D (C > D). B is below A (A > B). D is above E (D > E). Combining: C > D > E > A > B. B is at the bottom.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_REAS_09",
+    "section": "Reasoning",
+    "topic": "Machine Input-Output",
+    "question": "A word arrangement machine, when given an input of words, rearranges them following a particular rule. If 'Input: the quick brown fox jumps over lazy dog' results in Step 1: 'brown the quick fox jumps over lazy dog', what is the machine sorting by?",
+    "options": ["Alphabetical order of words", "Reverse alphabetical order", "Number of vowels", "Length of the word"],
+    "answer": "a",
+    "explanation": "In Step 1, 'brown' is brought to the front. 'brown' is the alphabetically first word in the input sequence. Thus, it's sorting alphabetically from left to right.",
+    "difficulty": "Easy"
+  },
+  {
+    "id": "S2_REAS_10",
+    "section": "Reasoning",
+    "topic": "Statement & Assumption",
+    "question": "Statement: 'Please do not use lift during an earthquake.' - A notice in a building.\nAssumptions:\nI. Lifts may get stuck during an earthquake.\nII. People usually use stairs during an earthquake.",
+    "options": ["Only I is implicit", "Only II is implicit", "Both I and II are implicit", "Neither I nor II is implicit"],
+    "answer": "a",
+    "explanation": "The notice warns against using the lift, assuming it is dangerous (e.g., getting stuck). Assumption II is not necessarily implicit, as people might still try to use lifts, prompting the notice.",
+    "difficulty": "Medium"
+  },
+  // ENGLISH LANGUAGE (New)
+  {
+    "id": "S2_ENG_06",
+    "section": "English Language",
+    "topic": "Vocabulary",
+    "question": "What is the synonym of the word 'EPHEMERAL'?",
+    "options": ["Eternal", "Transient", "Pervasive", "Resilient"],
+    "answer": "b",
+    "explanation": "'Ephemeral' means lasting for a very short time, which makes 'Transient' its synonym.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_ENG_07",
+    "section": "English Language",
+    "topic": "Grammar & Voice",
+    "question": "Select the correct passive form of the sentence: 'The manager is reviewing the final report.'",
+    "options": ["The final report is reviewed by the manager.", "The final report was being reviewed by the manager.", "The final report is being reviewed by the manager.", "The final report has been reviewed by the manager."],
+    "answer": "c",
+    "explanation": "Present continuous active ('is reviewing') changes to present continuous passive ('is being reviewed').",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_ENG_08",
+    "section": "English Language",
+    "topic": "Reading Comprehension",
+    "question": "Read the excerpt: 'The advent of artificial intelligence has irrevocably altered the landscape of modern employment. While some herald the efficiency of automation, others lament the obsolescence of traditional craftsmanship.' \nWhat is the primary tone of the passage?",
+    "options": ["Overwhelmingly optimistic", "Deeply pessimistic", "Objective and balanced", "Sarcastic and mocking"],
+    "answer": "c",
+    "explanation": "The passage presents both sides neutrally ('some herald... others lament') without taking a definitive emotional stance, making it objective and balanced.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_ENG_09",
+    "section": "English Language",
+    "topic": "Phrase Replacement",
+    "question": "Replace the underlined segment if necessary: The board agreed that the project must be 'carried out' despite the budgetary constraints.",
+    "options": ["carried on", "carried off", "carried over", "No improvement required"],
+    "answer": "d",
+    "explanation": "'Carried out' means to execute or perform a task, which perfectly fits the context of completing a project.",
+    "difficulty": "Easy"
+  },
+  {
+    "id": "S2_ENG_10",
+    "section": "English Language",
+    "topic": "Cloze Test",
+    "question": "Fill in the blank: The CEO's sudden resignation left the company in a state of ______, with stock prices plummeting overnight.",
+    "options": ["tranquility", "turmoil", "stagnation", "euphoria"],
+    "answer": "b",
+    "explanation": "'Turmoil' means a state of great disturbance or confusion, which accurately describes a company undergoing sudden leadership loss and crashing stocks.",
+    "difficulty": "Easy"
+  },
+  // THEORY OF COMPUTATION (New)
+  {
+    "id": "S2_TOC_06",
+    "section": "Theory of Computation",
+    "topic": "Chomsky Hierarchy",
+    "question": "Which of the following machines is strictly associated with Type-1 grammars in the Chomsky hierarchy?",
+    "options": ["Finite Automata", "Pushdown Automata", "Linear Bounded Automata", "Turing Machine"],
+    "answer": "c",
+    "explanation": "Type-1 grammars are Context-Sensitive Grammars (CSG), which are recognized by Linear Bounded Automata (LBA).",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_TOC_07",
+    "section": "Theory of Computation",
+    "topic": "Pumping Lemma",
+    "question": "The Pumping Lemma for Regular Languages states that for any string w in a regular language L with length |w| >= p (pumping length), w can be split into w = xyz such that:",
+    "options": ["|y| > 0 and |xy| <= p", "|y| >= 0 and |xy| > p", "|y| > 0 and |xz| <= p", "|x| > 0 and |yz| <= p"],
+    "answer": "a",
+    "explanation": "The core conditions of the pumping lemma are: y is non-empty (|y| > 0), the loop happens within the first p characters (|xy| <= p), and pumping holds (xy^iz ∈ L).",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_TOC_08",
+    "section": "Theory of Computation",
+    "topic": "Closure Properties",
+    "question": "Context-Sensitive Languages (CSL) are closed under all of the following EXCEPT:",
+    "options": ["Union", "Intersection", "Complementation", "Homomorphism"],
+    "answer": "d",
+    "explanation": "CSLs are closed under union, intersection, and surprisingly complementation (Immerman-Szelepcsényi theorem). They are NOT closed under arbitrary homomorphism, because erasing homomorphism can shrink strings violating context-sensitivity.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_TOC_09",
+    "section": "Theory of Computation",
+    "topic": "Turing Machines",
+    "question": "A Multi-tape Turing Machine, compared to a standard Single-tape Turing Machine, has:",
+    "options": ["Greater computational power", "Exactly the same computational power", "Less computational power", "Power equivalent only to a PDA"],
+    "answer": "b",
+    "explanation": "Any multi-tape TM can be simulated by a single-tape TM. It may be faster (polynomial time speedup), but it cannot compute any language a single-tape TM cannot.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_TOC_10",
+    "section": "Theory of Computation",
+    "topic": "Decidability",
+    "question": "The Equivalence Problem (whether two machines accept the same language) is decidable for which of the following?",
+    "options": ["Regular Languages only", "Regular and Context-Free Languages", "Regular and Deterministic Context-Free Languages (DCFL)", "Turing Machines"],
+    "answer": "c",
+    "explanation": "Equivalence is decidable for Regular languages and DCFLs (proven by Sénizergues). It is strictly undecidable for general CFLs and recursively enumerable languages.",
+    "difficulty": "Hard"
+  },
+  // DBMS (New)
+  {
+    "id": "S2_DBMS_06",
+    "section": "DBMS",
+    "topic": "Concurrency Control",
+    "question": "In the context of database concurrency, a schedule that guarantees no cascading rollbacks is called:",
+    "options": ["Serializable", "Recoverable", "Cascadeless", "Strict"],
+    "answer": "c",
+    "explanation": "A cascadeless schedule requires that any transaction reading data written by another transaction must wait until the writing transaction has committed. Strict schedules are a subset of cascadeless.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_DBMS_07",
+    "section": "DBMS",
+    "topic": "Relational Calculus",
+    "question": "Tuple Relational Calculus (TRC) is an example of a:",
+    "options": ["Procedural query language", "Non-procedural query language", "Data Definition Language (DDL)", "Network Model Language"],
+    "answer": "b",
+    "explanation": "Relational Calculus (both Tuple and Domain) defines WHAT data to retrieve, not HOW to retrieve it, making it non-procedural (declarative), unlike Relational Algebra.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_DBMS_08",
+    "section": "DBMS",
+    "topic": "Normalization",
+    "question": "Fourth Normal Form (4NF) specifically aims to eliminate which type of anomaly?",
+    "options": ["Partial Dependencies", "Transitive Dependencies", "Multi-valued Dependencies", "Join Dependencies"],
+    "answer": "c",
+    "explanation": "4NF deals with multi-valued dependencies, where a single attribute dictates multiple independent values of another attribute in a way that creates redundancy.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_DBMS_09",
+    "section": "DBMS",
+    "topic": "Query Optimization",
+    "question": "Which of the following relational algebra transformations is generally applied FIRST by a query optimizer to reduce intermediate table sizes?",
+    "options": ["Push Projection", "Push Selection", "Convert Cartesian Product to Join", "Sort Relations"],
+    "answer": "b",
+    "explanation": "Pushing Selections (σ) down the query tree as early as possible dramatically reduces the number of rows processed in subsequent expensive Join or Cartesian Product operations.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_DBMS_10",
+    "section": "DBMS",
+    "topic": "Indexing",
+    "question": "Which indexing structure is optimal for exact-match point queries but performs poorly on range queries?",
+    "options": ["B-Tree", "B+ Tree", "Hash Index", "Bitmap Index"],
+    "answer": "c",
+    "explanation": "Hash indices compute a direct bucket for a specific key, providing O(1) exact matches. However, hashing scrambles the logical order, making range queries (e.g., Age > 20) impossible to optimize.",
+    "difficulty": "Medium"
+  },
+  // OPERATING SYSTEMS (New)
+  {
+    "id": "S2_OS_06",
+    "section": "Operating Systems",
+    "topic": "Page Replacement",
+    "question": "A system uses FIFO page replacement with 3 frames. For the reference string 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5, how many page faults occur?",
+    "options": ["9", "10", "12", "7"],
+    "answer": "a",
+    "explanation": "Frames sequence: [1] -> [1,2] -> [1,2,3] -> [4,2,3] -> [4,1,3] -> [4,1,2] -> [5,1,2] -> 1(hit) -> 2(hit) -> [5,3,2] -> [5,3,4] -> 5(hit). Faults: 1, 2, 3, 4, 1, 2, 5, 3, 4 = 9 faults.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_OS_07",
+    "section": "Operating Systems",
+    "topic": "Synchronization",
+    "question": "In the standard Reader-Writer problem, which of the following is true regarding priority?",
+    "options": ["Readers always have priority over Writers", "Writers always have priority over Readers", "Multiple readers can enter the critical section simultaneously", "Multiple writers can enter the critical section simultaneously"],
+    "answer": "c",
+    "explanation": "The core rule of the Reader-Writer problem is that multiple readers can safely access the shared data at the same time, but a writer must have exclusive access.",
+    "difficulty": "Easy"
+  },
+  {
+    "id": "S2_OS_08",
+    "section": "Operating Systems",
+    "topic": "Semaphores",
+    "question": "A counting semaphore was initialized to 7. Then, 20 wait (P) operations and 15 signal (V) operations were completed. What is the final value of the semaphore?",
+    "options": ["2", "12", "0", "-5"],
+    "answer": "a",
+    "explanation": "Initial = 7. Wait (P) decrements, Signal (V) increments. Final = 7 - 20 + 15 = 2.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_OS_09",
+    "section": "Operating Systems",
+    "topic": "Inter-Process Communication",
+    "question": "Which IPC mechanism is typically the fastest because it avoids copying data through the kernel?",
+    "options": ["Pipes", "Message Queues", "Sockets", "Shared Memory"],
+    "answer": "d",
+    "explanation": "Shared memory maps a segment of RAM into the address space of multiple processes, allowing them to communicate by directly reading/writing RAM without kernel syscall overhead.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_OS_10",
+    "section": "Operating Systems",
+    "topic": "Disk Storage",
+    "question": "Which RAID level provides block-level striping with distributed parity, allowing recovery from a single drive failure?",
+    "options": ["RAID 0", "RAID 1", "RAID 5", "RAID 6"],
+    "answer": "c",
+    "explanation": "RAID 5 distributes data and parity across all drives, requiring at least 3 drives and surviving 1 drive failure. RAID 6 uses dual parity to survive 2 failures.",
+    "difficulty": "Medium"
+  },
+  // COA (New)
+  {
+    "id": "S2_COA_06",
+    "section": "COA",
+    "topic": "Amdahl's Law",
+    "question": "If a program spends 40% of its time executing floating-point instructions, what is the maximum theoretical speedup achievable by making the floating-point unit infinitely fast?",
+    "options": ["1.40x", "1.66x", "2.0x", "2.5x"],
+    "answer": "b",
+    "explanation": "Speedup = 1 / ( (1 - f) + f / S ). Here f = 0.40, S = infinity. Max speedup = 1 / (1 - 0.40) = 1 / 0.60 = 1.66x.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_COA_07",
+    "section": "COA",
+    "topic": "Instruction Cycle",
+    "question": "During the instruction cycle, which register holds the address of the next instruction to be fetched?",
+    "options": ["Instruction Register (IR)", "Memory Address Register (MAR)", "Program Counter (PC)", "Accumulator (ACC)"],
+    "answer": "c",
+    "explanation": "The Program Counter (PC) uniquely holds the memory address of the next instruction in sequence.",
+    "difficulty": "Easy"
+  },
+  {
+    "id": "S2_COA_08",
+    "section": "COA",
+    "topic": "Cache Coherence",
+    "question": "In the MESI cache coherence protocol, what does the 'E' state stand for?",
+    "options": ["Exclusive", "Empty", "Error", "Evicted"],
+    "answer": "a",
+    "explanation": "MESI stands for Modified, Exclusive, Shared, Invalid. 'Exclusive' means the block is present only in the current cache and matches main memory.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_COA_09",
+    "section": "COA",
+    "topic": "Microoperations",
+    "question": "A microinstruction format has 3 fields that can trigger 7, 15, and 3 distinct control signals respectively. Using fully encoded fields (minimal bits), how many bits are required for the control fields?",
+    "options": ["10 bits", "11 bits", "9 bits", "25 bits"],
+    "answer": "a",
+    "explanation": "To encode 7 signals + 1 no-op = 8 states = 3 bits. 15 signals + 1 no-op = 16 states = 4 bits. 3 signals + 1 no-op = 4 states = 2 bits. Total = 3 + 4 + 2 = 9 bits.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_COA_10",
+    "section": "COA",
+    "topic": "Memory Organization",
+    "question": "Interleaved memory is primarily used to:",
+    "options": ["Increase memory capacity", "Reduce the effective memory access time", "Provide virtual memory", "Prevent cache misses"],
+    "answer": "b",
+    "explanation": "Memory interleaving splits memory into multiple banks that can be accessed concurrently, increasing memory bandwidth and reducing effective access time.",
+    "difficulty": "Medium"
+  },
+  // ALGORITHMS (New)
+  {
+    "id": "S2_ALGO_06",
+    "section": "Algorithms",
+    "topic": "Greedy Algorithms",
+    "question": "Which of the following problems is classically solved using Huffman Coding?",
+    "options": ["Shortest Path", "Data Compression", "Minimum Spanning Tree", "Maximum Flow"],
+    "answer": "b",
+    "explanation": "Huffman Coding uses a greedy approach to build a variable-length prefix tree, highly optimizing lossless data compression.",
+    "difficulty": "Easy"
+  },
+  {
+    "id": "S2_ALGO_07",
+    "section": "Algorithms",
+    "topic": "String Matching",
+    "question": "In the Knuth-Morris-Pratt (KMP) string matching algorithm, what is the primary purpose of the LPS (Longest Prefix Suffix) array?",
+    "options": ["To sort the characters of the pattern", "To avoid backing up the text pointer upon a mismatch", "To hash substrings into integers", "To recursively divide the string"],
+    "answer": "b",
+    "explanation": "The LPS array tells the algorithm how much of the pattern has already been matched, allowing it to skip character comparisons and preventing the text pointer from ever moving backward.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_ALGO_08",
+    "section": "Algorithms",
+    "topic": "NP-Completeness",
+    "question": "The Vertex Cover problem asks for the minimum set of vertices such that every edge in a graph is incident to at least one vertex in the set. To which complexity class does the decision version of this problem belong?",
+    "options": ["P", "NP-Complete", "PSPACE", "EXPTIME"],
+    "answer": "b",
+    "explanation": "Vertex Cover is one of Karp's original 21 NP-Complete problems.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_ALGO_09",
+    "section": "Algorithms",
+    "topic": "Advanced Data Structures",
+    "question": "In a completely filled B-Tree of order m and height h, all leaf nodes are guaranteed to be:",
+    "options": ["At the same depth", "Linked in a circular queue", "Sorted in descending order", "Holding exactly one key"],
+    "answer": "a",
+    "explanation": "A fundamental property of any B-Tree is that it is perfectly height-balanced, meaning every single leaf node exists at exactly the exact same depth.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_ALGO_10",
+    "section": "Algorithms",
+    "topic": "AVL Trees",
+    "question": "In an AVL tree, if a node is inserted into the left subtree of the left child of an unbalanced node, which rotation is strictly required to restore balance?",
+    "options": ["Left Rotation (LL)", "Right Rotation (RR)", "Left-Right Rotation (LR)", "Right-Left Rotation (RL)"],
+    "answer": "b",
+    "explanation": "A Left-Left (LL) imbalance requires a single Right Rotation to hoist the left child up and restore the balance factor.",
+    "difficulty": "Hard"
+  },
+  // COMPUTER NETWORKS (New)
+  {
+    "id": "S2_CN_06",
+    "section": "Computer Networks",
+    "topic": "IPv6",
+    "question": "Which of the following IPv4 features was entirely eliminated in the IPv6 header to streamline processing?",
+    "options": ["Source Address", "Header Checksum", "Hop Limit / TTL", "Payload Length"],
+    "answer": "b",
+    "explanation": "The Header Checksum was removed in IPv6 because data link and transport layers already perform checksums, so eliminating it speeds up router processing.",
+    "difficulty": "Hard"
+  },
+  {
+    "id": "S2_CN_07",
+    "section": "Computer Networks",
+    "topic": "Routing Protocols",
+    "question": "OSPF (Open Shortest Path First) is categorized as an Interior Gateway Protocol (IGP) that uses which underlying algorithm?",
+    "options": ["Distance Vector", "Path Vector", "Link State", "Spanning Tree"],
+    "answer": "c",
+    "explanation": "OSPF uses the Link State algorithm (specifically Dijkstra's algorithm) to build a complete topology map of the network.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_CN_08",
+    "section": "Computer Networks",
+    "topic": "Data Link Layer",
+    "question": "What is the maximum theoretical utilization (efficiency) of a Stop-and-Wait ARQ protocol if the propagation time is extremely large compared to transmission time?",
+    "options": ["100%", "50%", "Approaches 0%", "Depends on the window size"],
+    "answer": "c",
+    "explanation": "Efficiency = T_trans / (T_trans + 2 * T_prop). If T_prop is massive, the denominator grows infinitely large, causing efficiency to approach 0%.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_CN_09",
+    "section": "Computer Networks",
+    "topic": "Transport Layer",
+    "question": "In TCP/IP, the process of combining multiple application layer data streams into a single transport layer stream is known as:",
+    "options": ["Encapsulation", "Multiplexing", "Segmentation", "Modulation"],
+    "answer": "b",
+    "explanation": "Multiplexing takes data from multiple sockets (ports) and packages it into packets over the network. Demultiplexing does the reverse at the destination.",
+    "difficulty": "Easy"
+  },
+  {
+    "id": "S2_CN_10",
+    "section": "Computer Networks",
+    "topic": "DNS",
+    "question": "A DNS query that demands a fully resolved IP address directly from the server, forcing that server to query other servers if it doesn't know the answer, is called:",
+    "options": ["Iterative Query", "Recursive Query", "Reverse Query", "Zone Transfer"],
+    "answer": "b",
+    "explanation": "In a recursive query, the burdened server takes full responsibility for fetching the final IP address on behalf of the client.",
+    "difficulty": "Medium"
+  },
+  // SOFTWARE ENGINEERING (New)
+  {
+    "id": "S2_SE_04",
+    "section": "Software Engineering",
+    "topic": "Software Processes",
+    "question": "Which software development paradigm fundamentally relies on short, time-boxed 'Sprints'?",
+    "options": ["Waterfall", "Spiral", "Scrum (Agile)", "V-Model"],
+    "answer": "c",
+    "explanation": "Scrum is an Agile framework that breaks work into short, 1-4 week iterative cycles called Sprints.",
+    "difficulty": "Easy"
+  },
+  {
+    "id": "S2_SE_05",
+    "section": "Software Engineering",
+    "topic": "Software Testing",
+    "question": "Statement Coverage, Branch Coverage, and Path Coverage are techniques associated with:",
+    "options": ["Black-box Testing", "White-box Testing", "Acceptance Testing", "Usability Testing"],
+    "answer": "b",
+    "explanation": "White-box testing structurally analyzes the internal source code logic and execution paths, requiring these coverage metrics.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_SE_06",
+    "section": "Software Engineering",
+    "topic": "Software Maintenance",
+    "question": "Modifying a software system after delivery to fix a discovered bug is formally classified as:",
+    "options": ["Adaptive Maintenance", "Perfective Maintenance", "Corrective Maintenance", "Preventive Maintenance"],
+    "answer": "c",
+    "explanation": "Corrective maintenance explicitly deals with rectifying reactive errors, bugs, or defects found in production.",
+    "difficulty": "Easy"
+  },
+  // PROGRAMMING (New)
+  {
+    "id": "S2_PROG_03",
+    "section": "Programming",
+    "topic": "C Programming",
+    "question": "In C, attempting to access memory that has already been deallocated via `free()` typically results in a vulnerability known as:",
+    "options": ["Buffer Overflow", "Dangling Pointer", "Memory Leak", "Stack Smashing"],
+    "answer": "b",
+    "explanation": "A pointer that points to a memory location that has been deleted or freed is called a Dangling Pointer. Accessing it causes undefined behavior.",
+    "difficulty": "Medium"
+  },
+  {
+    "id": "S2_PROG_04",
+    "section": "Programming",
+    "topic": "Java Multithreading",
+    "question": "In Java, what is the primary guarantee provided by the `volatile` keyword when applied to a variable?",
+    "options": ["It guarantees the variable cannot be modified", "It prevents thread deadlocks", "It ensures visibility of updates across threads immediately", "It creates a localized thread copy"],
+    "answer": "c",
+    "explanation": "The `volatile` keyword prevents the JVM from caching the variable thread-locally, ensuring that any write to the variable is immediately flushed to main memory and visible to all threads.",
+    "difficulty": "Hard"
   }
 ];
 
