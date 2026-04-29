@@ -18,7 +18,31 @@ function formatDate(dateString) {
 }
 
 function getQuestionPool(section = 'all') {
-    const combined = (typeof paper2Questions !== 'undefined') ? [...allQuestions, ...paper2Questions] : allQuestions;
+    const setSelect = document.getElementById('questionSet');
+    const setVal = setSelect ? setSelect.value : 'set1';
+
+    let combined = [];
+
+    const hasPaper1 = typeof allQuestions !== 'undefined';
+    const hasPaper2 = typeof paper2Questions !== 'undefined';
+    const hasSet2 = typeof set2Questions !== 'undefined';
+
+    const set1Data = [];
+    if (hasPaper1) set1Data.push(...allQuestions);
+    if (hasPaper2) set1Data.push(...paper2Questions);
+
+    const set2Data = hasSet2 ? set2Questions : [];
+
+    if (setVal === 'set1') {
+        combined = set1Data;
+    } else if (setVal === 'set2') {
+        combined = set2Data;
+    } else if (setVal === 'all') {
+        combined = [...set1Data, ...set2Data];
+    } else {
+        combined = set1Data;
+    }
+
     return combined.filter((question) => {
         if (section === 'all') return true;
         if (Array.isArray(section)) return section.includes(question.section);

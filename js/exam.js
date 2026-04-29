@@ -611,6 +611,7 @@
         document.getElementById('closeScribbleBtn')?.addEventListener('click', () => toggleScribblePad(false));
         document.getElementById('resetProgressBtn')?.addEventListener('click', () => ScholarStorage.clearHistory());
         document.getElementById('skipHighConfidence')?.addEventListener('change', refreshExamLengthOptions);
+        document.getElementById('questionSet')?.addEventListener('change', refreshExamLengthOptions);
         document.getElementById('startAnotherBtn')?.addEventListener('click', () => {
             showPanel('home');
             refreshExamLengthOptions();
