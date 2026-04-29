@@ -118,7 +118,24 @@
     }
 
     function getExamPool(section) {
-        const pool = HPCLCommon.getQuestionPool(section);
+        let pool = HPCLCommon.getQuestionPool(section);
+        const skipHighConf = document.getElementById('skipHighConfidence')?.checked;
+        
+        if (skipHighConf) {
+            const history = ScholarStorage.getHistory();
+            const highConfIds = new Set();
+            history.forEach(session => {
+                if (session && session.allQData) {
+                    session.allQData.forEach(item => {
+                        if (item.isCorrect && item.confidence === 'high') {
+                            highConfIds.add(item.id);
+                        }
+                    });
+                }
+            });
+            pool = pool.filter(q => !highConfIds.has(q.id));
+        }
+
         const masteredIds = ScholarStorage.getMasteredIds();
         const freshQuestions = pool.filter((question) => !masteredIds.has(question.id));
 
@@ -593,6 +610,7 @@
         document.getElementById('toggleScribbleBtn')?.addEventListener('click', () => toggleScribblePad());
         document.getElementById('closeScribbleBtn')?.addEventListener('click', () => toggleScribblePad(false));
         document.getElementById('resetProgressBtn')?.addEventListener('click', () => ScholarStorage.clearHistory());
+        document.getElementById('skipHighConfidence')?.addEventListener('change', refreshExamLengthOptions);
         document.getElementById('startAnotherBtn')?.addEventListener('click', () => {
             showPanel('home');
             refreshExamLengthOptions();
