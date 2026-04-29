@@ -69,7 +69,7 @@
             return;
         }
 
-        const pool = HPCLCommon.getQuestionPool(sectionQuery);
+        const pool = getExamPool(sectionQuery);
         const counts = getRecommendedDurations(pool.length);
         lengthSelect.innerHTML = counts.map((count, index) => {
             const label = index === counts.length - 1 ? `All available (${count})` : `${count} Questions`;
