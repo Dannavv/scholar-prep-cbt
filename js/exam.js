@@ -268,6 +268,10 @@
 
         prevButton.disabled = state.currentIndex === 0;
         nextButton.textContent = state.currentIndex === state.filteredQuestions.length - 1 ? 'Submit' : 'Next';
+
+        if (window.MathJax) {
+            MathJax.typesetPromise([text, optionsList]).catch(() => {});
+        }
     }
 
     function selectAnswer(label) {
@@ -448,7 +452,21 @@
             </article>
         `).join('');
 
-        analysisReport.innerHTML = result.allQData.map((item, index) => `
+        analysisReport.innerHTML = result.allQData.map((item, index) => {
+            const q = state.filteredQuestions[index];
+            const optionMap = { 'a': 0, 'b': 1, 'c': 2, 'd': 3 };
+            
+            let userAnsText = 'Skipped';
+            if (item.userAnswer && q.options[optionMap[item.userAnswer]]) {
+                userAnsText = `${item.userAnswer.toUpperCase()}. ${q.options[optionMap[item.userAnswer]]}`;
+            }
+            
+            let correctAnsText = 'None';
+            if (item.correctAnswer && q.options[optionMap[item.correctAnswer]]) {
+                correctAnsText = `${item.correctAnswer.toUpperCase()}. ${q.options[optionMap[item.correctAnswer]]}`;
+            }
+            
+            return `
             <article class="analysis-item ${item.isCorrect ? 'correct' : 'wrong'}">
                 <div class="analysis-header">
                     <span class="tiny-pill">${item.section}</span>
@@ -456,13 +474,18 @@
                     <span class="tiny-pill">${item.difficulty}</span>
                     <span class="tiny-pill">${item.mistakeType}</span>
                 </div>
-                <h3>${index + 1}. ${state.filteredQuestions[index].question}</h3>
-                <p><strong>Your answer:</strong> ${item.userAnswer ? item.userAnswer.toUpperCase() : 'Skipped'}</p>
-                <p><strong>Correct answer:</strong> ${item.correctAnswer.toUpperCase()}</p>
+                <h3>${index + 1}. ${q.question}</h3>
+                <p><strong>Your answer:</strong> ${userAnsText}</p>
+                <p><strong>Correct answer:</strong> ${correctAnsText}</p>
                 <p><strong>Time spent:</strong> ${HPCLCommon.formatDurationMs(item.timeSpentMs)} • <strong>Confidence:</strong> ${formatConfidence(item.confidence)} • <strong>Answer changes:</strong> ${item.answerChanges}</p>
-                <p><strong>Explanation:</strong> ${state.filteredQuestions[index].explanation}</p>
+                <p><strong>Explanation:</strong> ${q.explanation}</p>
             </article>
-        `).join('');
+            `;
+        }).join('');
+
+        if (window.MathJax) {
+            MathJax.typesetPromise([analysisReport]).catch(() => {});
+        }
     }
 
     function buildSessionRecommendations(result) {
